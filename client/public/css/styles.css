@@ -1,0 +1,200 @@
+body {
+    margin: 0;
+    padding-top: 3.7rem;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+    font-family: "Rubik", sans-serif;
+}
+
+.purple-nav {
+    background: linear-gradient(rgba(113, 44, 249, 1), rgba(113, 44, 249, 0.95));
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.hidden {
+    /* display:none !important; */
+    visibility: hidden;
+    opacity: 0;
+}
+
+.title {
+    border: none;
+    background: none;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 3rem;
+    text-align: center;
+    width: 100%;
+}
+
+.title:focus {
+    outline: none;
+}
+
+.nav-button {
+    fill: rgba(255, 255, 255, 0.65);
+    cursor: pointer;
+    transition: fill .15s ease-out,
+                scale .15s ease-out;
+}
+
+.search-button {
+    height: 38px;
+    width: 48px;
+    border: none;
+    background: none;
+    stroke: rgba(255, 255, 255, 0.65);
+    transition: stroke .15s ease-out;
+}
+
+.search-button:hover {
+    stroke: rgba(255, 255, 255, 1);
+}
+
+.nav-button:hover {
+    fill: rgba(255, 255, 255, 1);
+}
+
+.nav-button:active {
+    scale: 0.95;
+}
+
+.home-button {
+    font-size: 1.75em;
+}
+
+.empty-list-text {
+    color: #343a40;
+    font-size: 1.3em;
+}
+
+
+/* 
+.showResult {
+    width: 210px;
+    text-align: center;
+    text-wrap: wrap;
+    margin: 1.5rem;
+    margin-bottom: 0;
+    cursor: pointer;
+    filter: brightness(67%);
+    transition: transform 0.2s ease-out, filter 0.2s ease-out;
+}
+
+.showResult p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+.showResult img {
+    width: 100%;
+    box-shadow: 0 0 0.5em 0.001em rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-out, filter 0.2s ease-out;
+}
+
+.showResult:hover {
+    transform: scale(1.06);
+    filter: brightness(100%);
+}
+
+.showResult:active {
+    transform: scale(0.94);
+}
+
+.searchResults {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
+} 
+*/
+
+
+.dimmer {
+    position: fixed;
+    padding-top: 3.7rem;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    background-color: rgba(0,0,0,0.8);
+    transition: opacity 0.2s ease-out, visibility 0.2s linear;
+}
+
+.close-button {
+    margin-top: 6.7rem;
+    margin-right: 3rem;
+}
+
+.show-preview {
+    margin: 0 7.5%;
+    color: white;
+}
+
+
+.show-preview img {
+    width: 30%;
+    display: inline;
+    padding-right: 3.5rem;
+}
+
+.show-preview button.btn-success {
+    font-size: 1.25rem;
+    transition: all 0.15s ease-out;
+}
+
+.show-preview button.btn-success:active {
+    scale: 0.95;
+}
+
+.show-preview h2, .show-preview h3 {
+    font-size: 1.25rem;
+    font-weight: 100;
+}
+
+.show-preview-description {
+    font-weight: 200;
+    text-indent: 2rem;
+    margin: 1.5rem 0;
+    text-align: justify;
+}
+
+.stop-scroll {
+    height: 100%;
+    overflow: hidden;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.list-show-poster {
+    width: 6rem;
+}
+
+.list-show-poster-container {
+    width: 6rem;
+}
+
+.popup-button-svg {
+    background-color: grey;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    fill: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity));
+}
+
+.popup-button-container {
+    width: 30px;
+}
+
+.popup-card {
+    max-width: fit-content;
+}
