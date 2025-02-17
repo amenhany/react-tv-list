@@ -1,0 +1,36 @@
+.purple-nav {
+    background: linear-gradient(rgba(113, 44, 249, 1), rgba(113, 44, 249, 0.95));
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.nav-button {
+    fill: rgba(255, 255, 255, 0.65);
+    cursor: pointer;
+    transition: fill .15s ease-out,
+                scale .15s ease-out;
+}
+
+.search-button {
+    height: 38px;
+    width: 48px;
+    border: none;
+    background: none;
+    stroke: rgba(255, 255, 255, 0.65);
+    transition: stroke .15s ease-out;
+}
+
+.search-button:hover {
+    stroke: rgba(255, 255, 255, 1);
+}
+
+.nav-button:hover {
+    fill: rgba(255, 255, 255, 1);
+}
+
+.nav-button:active {
+    scale: 0.95;
+}
+
+.home-button {
+    font-size: 1.75em;
+}

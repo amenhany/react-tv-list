@@ -5,3 +5,17 @@
     -o-user-select: none;
     user-select: none;
 }
+
+.title {
+    border: none;
+    background: none;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 3rem;
+    text-align: center;
+    width: 100%;
+}
+
+.title:focus {
+    outline: none;
+}

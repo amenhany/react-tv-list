@@ -1,14 +1,14 @@
-body {
+/* body {
     margin: 0;
     padding-top: 3.7rem;
     transition: background-color 0.2s ease-out, color 0.2s ease-out;
     font-family: "Rubik", sans-serif;
-}
+} */
 
-.purple-nav {
+/* .purple-nav {
     background: linear-gradient(rgba(113, 44, 249, 1), rgba(113, 44, 249, 0.95));
     box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
-}
+} */
 
 .hidden {
     /* display:none !important; */
@@ -16,7 +16,7 @@ body {
     opacity: 0;
 }
 
-.title {
+/* .title {
     border: none;
     background: none;
     font-size: 2rem;
@@ -28,9 +28,9 @@ body {
 
 .title:focus {
     outline: none;
-}
+} */
 
-.nav-button {
+/* .nav-button {
     fill: rgba(255, 255, 255, 0.65);
     cursor: pointer;
     transition: fill .15s ease-out,
@@ -60,7 +60,7 @@ body {
 
 .home-button {
     font-size: 1.75em;
-}
+} */
 
 .empty-list-text {
     color: #343a40;
