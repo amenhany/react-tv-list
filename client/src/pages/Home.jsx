@@ -1,7 +1,8 @@
+import Error from "../components/Error"
 
 
 export default function Home() {
     return (
-        <div>Home Page</div>
+        <Error text="Nothing here..." />
     )
 }
