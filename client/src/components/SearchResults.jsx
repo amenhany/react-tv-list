@@ -6,7 +6,6 @@ import ShowResult from "./ShowResult";
 
 export default function SearchResults() {
     const results = useContext(Results);
-    console.log(results);
 
     return (
         <section className="search-results-container container mt-4 selectDisable">

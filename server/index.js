@@ -10,13 +10,9 @@ app.use(cors(corsOptions));
 
 
 app.get('/search', async (req, res) => {
-    const searchTerm = "breaking+bad";
+    const { q: searchTerm } = req.query;
     const response = await fetch(`https://api.tvmaze.com/search/shows?q=${searchTerm}`);
     const data = await response.json();
-
-    // const { q } = req.query;
-    // const config = { params: { q } };
-    // const showResults = await axios.get('https://api.tvmaze.com/search/shows', config);
 
     res.json(data);
 })
