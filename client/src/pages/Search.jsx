@@ -13,7 +13,10 @@ export default function Search() {
 
     // I made the displayed search term a state depending on the search term instead of using the search term
     // directly so that the heading only updates when the data is returned, instead of flashing the wrong heading
+
+    // I also track the first load of the page otherwise it would flash "Could not find results" before recieving data
     const [searchResults, setSearchResults] = useState([]);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
     const [displayedSearchTerm, setDisplayedSearchTerm] = useState(searchTerm);
 
     useEffect(() => {
@@ -22,6 +25,7 @@ export default function Search() {
         .then(res => {
             setSearchResults(res.data);
             setDisplayedSearchTerm(searchTerm);
+            setIsFirstLoad(false);
         })
     }, [searchParams])
 
@@ -30,10 +34,10 @@ export default function Search() {
 
     return (
         <>
-            <h1 className="title mb-0">{heading}</h1>
+            <h1 className="title mb-0">{!isFirstLoad && heading}</h1>
             <Results.Provider value={searchResults}>
                 <SearchResults />
-                {searchResults.length === 0 && <Error text="No Results"/>}
+                {!isFirstLoad && searchResults.length === 0 && <Error text="No Results"/>}
             </Results.Provider>
         </>
     )
