@@ -10,12 +10,15 @@ app.use(cors(corsOptions));
 
 
 app.get('/search', async (req, res) => {
-    const { q: searchTerm } = req.query;
-    const response = await fetch(`https://api.tvmaze.com/search/shows?q=${searchTerm}`)
-    .catch((e) => console.log(e));
-    const data = await response.json();
+    try {
+        const { q: searchTerm } = req.query;
+        const response = await fetch(`https://api.tvmaze.com/search/shows?q=${searchTerm}`)
+        const data = await response.json();
 
-    res.json(data);
+        res.json(data);
+    } catch (e) {
+        console.log(e);
+    }
 })
 
 app.listen(3000, () => {
