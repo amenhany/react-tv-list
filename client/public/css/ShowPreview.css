@@ -1,0 +1,32 @@
+.show-preview {
+    margin: 0 7.5%;
+    color: white;
+}
+
+
+.show-preview img {
+    width: 30%;
+    display: inline;
+    padding-right: 3.5rem;
+}
+
+.show-preview button.btn-success {
+    font-size: 1.25rem;
+    transition: all 0.15s ease-out;
+}
+
+.show-preview button.btn-success:active {
+    scale: 0.95;
+}
+
+.show-preview h2, .show-preview h3 {
+    font-size: 1.25rem;
+    font-weight: 100;
+}
+
+.show-preview-description {
+    font-weight: 200;
+    text-indent: 2rem;
+    margin: 1.5rem 0;
+    text-align: justify;
+}

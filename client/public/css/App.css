@@ -19,3 +19,8 @@
 .title:focus {
     outline: none;
 }
+
+.stop-scroll {
+    height: 100%;
+    overflow: hidden;
+}

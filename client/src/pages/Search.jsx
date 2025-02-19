@@ -53,7 +53,6 @@ export default function Search() {
             </>
             : <Error statusCode={errorStatus} text="Could not retrieve data" />
         }
-            
         </>
     )
 

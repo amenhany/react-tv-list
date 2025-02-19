@@ -109,7 +109,7 @@
 */
 
 
-.dimmer {
+/* .dimmer {
     position: fixed;
     padding-top: 3.7rem;
     top: 0;
@@ -127,9 +127,9 @@
 .close-button {
     margin-top: 6.7rem;
     margin-right: 3rem;
-}
+} */
 
-.show-preview {
+/* .show-preview {
     margin: 0 7.5%;
     color: white;
 }
@@ -160,12 +160,12 @@
     text-indent: 2rem;
     margin: 1.5rem 0;
     text-align: justify;
-}
+} */
 
-.stop-scroll {
+/* .stop-scroll {
     height: 100%;
     overflow: hidden;
-}
+} */
 
 .list {
     display: flex;
