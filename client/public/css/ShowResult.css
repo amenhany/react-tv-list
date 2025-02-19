@@ -26,5 +26,5 @@
 }
 
 .show-result:active {
-    transform: scale(1);
+    transform: scale(0.98);
 }

@@ -9,11 +9,11 @@ import ShowPreview from './ShowPreview';
 export default function SearchResults() {
     const results = useContext(Results);
     
-    const [previewShow, setPreviewShow] = useState(null);
+    const [previewShow, setPreviewShow] = useState({});
     const [isDimmer, setIsDimmer] = useState(false);
 
-    function changePreviewShow(id) {
-        setPreviewShow(id);
+    function changePreviewShow(show) {
+        setPreviewShow(show);
         setIsDimmer(true);
     }
 
@@ -24,14 +24,14 @@ export default function SearchResults() {
     return (
         <>
             <section className="search-results-container container mt-4 selectDisable">
-                {results.map((result, index) => (
-                    <ShowResult key={result.show.id} show={result} preview={changePreviewShow} index={index} />
+                {results.map((result) => (
+                    <ShowResult key={result.show.id} show={result} preview={changePreviewShow} />
                 ))}
             </section>
 
             { isDimmer &&
                 <Dimmer close={closeDimmer}>
-                    <ShowPreview selected={results[previewShow]} />
+                    <ShowPreview selected={previewShow} />
                 </Dimmer>
             }
         </>

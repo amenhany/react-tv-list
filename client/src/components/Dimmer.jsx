@@ -6,6 +6,7 @@ import { useEffect } from "react";
 export default function Dimmer({ close, children }) {
 
     function closeDimmer() {
+        document.body.classList.remove("stop-scroll");
         close();
     }
 
@@ -17,6 +18,7 @@ export default function Dimmer({ close, children }) {
             }
         }
 
+        document.body.classList.add("stop-scroll");
         document.addEventListener('keydown', handleKeyDown)
 
         return () => {
