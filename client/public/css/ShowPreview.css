@@ -1,8 +1,12 @@
 .show-preview {
     margin: 0 7.5%;
     color: white;
+    animation: fade-in-down 0.3s linear;
 }
 
+.show-preview.animate {
+    animation: fade-out-up 0.3s linear;
+}
 
 .show-preview img {
     width: 30%;

@@ -1,13 +1,22 @@
 import CloseButton from "./CloseButton";
 import "../../public/css/Dimmer.css";
-import { useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 
+export const isDimmerVisibleContext = createContext(true);
 
 export default function Dimmer({ close, children }) {
+    const [isAnimationActive, setIsAnimationActive] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
 
     function closeDimmer() {
         document.body.classList.remove("stop-scroll");
-        close();
+        setIsVisible(false);
+        setIsAnimationActive(true);
+    }
+
+    function onAnimationEnd() {
+        setIsAnimationActive(false);
+        if (!isVisible) close();
     }
 
     useEffect(() => {
@@ -27,9 +36,12 @@ export default function Dimmer({ close, children }) {
     }, [])
 
     return (
-        <div className="dimmer">
-            <CloseButton closeDimmer={closeDimmer} />
-            { children }
-        </div>
+        <isDimmerVisibleContext.Provider value={isVisible}>
+            <div className={"dimmer" + (isAnimationActive ? " animate" : "")}
+                onAnimationEnd={onAnimationEnd}>
+                <CloseButton closeDimmer={closeDimmer} />
+                { children }
+            </div>
+        </isDimmerVisibleContext.Provider>
     )
 }

@@ -4,3 +4,7 @@ body {
     transition: background-color 0.2s ease-out, color 0.2s ease-out;
     font-family: "Rubik", sans-serif;
 }
+
+.preload {
+    transition: none !important;
+}

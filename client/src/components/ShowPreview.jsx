@@ -1,8 +1,12 @@
+import { useContext } from 'react';
 import "../../public/css/ShowPreview.css";
 import ShowPreviewForm from "./ShowPreviewForm";
+import { isDimmerVisibleContext } from './Dimmer';
 
 
 export default function ShowPreview({ selected }) {
+    const isVisible = useContext(isDimmerVisibleContext);
+
     const image = selected.show.image ? selected.show.image.original : "../../public/imgs/no-img-portrait-text.png"
 
     let info = `Rating: ${selected.show.rating.average || '-'}/10, Language: ${selected.show.language}`;
@@ -13,7 +17,7 @@ export default function ShowPreview({ selected }) {
     }
 
     return (
-        <div className="container show-preview">
+        <div className={"container show-preview" + (!isVisible ? " animate" : "") }>
             <div className="row align-items-center">
                 <img src={image} alt="" className="col-6 col-lg-4 show-preview-img selectDisable" />
                 <div className="col-6 col-lg-8">

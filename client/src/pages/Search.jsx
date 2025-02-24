@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import SearchResults from '../components/SearchResults'
 import Error from '../components/Error'
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { SwitchPage } from '../App';
 
 
 export const Results = createContext();
@@ -21,8 +22,11 @@ export default function Search() {
     const [errorStatus, setErrorStatus] = useState(-1);
     const [displayedSearchTerm, setDisplayedSearchTerm] = useState(searchTerm);
 
+    const { isSwitchPage, setIsSwitchPage } = useContext(SwitchPage);
+
     useEffect(() => {
         if (searchTerm === null) navigate("/");
+        setIsSwitchPage(true);
 
         const config = { params: { q: searchTerm } }
         axios.get("http://localhost:3000/search", config)
@@ -31,6 +35,7 @@ export default function Search() {
             setDisplayedSearchTerm(searchTerm);
             setIsFirstLoad(false);
             setErrorStatus(-1);
+            setIsSwitchPage(false);
         })
         .catch(err => {
             setErrorStatus(err.request.status);
@@ -45,7 +50,7 @@ export default function Search() {
         <> 
         { errorStatus === -1 ?
             <>
-                <h1 className="title mb-0">{!isFirstLoad && heading}</h1>
+                <h1 className={"title mb-0" + (isSwitchPage ? " animate" : "")}>{!isFirstLoad && heading}</h1>
                 <Results.Provider value={searchResults}>
                     <SearchResults />
                     {!isFirstLoad && searchResults.length === 0 && <Error text="No Results"/>}

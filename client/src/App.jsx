@@ -1,4 +1,5 @@
 import '../public/css/App.css'
+import '../public/css/Animations.css'
 import { createContext, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
@@ -9,9 +10,13 @@ import List from './pages/List';
 
 
 export const Theme = createContext({ isDarkMode: false, setIsDarkMode: () => {} });
+export const SwitchPage = createContext({ isSwitchPage: false, setIsSwitchPage: () => {}});
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(
+    (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches));
+
+  const [isSwitchPage, setIsSwitchPage] = useState(false);
 
   useEffect(() => {
     const theme = isDarkMode ? "dark" : "light";
@@ -20,12 +25,14 @@ function App() {
 
   return (
     <Theme.Provider value={{ isDarkMode, setIsDarkMode }}>
+    <SwitchPage.Provider value={{ isSwitchPage, setIsSwitchPage }}>
       <Navbar />
       <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/list" element={<List />} />
       </Routes>
+    </SwitchPage.Provider>
     </Theme.Provider>
   )
 }
