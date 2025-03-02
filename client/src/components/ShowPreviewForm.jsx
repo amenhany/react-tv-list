@@ -1,18 +1,25 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SwitchPage } from "../App";
 
 
 export default function ShowPreviewForm({ show }) {
     const navigate = useNavigate();
     const [rating, setRating] = useState("");
 
+    const { setIsSwitchPage } = useContext(SwitchPage);
+
     async function addToList() {
         await axios.post("http://localhost:3000/list", { show, rating })
         .then(res => console.log(res))
         .catch(err => console.log(err));
 
-        navigate("/list");
+        setIsSwitchPage(true);
+        setTimeout(() => {
+            setIsSwitchPage(false);
+            navigate("/list");
+        }, 300);
     }
 
     return (

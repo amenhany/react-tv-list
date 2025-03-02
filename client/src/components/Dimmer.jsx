@@ -1,12 +1,15 @@
 import CloseButton from "./CloseButton";
 import "../../public/css/Dimmer.css";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { SwitchPage } from '../App';
 
 export const isDimmerVisibleContext = createContext(true);
 
 export default function Dimmer({ close, children }) {
     const [isAnimationActive, setIsAnimationActive] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
+
+    const { isSwitchPage } = useContext(SwitchPage);
 
     function closeDimmer() {
         document.body.classList.remove("stop-scroll");
@@ -34,6 +37,10 @@ export default function Dimmer({ close, children }) {
             document.removeEventListener('keydown', handleKeyDown)
         }
     }, [])
+
+    useEffect(() => {
+        if (isSwitchPage) closeDimmer();
+    }, [isSwitchPage])
 
     return (
         <isDimmerVisibleContext.Provider value={isVisible}>

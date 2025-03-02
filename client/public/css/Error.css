@@ -2,3 +2,7 @@
     color: #343a40;
     font-size: 1.3em;
 }
+
+.error-container {
+    animation: fade-in 0.2s ease-out;
+}

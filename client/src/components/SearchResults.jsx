@@ -24,8 +24,8 @@ export default function SearchResults() {
     return (
         <>
             <section className="search-results-container container mt-4 selectDisable">
-                {results.map((result) => (
-                    <ShowResult key={result.show.id} show={result} preview={changePreviewShow} />
+                {results.map((result, index) => (
+                    <ShowResult key={result.show.id} show={result} preview={changePreviewShow} index={index} />
                 ))}
             </section>
 

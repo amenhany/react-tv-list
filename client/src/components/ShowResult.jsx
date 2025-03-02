@@ -1,15 +1,30 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import '../../public/css/ShowResult.css'
 import { SwitchPage } from '../App';
 
-export default function ShowResult({ show: result, preview }) {
+export default function ShowResult({ show: result, preview, index }) {
     const { isSwitchPage } = useContext(SwitchPage);
+    const [isAnimationEnd, setIsAnimationEnd] = useState(false);
+
+    useEffect(() => {
+        setIsAnimationEnd(false);
+    }, [result])
+
+    // Staggered animation, values from the css file
+    useEffect(() => {
+        console.log(result.show.name + " " + index);
+        setTimeout(() => {
+            setIsAnimationEnd(true);
+        }, 490 + 75*index);
+    }, [isAnimationEnd])
 
     const year = result.show.premiered ? result.show.premiered.slice(0, 4) : "";
-    const image = result.show.image ? result.show.image.medium : "../../public/imgs/no-img-portrait-text.png"
+    const image = result.show.image ? result.show.image.medium : "/imgs/no-img-portrait-text.png"
 
     return (
-        <div className={ "show-result" + (isSwitchPage ? " animate" : "") } onClick={() => preview(result)}>
+        <div className={ "show-result" + (isSwitchPage ? " animate" : "") + (isAnimationEnd ? " show" : "") }
+             onClick={() => preview(result)}
+             style={{ "--i": index }} >
             <img src={image} alt={result.show.name + " Image"} />
             <p>{result.show.name}{result.show.premiered && ` (${year})`}</p>
         </div>
