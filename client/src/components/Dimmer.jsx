@@ -1,5 +1,5 @@
 import CloseButton from "./CloseButton";
-import "../../public/css/Dimmer.css";
+import "../css/Dimmer.css";
 import { createContext, useContext, useEffect, useState } from "react";
 import { SwitchPage } from '../App';
 

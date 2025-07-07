@@ -5,6 +5,8 @@ import Error from '../components/Error'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SwitchPage } from '../App';
 
+const API_BASE = import.meta.env.VITE_API_URL;
+
 
 export const Results = createContext();
 
@@ -29,7 +31,7 @@ export default function Search() {
         setIsSwitchPage(true);
 
         const config = { params: { q: searchTerm } }
-        axios.get("http://localhost:3000/search", config)
+        axios.get(`${API_BASE}/search`, config)
         .then(res => {
             setSearchResults(res.data);
             setDisplayedSearchTerm(searchTerm);
@@ -45,10 +47,9 @@ export default function Search() {
 
     const heading = searchResults.length ? `Showing results for '${displayedSearchTerm}'`
                                          : `Could not find results for '${displayedSearchTerm}'`;
-
-    return (
-        <> 
-        { errorStatus === -1 ?
+                                    
+    if (errorStatus === -1) {
+        return (
             <>
                 <h1 className={"title mb-0" + (isSwitchPage ? " animate" : "")}>{!isFirstLoad && heading}</h1>
                 <Results.Provider value={searchResults}>
@@ -56,9 +57,9 @@ export default function Search() {
                     {!isFirstLoad && searchResults.length === 0 && <Error text="No Results"/>}
                 </Results.Provider>
             </>
-            : <Error statusCode={errorStatus} text="Could not retrieve data" />
-        }
-        </>
-    )
-
+        )
+    } 
+    else {
+        return <Error statusCode={errorStatus} text="Could not retrieve data" />
+    }
 }

@@ -1,5 +1,5 @@
-import '../public/css/App.css'
-import '../public/css/Animations.css'
+import './css/App.css'
+import './css/Animations.css'
 import { createContext, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import "../../public/css/ShowPreview.css";
+import "../css/ShowPreview.css";
 import ShowPreviewForm from "./ShowPreviewForm";
 import { isDimmerVisibleContext } from './Dimmer';
 
@@ -7,7 +7,7 @@ import { isDimmerVisibleContext } from './Dimmer';
 export default function ShowPreview({ selected }) {
     const isVisible = useContext(isDimmerVisibleContext);
 
-    const image = selected.show.image ? selected.show.image.original : "../../public/imgs/no-img-portrait-text.png"
+    const image = selected.show.image ? selected.show.image.original : "/imgs/no-img-portrait-text.png"
 
     let info = `Rating: ${selected.show.rating.average || '-'}/10, Language: ${selected.show.language}`;
     if (selected.show.premiered) {

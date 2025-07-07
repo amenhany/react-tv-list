@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import '../../public/css/ShowResult.css'
+import '../css/ShowResult.css'
 import { SwitchPage } from '../App';
 
 export default function ShowResult({ show: result, preview, index }) {

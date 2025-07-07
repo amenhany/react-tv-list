@@ -3,6 +3,8 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SwitchPage } from "../App";
 
+const API_BASE = import.meta.env.VITE_API_URL;
+
 
 export default function ShowPreviewForm({ show }) {
     const navigate = useNavigate();
@@ -11,7 +13,7 @@ export default function ShowPreviewForm({ show }) {
     const { setIsSwitchPage } = useContext(SwitchPage);
 
     async function addToList() {
-        await axios.post("http://localhost:3000/list", { show, rating })
+        await axios.post(`${API_BASE}/list`, { show, rating })
         .then(res => console.log(res))
         .catch(err => console.log(err));
 

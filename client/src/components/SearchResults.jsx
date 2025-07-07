@@ -1,4 +1,4 @@
-import '../../public/css/SearchResults.css'
+import '../css/SearchResults.css'
 import { useContext, useState } from "react";
 import { Results } from "../pages/Search";
 import ShowResult from "./ShowResult";
