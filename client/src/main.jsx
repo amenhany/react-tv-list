@@ -10,11 +10,10 @@ import App from './App.jsx'
 
 setTimeout(() => {
     document.body.classList.remove("preload");
+    const staleStyle = document.getElementById('theme-fix-style');
+  if (staleStyle) staleStyle.remove();
 }, 500);
 
-if ((window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-  document.body.setAttribute("data-bs-theme", "dark");
-}
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

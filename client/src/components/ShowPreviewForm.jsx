@@ -15,7 +15,7 @@ export default function ShowPreviewForm({ show }) {
     async function addToList() {
         await axios.post(`${API_BASE}/list`, { show, rating })
         .then(res => console.log(res))
-        .catch(err => console.log(err));
+        .catch(err => console.error('Error:', err));
 
         setIsSwitchPage(true);
         setTimeout(() => {
@@ -25,28 +25,30 @@ export default function ShowPreviewForm({ show }) {
     }
 
     return (
-        <div className="row">
-            <div className="col-6 col-lg-2">
-                <label htmlFor="rating">Rating: </label>
-                <select id="rating" name="show[rating]" className="form-select"
-                        value={rating} onChange={e => setRating(e.target.value)}>
-                    <option disabled value="">Rating...</option>
-                    <option value="10">10</option>
-                    <option value="9">9</option>
-                    <option value="8">8</option>
-                    <option value="7">7</option>
-                    <option value="6">6</option>
-                    <option value="5">5</option>
-                    <option value="4">4</option>
-                    <option value="3">3</option>
-                    <option value="2">2</option>
-                    <option value="1">1</option>
-                </select>
-            </div>
-            <div className="col">
-                <button onClick={addToList} className="btn btn-success py-2 px-3 mt-3 list-button">
-                    Add to List
-                </button>
+        <div className="show-preview-form-wrapper">
+            <div className="row show-preview-form">
+                <div className="col-6 col-lg-2">
+                    <label htmlFor="rating">Rating: </label>
+                    <select id="rating" name="show[rating]" className="form-select"
+                            value={rating} onChange={e => setRating(e.target.value)}>
+                        <option disabled value="">Rating...</option>
+                        <option value="10">10</option>
+                        <option value="9">9</option>
+                        <option value="8">8</option>
+                        <option value="7">7</option>
+                        <option value="6">6</option>
+                        <option value="5">5</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                    </select>
+                </div>
+                <div className="col">
+                    <button onClick={addToList} className="btn btn-success py-2 px-3 mt-3 list-button">
+                        Add to List
+                    </button>
+                </div>
             </div>
         </div>
     )

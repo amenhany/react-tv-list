@@ -3,7 +3,7 @@ import "../css/Dimmer.css";
 import { createContext, useContext, useEffect, useState } from "react";
 import { SwitchPage } from '../App';
 
-export const isDimmerVisibleContext = createContext(true);
+export const isDimmerVisible = createContext(true);
 
 export default function Dimmer({ close, children }) {
     const [isAnimationActive, setIsAnimationActive] = useState(false);
@@ -43,12 +43,12 @@ export default function Dimmer({ close, children }) {
     }, [isSwitchPage])
 
     return (
-        <isDimmerVisibleContext.Provider value={isVisible}>
+        <isDimmerVisible.Provider value={isVisible}>
             <div className={"dimmer" + (isAnimationActive ? " animate" : "")}
                 onAnimationEnd={onAnimationEnd}>
                 <CloseButton closeDimmer={closeDimmer} />
                 { children }
             </div>
-        </isDimmerVisibleContext.Provider>
+        </isDimmerVisible.Provider>
     )
 }

@@ -1,6 +1,28 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      (function () {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-bs-theme', theme);
+
+        // remove flashing on page reload
+        if (theme === 'dark') {
+          const style = document.createElement('style');
+          style.id = 'theme-fix-style'; // <-- 👈
+          style.textContent = `
+            html[data-bs-theme="dark"],
+            body {
+              background-color: #212529 !important;
+              color: #DEE2E6 !important;
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 

@@ -13,8 +13,20 @@ export default function SearchResults() {
     const [isDimmer, setIsDimmer] = useState(false);
 
     function changePreviewShow(show) {
-        setPreviewShow(show);
-        setIsDimmer(true);
+        const imageURL = show.show.image?.original;
+
+        if (!imageURL) {
+            setPreviewShow(show);
+            setIsDimmer(true);
+            return;
+        }
+
+        const img = new Image();
+        img.src = imageURL;
+        img.onload = () => {
+            setPreviewShow(show);
+            setIsDimmer(true);
+        };
     }
 
     function closeDimmer() {
@@ -23,7 +35,7 @@ export default function SearchResults() {
 
     return (
         <>
-            <section className="search-results-container container mt-4 selectDisable">
+            <section className="search-results-container container-lg mt-4 selectDisable">
                 {results.map((result, index) => (
                     <ShowResult key={result.show.id} show={result} preview={changePreviewShow} index={index} />
                 ))}

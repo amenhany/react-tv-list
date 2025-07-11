@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import "../css/ShowPreview.css";
 import ShowPreviewForm from "./ShowPreviewForm";
-import { isDimmerVisibleContext } from './Dimmer';
+import { isDimmerVisible } from './Dimmer';
 
 
 export default function ShowPreview({ selected }) {
-    const isVisible = useContext(isDimmerVisibleContext);
+    const isVisible = useContext(isDimmerVisible);
 
     const image = selected.show.image ? selected.show.image.original : "/imgs/no-img-portrait-text.png"
 
@@ -17,10 +17,10 @@ export default function ShowPreview({ selected }) {
     }
 
     return (
-        <div className={"container show-preview" + (!isVisible ? " animate" : "") }>
-            <div className="row align-items-center">
-                <img src={image} alt="" className="col-6 col-lg-4 show-preview-img selectDisable" />
-                <div className="col-6 col-lg-8">
+        <div className={"container-lg container-fluid show-preview" + (!isVisible ? " animate" : "") }>
+            <div className="row justify-content-center align-items-center">
+                <img src={image} alt="" className="col-12 col-md-4 show-preview-img selectDisable" />
+                <div className="col-12 col-md-8">
                     <h1 className="show-preview-title">{ selected.show.name }</h1>
                     <h2 className="show-preview-genre">
                         { selected.show.genres.join(", ") }

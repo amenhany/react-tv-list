@@ -12,7 +12,7 @@ export default function ShowResult({ show: result, preview, index }) {
 
     // Staggered animation, values from the css file
     useEffect(() => {
-        console.log(result.show.name + " " + index);
+        // console.log(result.show.name + " " + index);
         setTimeout(() => {
             setIsAnimationEnd(true);
         }, 490 + 75*index);

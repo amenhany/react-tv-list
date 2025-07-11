@@ -21,9 +21,13 @@ export default function Search() {
     // I also track the first load of the page otherwise it would flash "Could not find results" before recieving data
     const [searchResults, setSearchResults] = useState([]);
     const [isFirstLoad, setIsFirstLoad] = useState(true);
-    const [errorStatus, setErrorStatus] = useState(-1);
     const [displayedSearchTerm, setDisplayedSearchTerm] = useState(searchTerm);
 
+    // Error Handling
+    const [errorStatus, setErrorStatus] = useState(-1);
+    const [errorMessage, setErrorMessage] = useState("Could not retrieve data");
+
+    // Handle css transitions before switching pages
     const { isSwitchPage, setIsSwitchPage } = useContext(SwitchPage);
 
     useEffect(() => {
@@ -40,8 +44,8 @@ export default function Search() {
             setIsSwitchPage(false);
         })
         .catch(err => {
-            setErrorStatus(err.request.status);
-            setSearchParams({});
+            setErrorStatus(err.request?.status || 500);
+            setErrorMessage(err.response?.data?.message || "Could not retrieve data");
         })
     }, [searchParams])
 
@@ -60,6 +64,6 @@ export default function Search() {
         )
     } 
     else {
-        return <Error statusCode={errorStatus} text="Could not retrieve data" />
+        return <Error statusCode={errorStatus} text={errorMessage} />
     }
 }

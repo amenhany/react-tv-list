@@ -17,6 +17,13 @@
     animation: fade-in 0.5s linear, fade-in-down 0.5s linear;
 }
 
+@media (max-width: 576px) {
+  .title {
+    min-height: 0vw;
+    font-size: clamp(1.3rem, 6vw, 2rem);
+  }
+}
+
 .title.animate {
     animation: fade-out 0.3s ease-in, fade-out-up 0.3s ease-in;
 }

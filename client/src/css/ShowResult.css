@@ -10,7 +10,40 @@
     transition: transform 0.2s ease-out, filter 0.2s ease-out;
     animation: fade-in 0.5s linear, fade-in-left 0.5s linear;
     animation-delay: calc(0.075s * var(--i));
+
+    flex: 0 1 210px; /* Base width, prevent from growing too wide */
+    max-width: 100%;
 }
+
+.show-result p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+
+/* Medium screens: fit 3 per row */
+@media (max-width: 797px) {
+  .show-result {
+    flex: 0 1 calc(33.333% - 3rem);
+  }
+
+  .show-result p {
+    font-size: clamp(0.85rem, 1.9vw, 1rem);
+  }
+}
+
+/* Small screens: 2 per row */
+@media (max-width: 576px) {
+  .show-result {
+    flex: 0 1 calc(50% - 3rem);
+  }
+
+  .show-result p {
+    min-height: 0vw;
+    font-size: clamp(0.8rem, 3vw, 0.9rem);
+  }
+}
+
 
 .show-result.show {
     opacity: 1;
@@ -18,11 +51,6 @@
 
 .show-result.animate {
     animation: fade-out 0.3s ease-in, fade-out-left 0.3s ease-in;
-}
-
-.show-result p {
-    font-size: 1rem;
-    margin: 0.5rem 0;
 }
 
 .show-result img {
