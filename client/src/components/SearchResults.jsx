@@ -13,7 +13,7 @@ export default function SearchResults() {
     const [isDimmer, setIsDimmer] = useState(false);
 
     function changePreviewShow(show) {
-        const imageURL = show.show.image?.original;
+        const imageURL = show.image?.original;
 
         if (!imageURL) {
             setPreviewShow(show);
@@ -37,13 +37,13 @@ export default function SearchResults() {
         <>
             <section className="search-results-container container-lg mt-4 selectDisable">
                 {results.map((result, index) => (
-                    <ShowResult key={result.show.id} show={result} preview={changePreviewShow} index={index} />
+                    <ShowResult key={result.show.id} show={result.show} preview={changePreviewShow} index={index} />
                 ))}
             </section>
 
             { isDimmer &&
                 <Dimmer close={closeDimmer}>
-                    <ShowPreview selected={previewShow} />
+                    <ShowPreview show={previewShow} />
                 </Dimmer>
             }
         </>

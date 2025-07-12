@@ -13,7 +13,7 @@ export default function ShowPreviewForm({ show }) {
     const { setIsSwitchPage } = useContext(SwitchPageContext);
 
     async function addToList() {
-        await axios.post(`${API_BASE}/list`, { show, rating })
+        await axios.post(`${API_BASE}/list`, { tvmazeId: show.id, rating })
         .then(res => console.log(res))
         .catch(err => console.error('Error:', err));
 
