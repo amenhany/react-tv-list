@@ -8,34 +8,19 @@ import Search from "./pages/Search"
 import Navbar from './components/Navbar';
 import List from './pages/List';
 import Error from "./components/Error"
+import ThemeProvider from './contexts/ThemeContext';
+import SwitchPageProvider from './contexts/SwitchPageContext';
+import SearchTriggerProvider from './contexts/SearchTriggerContext';
 
-
-export const Theme = createContext({ isDarkMode: false, setIsDarkMode: () => {} });
-export const SwitchPage = createContext({ isSwitchPage: false, setIsSwitchPage: () => {}});
 
 function App() {
   const location = useLocation();
 
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const storedTheme = localStorage.getItem('theme')
-    if (storedTheme) {
-      return (storedTheme === 'dark');
-    }
-
-    return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
-  });
-
-  const [isSwitchPage, setIsSwitchPage] = useState(false);
-
-  useEffect(() => {
-    const theme = isDarkMode ? "dark" : "light";
-    localStorage.setItem('theme', theme);
-    document.body.setAttribute("data-bs-theme", theme);
-  }, [isDarkMode])
-
   return (
-    <Theme.Provider value={{ isDarkMode, setIsDarkMode }}>
-    <SwitchPage.Provider value={{ isSwitchPage, setIsSwitchPage }}>
+    <ThemeProvider>
+    <SwitchPageProvider>
+    <SearchTriggerProvider>
+
       <Navbar />
       <Routes>
           <Route path="/" element={<Home />} />
@@ -44,8 +29,10 @@ function App() {
           <Route path="/list" element={<List />} />
           <Route path="*" element={<Error text={`"${location.pathname}" not found`} statusCode="404" />} />
       </Routes>
-    </SwitchPage.Provider>
-    </Theme.Provider>
+      
+    </SearchTriggerProvider>
+    </SwitchPageProvider>
+    </ThemeProvider>
   )
 }
 

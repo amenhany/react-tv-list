@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { Theme } from '../App';
+import { ThemeContext } from '../contexts/ThemeContext';
 
 
 export default function DarkModeButton() {
-    const { isDarkMode, setIsDarkMode } = useContext(Theme);
+    const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
     const image = isDarkMode ? "/imgs/sun_icon.svg" : "/imgs/moon_icon.svg";
 
     function toggleTheme() {

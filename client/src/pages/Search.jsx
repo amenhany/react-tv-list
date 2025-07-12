@@ -3,7 +3,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import SearchResults from '../components/SearchResults'
 import Error from '../components/Error'
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { SwitchPage } from '../App';
+import { SwitchPageContext } from '../contexts/SwitchPageContext';
+import { SearchTriggerContext } from '../contexts/SearchTriggerContext';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -12,7 +13,8 @@ export const Results = createContext();
 
 export default function Search() {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const { searchAttempt } = useContext(SearchTriggerContext);
+    const [searchParams] = useSearchParams();
     const searchTerm = searchParams.get("q");
 
     // I made the displayed search term a state depending on the search term instead of using the search term
@@ -28,10 +30,19 @@ export default function Search() {
     const [errorMessage, setErrorMessage] = useState("Could not retrieve data");
 
     // Handle css transitions before switching pages
-    const { isSwitchPage, setIsSwitchPage } = useContext(SwitchPage);
+    const { isSwitchPage, setIsSwitchPage } = useContext(SwitchPageContext);
 
+    useEffect(handleSearch, [searchParams])
     useEffect(() => {
-        if (searchTerm === null) navigate("/");
+        if (errorStatus !== -1) handleSearch();
+    }, [searchAttempt])
+
+    function handleSearch() {
+        if (!searchTerm) {
+            navigate("/");
+            return;
+        }
+        
         setIsSwitchPage(true);
 
         const config = { params: { q: searchTerm } }
@@ -47,7 +58,7 @@ export default function Search() {
             setErrorStatus(err.request?.status || 500);
             setErrorMessage(err.response?.data?.message || "Could not retrieve data");
         })
-    }, [searchParams])
+    }
 
     const heading = searchResults.length ? `Showing results for '${displayedSearchTerm}'`
                                          : `Could not find results for '${displayedSearchTerm}'`;

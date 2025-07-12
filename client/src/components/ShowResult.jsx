@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import '../css/ShowResult.css'
-import { SwitchPage } from '../App';
+import { SwitchPageContext } from '../contexts/SwitchPageContext';
 
 export default function ShowResult({ show: result, preview, index }) {
-    const { isSwitchPage } = useContext(SwitchPage);
+    const { isSwitchPage } = useContext(SwitchPageContext);
     const [isAnimationEnd, setIsAnimationEnd] = useState(false);
 
     useEffect(() => {

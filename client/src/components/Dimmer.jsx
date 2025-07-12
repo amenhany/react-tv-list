@@ -1,7 +1,7 @@
 import CloseButton from "./CloseButton";
 import "../css/Dimmer.css";
 import { createContext, useContext, useEffect, useState } from "react";
-import { SwitchPage } from '../App';
+import { SwitchPageContext } from '../contexts/SwitchPageContext';
 
 export const isDimmerVisible = createContext(true);
 
@@ -9,7 +9,7 @@ export default function Dimmer({ close, children }) {
     const [isAnimationActive, setIsAnimationActive] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
 
-    const { isSwitchPage } = useContext(SwitchPage);
+    const { isSwitchPage } = useContext(SwitchPageContext);
 
     function closeDimmer() {
         document.body.classList.remove("stop-scroll");

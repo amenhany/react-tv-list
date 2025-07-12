@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate, createSearchParams } from 'react-router-dom';
+import { SearchTriggerContext } from '../contexts/SearchTriggerContext';
 
 
 export default function Searchbar() {
     const navigate = useNavigate();
+    const { triggerSearch } = useContext(SearchTriggerContext);
     const [searchText, setSearchText] = useState("");
 
     function handleChange(evt) {
@@ -20,6 +22,8 @@ export default function Searchbar() {
                 }).toString()
             });
         }
+
+        triggerSearch();
     }
     
     return (

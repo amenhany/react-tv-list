@@ -3,11 +3,11 @@ import '../css/Navbar.css'
 import DarkModeButton from './DarkModeButton';
 import Searchbar from './Searchbar';
 import { useContext } from 'react';
-import { SwitchPage } from '../App';
+import { SwitchPageContext } from '../contexts/SwitchPageContext';
 
 export default function Navbar() {
     const navigate = useNavigate();
-    const { setIsSwitchPage } = useContext(SwitchPage)
+    const { setIsSwitchPage } = useContext(SwitchPageContext)
 
     function handleHomeButton() {
         setIsSwitchPage(true);
