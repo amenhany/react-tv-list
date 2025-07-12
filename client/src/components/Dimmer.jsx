@@ -11,6 +11,7 @@ export default function Dimmer({ close, children }) {
 
     const { isSwitchPage } = useContext(SwitchPageContext);
 
+
     function closeDimmer() {
         document.body.classList.remove("stop-scroll");
         setIsVisible(false);
@@ -20,6 +21,17 @@ export default function Dimmer({ close, children }) {
     function onAnimationEnd() {
         setIsAnimationActive(false);
         if (!isVisible) close();
+    }
+
+
+    function handleDimmerClick(e) {
+        const tag = e.target.tagName;
+        const safeTags = ["IMG", "H1", "H2", "H3", "H4", "P", "BUTTON", "INPUT", "TEXTAREA", "A", "LABEL", "SPAN"];
+
+        // If user clicked on actual content, do NOT close
+        if (safeTags.includes(tag)) return;
+
+        closeDimmer();
     }
 
     useEffect(() => {
@@ -45,7 +57,8 @@ export default function Dimmer({ close, children }) {
     return (
         <isDimmerVisible.Provider value={isVisible}>
             <div className={"dimmer" + (isAnimationActive ? " animate" : "")}
-                onAnimationEnd={onAnimationEnd}>
+                onAnimationEnd={onAnimationEnd}
+                onClick={handleDimmerClick}>
                 <CloseButton closeDimmer={closeDimmer} />
                 { children }
             </div>
