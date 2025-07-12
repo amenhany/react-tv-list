@@ -2,31 +2,33 @@ import CloseButton from "./CloseButton";
 import "../css/Dimmer.css";
 import { createContext, useContext, useEffect, useState } from "react";
 import { SwitchPageContext } from '../contexts/SwitchPageContext';
+import { DimmerContext } from "../contexts/DimmerContext";
 
 export const isDimmerVisible = createContext(true);
 
-export default function Dimmer({ close, children }) {
+export default function Dimmer() {
     const [isAnimationActive, setIsAnimationActive] = useState(false);
-    const [isVisible, setIsVisible] = useState(true);
+    const [isActive, setIsActive] = useState(true);
 
     const { isSwitchPage } = useContext(SwitchPageContext);
+    const { isVisible, setIsVisible, content } = useContext(DimmerContext);
 
 
     function closeDimmer() {
         document.body.classList.remove("stop-scroll");
-        setIsVisible(false);
+        setIsActive(false);
         setIsAnimationActive(true);
     }
 
     function onAnimationEnd() {
         setIsAnimationActive(false);
-        if (!isVisible) close();
+        if (!isActive) setIsVisible(false);
     }
 
 
     function handleDimmerClick(e) {
         const tag = e.target.tagName;
-        const safeTags = ["IMG", "H1", "H2", "H3", "H4", "P", "BUTTON", "INPUT", "TEXTAREA", "A", "LABEL", "SPAN"];
+        const safeTags = ["IMG", "H1", "H2", "H3", "H4", "P", "BUTTON", "INPUT", "TEXTAREA", "A", "LABEL", "SPAN", "FORM"];
 
         // If user clicked on actual content, do NOT close
         if (safeTags.includes(tag)) return;
@@ -51,17 +53,26 @@ export default function Dimmer({ close, children }) {
     }, [])
 
     useEffect(() => {
+        if (isVisible) {
+            setIsActive(true);
+            setIsAnimationActive(false);
+            document.body.classList.add("stop-scroll");
+        }
+    }, [isVisible]);
+
+    useEffect(() => {
         if (isSwitchPage) closeDimmer();
     }, [isSwitchPage])
 
+
+    if (!isVisible) return null;
+
     return (
-        <isDimmerVisible.Provider value={isVisible}>
-            <div className={"dimmer" + (isAnimationActive ? " animate" : "")}
-                onAnimationEnd={onAnimationEnd}
-                onClick={handleDimmerClick}>
-                <CloseButton closeDimmer={closeDimmer} />
-                { children }
-            </div>
-        </isDimmerVisible.Provider>
+        <div className={"dimmer" + (isAnimationActive ? " animate" : "")}
+            onAnimationEnd={onAnimationEnd}
+            onClick={handleDimmerClick}>
+            <CloseButton closeDimmer={closeDimmer} />
+            { content }
+        </div>
     )
 }

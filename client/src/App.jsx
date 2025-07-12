@@ -1,23 +1,26 @@
 import './css/App.css'
 import './css/Animations.css'
-import { createContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
 import Home from "./pages/Home"
 import Search from "./pages/Search"
-import Navbar from './components/Navbar';
 import List from './pages/List';
+import Navbar from './components/Navbar';
 import Error from "./components/Error"
+import Dimmer from './components/Dimmer';
 import ThemeProvider from './contexts/ThemeContext';
+import DimmerProvider, { DimmerContext } from './contexts/DimmerContext';
 import SwitchPageProvider from './contexts/SwitchPageContext';
 import SearchTriggerProvider from './contexts/SearchTriggerContext';
 
 
-function App() {
+export default function App() {
   const location = useLocation();
 
   return (
     <ThemeProvider>
+    <DimmerProvider>
     <SwitchPageProvider>
     <SearchTriggerProvider>
 
@@ -29,11 +32,12 @@ function App() {
           <Route path="/list" element={<List />} />
           <Route path="*" element={<Error text={`"${location.pathname}" not found`} statusCode="404" />} />
       </Routes>
+      <Dimmer />
+
       
     </SearchTriggerProvider>
     </SwitchPageProvider>
+    </DimmerProvider>
     </ThemeProvider>
   )
 }
-
-export default App
