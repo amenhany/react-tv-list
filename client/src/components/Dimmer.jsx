@@ -8,7 +8,7 @@ export const isDimmerVisible = createContext(true);
 
 export default function Dimmer() {
     const [isAnimationActive, setIsAnimationActive] = useState(false);
-    const [isActive, setIsActive] = useState(true);
+    const [isActive, setIsActive] = useState(false);
 
     const { isSwitchPage } = useContext(SwitchPageContext);
     const { isVisible, setIsVisible, content } = useContext(DimmerContext);
@@ -58,14 +58,17 @@ export default function Dimmer() {
             setIsAnimationActive(false);
             document.body.classList.add("stop-scroll");
         }
+        else if (!isVisible && isActive) {
+            closeDimmer();
+        }
     }, [isVisible]);
 
     useEffect(() => {
-        if (isSwitchPage) closeDimmer();
+        if (isSwitchPage && isActive) closeDimmer();
     }, [isSwitchPage])
 
 
-    if (!isVisible) return null;
+    if (!isVisible && !isAnimationActive && !isActive) return null;
 
     return (
         <div className={"dimmer" + (isAnimationActive ? " animate" : "")}

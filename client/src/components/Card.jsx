@@ -1,3 +1,5 @@
+import '../css/Card.css'
+
 export default function Card({ title, children }) {
     return (
         <div className="container">
@@ -5,7 +7,7 @@ export default function Card({ title, children }) {
                 <div className="col-10">
                     <div className="d-flex justify-content-center">
                     <div className="card popup-card">
-                        <h5 className="card-header pt-3 pb-3">{ title }</h5>
+                        <h5 className="card-header pt-4 pb-4 ps-4">{ title }</h5>
                         <div className="card-body">
                             { children }
                         </div>

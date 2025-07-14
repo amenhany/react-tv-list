@@ -37,6 +37,8 @@ export const userJoiSchema = Joi.object({
     'string.min': `Password should have at least 8 characters`,
     'any.required': 'Password cannot be blank'
   }),
+  confirmPassword: Joi.string().valid(Joi.ref('password')).required()
+    .messages({ 'any.only': 'Passwords do not match' }),
 
   showsList: Joi.array().items(showJoiSchema)
 });

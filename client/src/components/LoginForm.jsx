@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { useContext } from 'react';
-import { useEffect } from 'react';
 import { useState } from "react";
 import { DimmerContext } from '../contexts/DimmerContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,18 +7,16 @@ import { useAuth } from '../contexts/AuthContext';
 const API_BASE = import.meta.env.VITE_API_URL;
 
 
-export default function RegisterForm({ handleLogIn }) {
+export default function LoginForm({ handleSignUp }) {
     const { setIsVisible } = useContext(DimmerContext);
     const { checkSession } = useAuth();
 
+
     const [userFormData, setUserFormData] = useState({
         username: "",
-        email: "",
-        password: "",
-        confirmPassword: ""
+        password: ""
     });
     const [errorMessage, setErrorMessage] = useState("");
-    const [isFirstInput, setIsFirstInput] = useState(true);
     
     function handleChange(evt) {
         const fieldName = evt.target.name;
@@ -29,34 +26,12 @@ export default function RegisterForm({ handleLogIn }) {
             currData[fieldName] = value;
             return {...currData};
         })
-
-        if (isFirstInput && evt.target.name === "confirmPassword") {
-            setIsFirstInput(false);
-        }
     }
-
-    useEffect(() => {
-        if (!isFirstInput && userFormData.confirmPassword !== userFormData.password) {
-            setErrorMessage("Passwords do not match");
-        } else {
-            setErrorMessage("");
-        }
-    }, [userFormData.confirmPassword, userFormData.password])
-    
-    useEffect(() => {
-        const debounce = setTimeout(() => {
-            axios.get(`${API_BASE}/user/register?username=${userFormData.username}`)
-            .then(res => setErrorMessage(""))
-            .catch(err => setErrorMessage(err.response?.data?.message));
-        }, 500);
-        
-        return () => clearTimeout(debounce);
-    }, [userFormData.username])
 
     function handleSubmit(e) {
         e.preventDefault();
 
-        axios.post(`${API_BASE}/user/register`, userFormData)
+        axios.post(`${API_BASE}/user/login`, userFormData, { withCredentials: true })
         .then(res => {
             setIsVisible(false);
             checkSession();
@@ -84,18 +59,6 @@ export default function RegisterForm({ handleLogIn }) {
             <div className="row mb-4">
                 <div className="col-12">
                     <input 
-                    type="email" 
-                    value={userFormData.email} 
-                    onChange={handleChange}
-                    name="email" 
-                    id="email" 
-                    placeholder="Email" 
-                    className="form-control me-1" />
-                </div>
-            </div>
-            <div className="row mb-4">
-                <div className="col-12">
-                    <input 
                     type="password" 
                     value={userFormData.password} 
                     onChange={handleChange}
@@ -105,24 +68,12 @@ export default function RegisterForm({ handleLogIn }) {
                     className="form-control me-1" />
                 </div>
             </div>
-            <div className="row mb-4">
-                <div className="col-12">
-                    <input 
-                    type="password" 
-                    value={userFormData.confirmPassword} 
-                    onChange={handleChange}
-                    name="confirmPassword" 
-                    id="confirmPassword" 
-                    placeholder="Confirm Password" 
-                    className="form-control me-1" />
-                </div>
-            </div>
             <small className="text-danger">{ errorMessage }</small>
             <hr></hr>
-            <div className="d-flex mt-3 position-relative align-items-center">
-                <p className="form-text mb-2">Already a User? <a className="text-primary link" onClick={handleLogIn}>Log In</a></p>
+            <div className="d-flex mt-2 position-relative align-items-center">
+                <p className="form-text mb-2">No Account? <a className="text-primary link" onClick={handleSignUp}>Sign Up</a></p>
                 <button className="btn btn-success mb-2 ms-auto" onClick={handleSubmit}>
-                    Register
+                    Log In
                 </button>
             </div>
         </form>

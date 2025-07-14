@@ -9,8 +9,9 @@ import List from './pages/List';
 import Navbar from './components/Navbar';
 import Error from "./components/Error"
 import Dimmer from './components/Dimmer';
+import AuthProvider from './contexts/AuthContext';
 import ThemeProvider from './contexts/ThemeContext';
-import DimmerProvider, { DimmerContext } from './contexts/DimmerContext';
+import DimmerProvider from './contexts/DimmerContext';
 import SwitchPageProvider from './contexts/SwitchPageContext';
 import SearchTriggerProvider from './contexts/SearchTriggerContext';
 
@@ -21,6 +22,7 @@ export default function App() {
   return (
     <ThemeProvider>
     <DimmerProvider>
+    <AuthProvider>
     <SwitchPageProvider>
     <SearchTriggerProvider>
 
@@ -34,9 +36,9 @@ export default function App() {
       </Routes>
       <Dimmer />
 
-      
     </SearchTriggerProvider>
     </SwitchPageProvider>
+    </AuthProvider>
     </DimmerProvider>
     </ThemeProvider>
   )

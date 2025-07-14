@@ -4,15 +4,11 @@ import { SwitchPageContext } from '../contexts/SwitchPageContext';
 import '../css/Navbar.css'
 import DarkModeButton from './DarkModeButton';
 import Searchbar from './Searchbar';
-import Dimmer from './Dimmer';
-import Card from './Card';
-import RegisterForm from './RegisterForm';
-import { DimmerContext } from '../contexts/DimmerContext';
+import AuthenticatedElement from './AuthenticatedElement';
 
 export default function Navbar() {
     const navigate = useNavigate();
     const { setIsSwitchPage } = useContext(SwitchPageContext);
-    const { setIsVisible, setContent } = useContext(DimmerContext);
     
     function handleHomeButton() {
         setIsSwitchPage(true);
@@ -20,24 +16,6 @@ export default function Navbar() {
             setIsSwitchPage(false);
             navigate("/");
         }, 300);
-    }
-
-    function openRegisterForm() {
-        setContent(
-            <Card title="Register">
-                <RegisterForm />
-            </Card>
-        );
-        setIsVisible(true);
-    }
-
-    function openLoginForm() {
-        setContent(
-            <Card title="Login">
-                <RegisterForm />
-            </Card>
-        );
-        setIsVisible(true);
     }
 
     return (
@@ -55,8 +33,7 @@ export default function Navbar() {
                     </div>
                     <div className="col-2 d-flex justify-content-end me-1 align-items-center">
                         <DarkModeButton />
-                        <button className="btn btn-outline-success cancel-button ms-3" onClick={openLoginForm}>Log In</button>
-                        <button className="btn btn-outline-primary cancel-button ms-3" onClick={openRegisterForm}>Sign Up</button>
+                        <AuthenticatedElement />
                     </div>
                 </div>
             </nav>

@@ -11,3 +11,11 @@ export function validateSchema(schema) {
         }
     }
 }
+
+export function isLoggedIn(req, res, next) {
+    if (!req.isAuthenticated()) {
+        throw new ExpressError("You need to be logged in!", 401);
+    } else {
+        next();
+    }
+}
