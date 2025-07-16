@@ -3,8 +3,6 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SwitchPageContext } from "../contexts/SwitchPageContext";
 import { DimmerContext } from "../contexts/DimmerContext";
-import Card from "./Card";
-import LoginForm from "./LoginForm";
 import { useAuth } from "../contexts/AuthContext";
 
 const API_BASE = import.meta.env.VITE_API_URL;
@@ -15,10 +13,17 @@ export default function ShowPreviewForm({ show }) {
     const [rating, setRating] = useState("");
 
     const { setIsSwitchPage } = useContext(SwitchPageContext);
-    const { openLoginForm } = useAuth();    
+    const { user, openLoginForm, setDimmerContent } = useAuth();
+    const { content } = useContext(DimmerContext);
 
     function addToList() {
-        axios.post(`${API_BASE}/user/list`, { tvmazeId: show.id, rating }, { withCredentials: true })
+        if (!user) {
+            openLoginForm();
+            setDimmerContent(content);
+            return;
+        }
+
+        axios.post(`${API_BASE}/user/${user.id}/list`, { tvmazeId: show.id, rating }, { withCredentials: true })
         .then(res => {
             console.log(res.data?.message);
             setIsSwitchPage(true);
@@ -31,6 +36,7 @@ export default function ShowPreviewForm({ show }) {
             if (err.status === 401) {
                 console.log(err.response?.data?.message);
                 openLoginForm();
+                setDimmerContent(content);
             }
         });
     }

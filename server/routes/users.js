@@ -46,11 +46,6 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 })
 
-router.post('/list', isLoggedIn, (req, res) => {
-    console.log(req.body);
-    res.json({ "message": "Weeee" });
-})
-
 router.get('/check-session', (req, res) => {
     if (req.isAuthenticated()) {
         res.json({ user: req.user });
@@ -63,6 +58,12 @@ router.get('/check-session', (req, res) => {
 router.get('/logout', (req, res, next) => {
     req.logout(next);
     res.json({ message: "Logged out" });
+})
+
+
+router.post('/:id/list', isLoggedIn, (req, res) => {
+    console.log(req.body);
+    res.json({ "message": "Weeee" });
 })
 
 export default router;

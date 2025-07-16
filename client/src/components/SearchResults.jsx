@@ -4,13 +4,16 @@ import { Results } from "../pages/Search";
 import ShowResult from "./ShowResult";
 import ShowPreview from './ShowPreview';
 import { DimmerContext } from '../contexts/DimmerContext';
+import { useAuth } from '../contexts/AuthContext';
 
 
 export default function SearchResults() {
     const results = useContext(Results);
     const { setIsVisible, setContent } = useContext(DimmerContext);
+    const { setDimmerContent } = useAuth();
 
     function changePreviewShow(show) {
+        setDimmerContent(null);
         const imageURL = show.image?.original;
 
         if (!imageURL) {

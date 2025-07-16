@@ -1,14 +1,11 @@
 import axios from 'axios'
-import { useContext } from 'react';
 import { useState } from "react";
-import { DimmerContext } from '../contexts/DimmerContext';
 import { useAuth } from '../contexts/AuthContext';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function LoginForm({ handleSignUp }) {
-    const { setIsVisible } = useContext(DimmerContext);
     const { checkSession } = useAuth();
 
 
@@ -33,7 +30,6 @@ export default function LoginForm({ handleSignUp }) {
 
         axios.post(`${API_BASE}/user/login`, userFormData, { withCredentials: true })
         .then(res => {
-            setIsVisible(false);
             checkSession();
         })
         .catch(err => {

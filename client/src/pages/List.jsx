@@ -1,18 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext"
 import { useEffect } from "react";
 
 
 export default function List() {
-    const navigate = useNavigate();
-    const { isAuthenticated, user, openLoginForm } = useAuth();
+    const { isAuthenticated, user, requireLogin } = useAuth();
 
-    useEffect(() => {
-        if (!isAuthenticated) {
-        navigate('/');
-        openLoginForm();
-    }
-    }, [isAuthenticated]);
+    useEffect(requireLogin, [isAuthenticated]);
 
     return (
         <>

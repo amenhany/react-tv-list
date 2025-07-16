@@ -7,11 +7,13 @@ import { DimmerContext } from "../contexts/DimmerContext";
 export const isDimmerVisible = createContext(true);
 
 export default function Dimmer() {
-    const [isAnimationActive, setIsAnimationActive] = useState(false);
-    const [isActive, setIsActive] = useState(false);
-
     const { isSwitchPage } = useContext(SwitchPageContext);
     const { isVisible, setIsVisible, content } = useContext(DimmerContext);
+
+    const [isAnimationActive, setIsAnimationActive] = useState(false);
+    const [isActive, setIsActive] = useState(false);
+    const [currentContent, setCurrentContent] = useState(content);
+    const [contentFadeClass, setContentFadeClass] = useState('fade-in');
 
 
     function closeDimmer() {
