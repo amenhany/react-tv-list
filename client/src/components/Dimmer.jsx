@@ -46,21 +46,14 @@ export default function Dimmer() {
             }
         }
 
-        document.body.classList.add("stop-scroll");
-        document.addEventListener('keydown', handleKeyDown)
-
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown)
-        }
-    }, [])
-
-    useEffect(() => {
         if (isVisible) {
             setIsActive(true);
             setIsAnimationActive(false);
+            document.addEventListener('keydown', handleKeyDown)
             document.body.classList.add("stop-scroll");
         }
         else if (!isVisible && isActive) {
+            document.removeEventListener('keydown', handleKeyDown)
             closeDimmer();
         }
     }, [isVisible]);

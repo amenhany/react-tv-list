@@ -56,9 +56,8 @@ export default function RegisterForm({ handleLogIn }) {
     function handleSubmit(e) {
         e.preventDefault();
 
-        axios.post(`${API_BASE}/user/register`, userFormData)
+        axios.post(`${API_BASE}/user/register`, userFormData, { withCredentials: true })
         .then(res => {
-            setIsVisible(false);
             checkSession();
         })
         .catch(err => {

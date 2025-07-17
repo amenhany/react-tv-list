@@ -22,7 +22,7 @@ export const userJoiSchema = Joi.object({
     'string.empty': `Username cannot be blank`,
     'string.alphanum': `Username cannot have special characters`,
     'string.min': `Username should have at least 3 characters`,
-    'string.max': `Username too long! (over 20 characters)`,
+    'string.max': `Username too long! (Over 20 characters)`,
     'any.required': 'Username cannot be blank'
   }),
 
@@ -40,5 +40,22 @@ export const userJoiSchema = Joi.object({
   confirmPassword: Joi.string().valid(Joi.ref('password')).required()
     .messages({ 'any.only': 'Passwords do not match' }),
 
-  showsList: Joi.array().items(showJoiSchema)
+  showsList: Joi.array().items(showJoiSchema),
+
+  listTitle: Joi.string().trim().max(100).pattern(/^[a-zA-Z0-9 _\-]+$/)
+});
+
+export const listJoiSchema = Joi.object({
+  title: Joi.string().trim()
+    .max(100)
+    .messages({
+      'string.max': 'List title too long! (Over 100 characters)'
+    }).optional(),
+
+  order: Joi.array().items(Joi.number().min(0).required()).optional(),
+
+  sorting: Joi.object({
+    key: Joi.string().valid('name', 'rating', 'dateAdded', 'custom').required(),
+    ascending: Joi.boolean().required()
+  }).optional()
 });

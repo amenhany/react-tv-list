@@ -1,6 +1,6 @@
 import express from 'express'
 import { catchAsync } from '../errors/errorHandler.js';
-import { isLoggedIn, validateSchema } from '../validations/validate.js'
+import { validateSchema } from '../validations/validate.js'
 import { userJoiSchema } from '../validations/schemas.js';
 import User from '../models/user.js'
 import ExpressError from '../errors/ExpressError.js';
@@ -25,13 +25,11 @@ router.post('/register', validateSchema(userJoiSchema), catchAsync(async (req, r
     if (duplicateEmail) {
         throw new ExpressError("A user with the given email is already registered", 400)
     }
-    await User.register(new User({ email, username }), password);
+    const user = await User.register(new User({ email, username }), password);
     req.login(user, err => {
         if (err) return next(err);
         res.json({ user });
     });
-
-    res.json({ message: `Welcome, ${username}` })
 }))
 
 router.post('/login', (req, res, next) => {
@@ -58,12 +56,6 @@ router.get('/check-session', (req, res) => {
 router.get('/logout', (req, res, next) => {
     req.logout(next);
     res.json({ message: "Logged out" });
-})
-
-
-router.post('/:id/list', isLoggedIn, (req, res) => {
-    console.log(req.body);
-    res.json({ "message": "Weeee" });
 })
 
 export default router;

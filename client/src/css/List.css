@@ -1,0 +1,43 @@
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2rem;
+    border-radius: 20px;
+}
+
+.list table {
+    cursor: default;
+}
+
+.list h2 {
+    font-size: large;
+}
+
+.list h3 {
+    font-size: small;
+}
+
+.list-show-poster {
+    width: 7rem;
+}
+
+.list-show-poster-container {
+    width: 6rem;
+}
+
+.popup-button-svg {
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    fill: currentColor;
+}
+
+.popup-button-container {
+    width: 30px;
+}
+
+.popup-card {
+    max-width: fit-content;
+}

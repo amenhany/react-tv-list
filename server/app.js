@@ -3,6 +3,7 @@ import session from 'express-session';
 import cors from 'cors';
 import tvmazeRoutes from './routes/tvmaze.js';
 import userRoutes from './routes/users.js';
+import showRoutes from './routes/shows.js';
 import { errorHandler } from './errors/errorHandler.js';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
@@ -38,6 +39,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use('/', tvmazeRoutes);
 app.use('/user', userRoutes);
+app.use('/user/shows', showRoutes);
 
 app.use(errorHandler);
 

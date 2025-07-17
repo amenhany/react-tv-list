@@ -12,9 +12,9 @@ router.get('/search', catchAsync(async (req, res) => {
         throw new ExpressError('There was a problem connecting to the API', response.status || 502);
     }
 
-    const data = await response.json();
+    const results = await response.json();
 
-    res.json(data);
+    res.json(results);
 }))
 
 export default router;

@@ -13,17 +13,17 @@ export default function ShowPreviewForm({ show }) {
     const [rating, setRating] = useState("");
 
     const { setIsSwitchPage } = useContext(SwitchPageContext);
-    const { user, openLoginForm, setDimmerContent } = useAuth();
+    const { isAuthenticated, openLoginForm, setDimmerContent } = useAuth();
     const { content } = useContext(DimmerContext);
 
     function addToList() {
-        if (!user) {
+        if (!isAuthenticated) {
             openLoginForm();
             setDimmerContent(content);
             return;
         }
 
-        axios.post(`${API_BASE}/user/${user.id}/list`, { tvmazeId: show.id, rating }, { withCredentials: true })
+        axios.post(`${API_BASE}/user/shows`, { tvmazeId: show.id, rating }, { withCredentials: true })
         .then(res => {
             console.log(res.data?.message);
             setIsSwitchPage(true);

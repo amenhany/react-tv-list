@@ -23,7 +23,24 @@ const userSchema = new mongoose.Schema({
     },
     showsList: [
         showSchema
-    ]
+    ],
+    listTitle: {
+      type: String,
+      maxLength: [100, "List title too long! (Over 100 characters)"]
+    },
+    sorting: {
+      key: {
+        type: String,
+        enum: ['name', 'rating', 'dateAdded', 'custom'],
+        required: true,
+        default: 'dateAdded'
+      },
+      ascending: {
+        type: Boolean,
+        required: true,
+        default: true
+      }
+    }
 }, { timestamps: true });
 
 userSchema.plugin(passportLocalMongoose);
