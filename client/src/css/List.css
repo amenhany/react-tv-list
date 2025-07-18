@@ -7,8 +7,26 @@
     border-radius: 20px;
 }
 
-.list table {
-    cursor: default;
+.list .sorting-header {
+    cursor: pointer;
+}
+
+.list .form-select {
+    border: none;
+    background: none;
+    width: 4rem;
+    transition: background 1s ease-in-out;
+}
+
+.list .form-select:hover {
+    background-image: var(--bs-form-select-bg-img);
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+
+.list .rating-column {
+    width: 6rem;
 }
 
 .list h2 {
@@ -20,18 +38,68 @@
 }
 
 .list-show-poster {
-    width: 7rem;
+    width: 6rem;
 }
 
 .list-show-poster-container {
     width: 6rem;
 }
 
+
+@keyframes slide-in-down {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+        border-collapse: separate !important;
+    }
+}
+
+.stagger-row {
+    animation: slide-in-down 0.4s ease forwards;
+    opacity: 0;
+}
+
+
+
+.list table {
+    cursor: default;
+    animation: fade-in 0.4s ease backwards;
+    /* border-collapse: separate;
+    border-spacing: 0; */
+    border-bottom: transparent;
+    transition: background-color, 0.3s, ease-in-out;
+}
+
+
+
 .popup-button-svg {
     border-radius: 50%;
     width: 25px;
     height: 25px;
     fill: currentColor;
+    opacity: 0;
+    transition: opacity, 0.1s ease-in-out;
+}
+
+.popup-button-svg:hover {
+    fill: var(--bs-emphasis-color);
+}
+
+.stagger-row:hover .popup-button-svg {
+    opacity: 1;
 }
 
 .popup-button-container {

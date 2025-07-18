@@ -51,6 +51,16 @@ router.patch('/', isLoggedIn, validateSchema(listJoiSchema), catchAsync(async (r
     res.json({ success: true });
 }))
 
+router.patch('/:id', isLoggedIn, validateSchema(showJoiSchema), catchAsync(async (req, res) => {
+    const id = Number(req.params.id);
+    const user = req.user;
+    const { rating } = req.body;
+    const index = user.showsList.findIndex(el => el.tvmazeId === id);
+    user.showsList[index].rating = rating || null;
+    await user.save();
+    res.json({ message: "Rating changed" });
+}))
+
 router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const id = Number(req.params.id);
     const user = req.user;

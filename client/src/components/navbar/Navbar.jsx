@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { SwitchPageContext } from '../contexts/SwitchPageContext';
-import '../css/Navbar.css'
+import { SwitchPageContext } from '../../contexts/SwitchPageContext';
+import '../../css/Navbar.css'
 import DarkModeButton from './DarkModeButton';
 import Searchbar from './Searchbar';
 import AuthenticatedElement from './AuthenticatedElement';

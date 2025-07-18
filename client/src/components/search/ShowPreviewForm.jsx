@@ -1,16 +1,16 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SwitchPageContext } from "../contexts/SwitchPageContext";
-import { DimmerContext } from "../contexts/DimmerContext";
-import { useAuth } from "../contexts/AuthContext";
+import { SwitchPageContext } from "../../contexts/SwitchPageContext";
+import { DimmerContext } from "../../contexts/DimmerContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function ShowPreviewForm({ show }) {
     const navigate = useNavigate();
-    const [rating, setRating] = useState("");
+    const [rating, setRating] = useState(0);
 
     const { setIsSwitchPage } = useContext(SwitchPageContext);
     const { isAuthenticated, openLoginForm, setDimmerContent } = useAuth();
@@ -48,7 +48,7 @@ export default function ShowPreviewForm({ show }) {
                     <label htmlFor="rating">Rating: </label>
                     <select id="rating" name="show[rating]" className="form-select"
                             value={rating} onChange={e => setRating(e.target.value)}>
-                        <option disabled value="">Rating...</option>
+                        <option disabled value="0">Rating...</option>
                         <option value="10">10</option>
                         <option value="9">9</option>
                         <option value="8">8</option>

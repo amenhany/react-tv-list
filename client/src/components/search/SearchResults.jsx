@@ -1,10 +1,10 @@
-import '../css/SearchResults.css'
-import { useContext, useState } from "react";
-import { Results } from "../pages/Search";
+import '../../css/SearchResults.css'
+import { useContext } from "react";
+import { Results } from "../../pages/Search";
 import ShowResult from "./ShowResult";
 import ShowPreview from './ShowPreview';
-import { DimmerContext } from '../contexts/DimmerContext';
-import { useAuth } from '../contexts/AuthContext';
+import { DimmerContext } from '../../contexts/DimmerContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 
 export default function SearchResults() {

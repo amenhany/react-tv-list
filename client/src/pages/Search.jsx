@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createContext, useContext, useEffect, useState } from 'react';
-import SearchResults from '../components/SearchResults'
+import SearchResults from '../components/search/SearchResults'
 import Error from '../components/Error'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SwitchPageContext } from '../contexts/SwitchPageContext';

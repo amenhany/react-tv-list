@@ -1,7 +1,5 @@
 import axios from 'axios'
-import { DimmerContext } from '../contexts/DimmerContext';
-import { useContext } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 

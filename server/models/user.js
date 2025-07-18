@@ -9,7 +9,7 @@ const showSchema = new mongoose.Schema({
   },
   rating: {
     type: Number,
-    min: [1, "Show rating must not be less than 1"],
+    min: [0, "Show rating must not be less than 1"],
     max: [10, "Show rating must not be greater than 10"]
   }
 }, { _id: false, timestamps: true });

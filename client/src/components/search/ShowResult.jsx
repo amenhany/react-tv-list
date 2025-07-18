@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
-import '../css/ShowResult.css'
-import { SwitchPageContext } from '../contexts/SwitchPageContext';
+import '../../css/ShowResult.css'
+import { SwitchPageContext } from '../../contexts/SwitchPageContext';
 
 export default function ShowResult({ show, preview, index }) {
     const { isSwitchPage } = useContext(SwitchPageContext);

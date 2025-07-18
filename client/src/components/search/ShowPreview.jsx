@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import "../css/ShowPreview.css";
+import "../../css/ShowPreview.css";
 import ShowPreviewForm from "./ShowPreviewForm";
-import { isDimmerVisible } from './Dimmer';
+import { isDimmerVisible } from '../Dimmer';
 
 
 export default function ShowPreview({ show }) {

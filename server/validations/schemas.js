@@ -8,7 +8,7 @@ export const showJoiSchema = Joi.object({
     }),
 
   rating: Joi.number()
-    .min(1)
+    .min(0)
     .max(10)
     .messages({
       'number.min': "Show rating must not be less than 1",

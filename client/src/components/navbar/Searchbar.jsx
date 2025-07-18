@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate, createSearchParams } from 'react-router-dom';
-import { SearchTriggerContext } from '../contexts/SearchTriggerContext';
+import { SearchTriggerContext } from '../../contexts/SearchTriggerContext';
 
 
 export default function Searchbar() {
