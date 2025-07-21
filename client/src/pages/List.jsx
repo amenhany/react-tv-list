@@ -125,7 +125,7 @@ export default function List() {
                                     {isAscending ? ' ▲' : ' ▼'}
                                 </span>
                             </th>
-                            <th scope="col" onClick={() => sortList('rating')} className="text-center sorting-header">Rating 
+                            <th scope="col" onClick={() => sortList('rating')} className="text-center sorting-header pe-0">Rating 
                                 <span style={{ visibility: sortKey === 'rating' ? 'visible' : 'hidden' }}>
                                     {isAscending ? ' ▲' : ' ▼'}
                                 </span>

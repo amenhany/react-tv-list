@@ -34,7 +34,7 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
                 <h3 className="text-muted">{ listing.show.genres.join(', ') }</h3>
             </td>
             <td className="text-center align-middle">{ listing.createdAt.split('T')[0].split('-').reverse().join('/') }</td>
-            <td className="text-center align-middle rating-column">
+            <td className="text-end align-middle rating-column">
                 <select id="rating" name="rating" className="form-select d-inline"
                         value={rating} onChange={handleChangeRating}>
                     <option value="0">–</option>

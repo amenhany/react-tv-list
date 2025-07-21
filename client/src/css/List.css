@@ -9,6 +9,7 @@
 
 .list .sorting-header {
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .list .form-select {
@@ -27,6 +28,14 @@
 
 .list .rating-column {
     width: 6rem;
+    padding-right: 9px;
+}
+
+@media (max-width: 767px) {
+    .list .rating-column {
+        width: fit-content;
+        padding-right: 0;
+    }
 }
 
 .list h2 {
@@ -103,7 +112,7 @@
 }
 
 .popup-button-container {
-    width: 30px;
+    width: 25px;
 }
 
 .popup-card {
