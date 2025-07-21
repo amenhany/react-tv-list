@@ -45,7 +45,7 @@
     margin-bottom: 2.5rem;
   }
 
-  .show-preview button.btn-success {    
+  .show-preview .list-button {    
     position: absolute;
     bottom: 0;
     right: 0;
@@ -59,12 +59,12 @@
 }
 
 
-.show-preview button.btn-success {
+.show-preview .list-button {
     font-size: 1.25rem;
     transition: all 0.15s ease-out;
 }
 
-.show-preview button.btn-success:active {
+.show-preview .list-button:active {
     scale: 0.95;
 }
 

@@ -1,4 +1,28 @@
-import Joi from 'joi'
+import BaseJoi from 'joi'
+import sanitizeHtml from 'sanitize-html'
+
+const escapeHtmlExtension = joi => ({
+  type: 'string',
+  base: joi.string(),
+  messages: {
+    'string.escapeHTHML': 'nice try, bitch'
+  },
+  rules: {
+    escapeHTML: {
+      validate(value, helpers) {
+        const clean = sanitizeHtml(value, {
+          allowedTags: [],
+          allowedAttributes: {}
+        });
+        if (clean !== value) return helpers.error('string.escapeHTML', { value });
+        return clean;
+      }
+    }
+  }
+});
+
+const Joi = BaseJoi.extend(escapeHtmlExtension);
+
 
 export const showJoiSchema = Joi.object({
   tvmazeId: Joi.number()
@@ -17,7 +41,7 @@ export const showJoiSchema = Joi.object({
 });
 
 export const userJoiSchema = Joi.object({
-  username: Joi.string().alphanum().min(3).max(20).required().messages({
+  username: Joi.string().alphanum().min(3).max(20).escapeHTML().required().messages({
     'string.base': `Username should be a type of 'text'`,
     'string.empty': `Username cannot be blank`,
     'string.alphanum': `Username cannot have special characters`,
@@ -26,7 +50,7 @@ export const userJoiSchema = Joi.object({
     'any.required': 'Username cannot be blank'
   }),
 
-  email: Joi.string().email().required().messages({
+  email: Joi.string().email().escapeHTML().required().messages({
     'string.empty': `Email cannot be blank`,
     'any.required': 'Email cannot be blank',
     'string.email': 'Email must be valid'
@@ -42,11 +66,11 @@ export const userJoiSchema = Joi.object({
 
   showsList: Joi.array().items(showJoiSchema),
 
-  listTitle: Joi.string().trim().max(100).pattern(/^[a-zA-Z0-9 _\-]+$/)
+  listTitle: Joi.string().trim().max(100).escapeHTML().pattern(/^[a-zA-Z0-9 _\-]+$/)
 });
 
 export const listJoiSchema = Joi.object({
-  title: Joi.string().trim()
+  title: Joi.string().escapeHTML().trim()
     .max(100)
     .messages({
       'string.max': 'List title too long! (Over 100 characters)'

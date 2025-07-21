@@ -2,6 +2,8 @@ import './css/App.css'
 import './css/Animations.css'
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
+import useFavicon from './js/useFavicon';
+
 import Home from "./pages/Home"
 import Search from "./pages/Search"
 import List from './pages/List';
@@ -18,6 +20,7 @@ import SearchTriggerProvider from './contexts/SearchTriggerContext';
 
 export default function App() {
   const location = useLocation();
+  useFavicon();
 
   return (
     <ThemeProvider>

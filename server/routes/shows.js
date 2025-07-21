@@ -2,6 +2,7 @@ import express from 'express'
 import { catchAsync } from '../errors/errorHandler.js';
 import { isLoggedIn, validateSchema } from '../validations/validate.js'
 import { showJoiSchema, listJoiSchema } from '../validations/schemas.js';
+import ExpressError from '../errors/ExpressError.js';
 
 const router = express.Router();
 
@@ -22,8 +23,12 @@ router.get('/', isLoggedIn, catchAsync(async (req, res) => {
 }))
 
 router.post('/', isLoggedIn, validateSchema(showJoiSchema), catchAsync(async (req, res) => {
+    const show = req.body
     const user = req.user;
-    user.showsList.push(req.body);
+    if (user.showsList.includes(show)) {
+        throw new ExpressError('This show is already in your list', 400);
+    }
+    user.showsList.push(show);
     await user.save();
     res.json({ shows: user.showsList });
 }))
@@ -50,6 +55,19 @@ router.patch('/', isLoggedIn, validateSchema(listJoiSchema), catchAsync(async (r
     await user.save();
     res.json({ success: true });
 }))
+
+
+router.get('/:id', isLoggedIn, (req, res) => {
+    const id = Number(req.params.id);
+    const user = req.user;
+    const foundShow = user.showsList.find(el => el.tvmazeId === id);
+    console.log(foundShow);
+    if (foundShow) {
+        res.json({ rating: foundShow.rating });
+    } else {
+        res.json({});
+    }
+})
 
 router.patch('/:id', isLoggedIn, validateSchema(showJoiSchema), catchAsync(async (req, res) => {
     const id = Number(req.params.id);
