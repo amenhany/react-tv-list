@@ -5,8 +5,9 @@ import { useState, useEffect } from "react";
 import Error from '../components/Error';
 import Listing from '../components/Listing';
 
-import { DndContext, DragOverlay } from '@dnd-kit/core';
+import { DndContext, DragOverlay, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { KeyboardSensor, MouseSensor } from '../components/DndHelper';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -21,6 +22,11 @@ export default function List() {
     
     const [isAscending, setIsAscending] = useState(user?.sorting?.ascending);
     const [sortKey, setSortKey] = useState(user?.sorting?.key);
+
+    const sensors = useSensors(
+                        useSensor(MouseSensor),
+                        useSensor(KeyboardSensor)
+                    )
 
     Array.prototype.move = function(a, b) {
         this.splice(b, 0, this.splice(a, 1)[0]);
@@ -137,7 +143,12 @@ export default function List() {
                     onChange={handleTitleChange}
                     onBlur={handleUnfocus} />
 
-                <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+                <DndContext 
+                    sensors={sensors}
+                    onDragStart={handleDragStart} 
+                    onDragEnd={handleDragEnd}
+                    onDragCancel={() => setActiveId(null)}
+                >
                     <SortableContext
                         items={list.map(item => item.tvmazeId)}
                         strategy={verticalListSortingStrategy}

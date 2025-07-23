@@ -11,7 +11,18 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
     const [isAnimationEnd, setIsAnimationEnd] = useState(false);
 
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
-        id: listing.tvmazeId
+        id: listing.tvmazeId,
+        listeners: {
+        onPointerDown(event) {
+        // Prevent drag start if clicking a button, select, or input
+        const tag = event.target.tagName.toLowerCase();
+        if (['button', 'input', 'select', 'textarea', 'option', 'svg'].includes(tag)) {
+            return;
+        }
+        // Call default listener
+        listeners.onPointerDown?.(event);
+        },
+    }
     });
 
     const style = {
@@ -26,6 +37,7 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
     })
 
     function handleChangeRating(evt) {
+        evt.stopPropagation();
         const tvmazeId = Number(evt.target.closest('tr').id);
         const rating = evt.target.value;
         const index = list.findIndex(el => el.tvmazeId === listing.tvmazeId);
@@ -38,6 +50,7 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
     }
 
     function handleDelete(evt) {
+        evt.stopPropagation();
         const tvmazeId = Number(evt.target.closest('tr').id);
         setList(list.filter(listing => listing.tvmazeId !== tvmazeId));
         axios.delete(`${API_BASE}/user/shows/${tvmazeId}`, { withCredentials: true })
@@ -61,7 +74,7 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
             </td>
             <td className="text-center align-middle">{ listing.createdAt.split('T')[0].split('-').reverse().join('/') }</td>
             <td className="text-end align-middle rating-column">
-                <select id="rating" name="rating" className="form-select d-inline"
+                <select id="rating" name="rating" className="form-select d-inline" data-no-dnd="true"
                         value={rating} onChange={handleChangeRating}>
                     <option value="0">–</option>
                     <option value="10">10</option>
@@ -77,7 +90,7 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
                 </select>
             </td>
             <td className="popup-button-container p-0">
-            <div className="d-flex justify-content-end text-body">
+            <div className="d-flex justify-content-end text-body" data-no-dnd="true">
                 <button className="border-0 bg-transparent popup-button p-0 pt-1 text-body" onClick={handleDelete}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="bi bi-x popup-button-svg" viewBox="0 0 16 16">
                         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
