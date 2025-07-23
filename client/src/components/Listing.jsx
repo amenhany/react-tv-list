@@ -1,11 +1,42 @@
+import { useDraggable, useDroppable } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
 import axios from "axios";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function Listing({ listing, list, setList, sortFn, sortKey, animationDelay }) {
     const [rating, setRating] = useState(listing.rating);
+    const [isAnimationEnd, setIsAnimationEnd] = useState(false);
+
+    const {
+        attributes,
+        listeners,
+        setNodeRef: setDragRef,
+        transform,
+        transition,
+    } = useDraggable({ id: listing.tvmazeId });
+    const { setNodeRef: setDropRef } = useDroppable({ id: listing.tvmazeId });
+    
+    const setRef = useCallback(
+        node => {
+        setDragRef(node);
+        setDropRef(node);
+        },
+        [setDragRef, setDropRef]
+    );
+
+    const style = {
+        transform: CSS.Translate.toString(transform),
+        transition
+    };
+
+
+    useEffect(() => {
+        const timeout = setTimeout(() => setIsAnimationEnd(true), 400);
+        () => clearTimeout(timeout);
+    })
 
     function handleChangeRating(evt) {
         const tvmazeId = Number(evt.target.closest('tr').id);
@@ -27,7 +58,11 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
     }
 
     return (
-        <tr id={ listing.show.id } className="stagger-row" style={{ animationDelay }}>
+        <tr id={ listing.show.id }
+            className={"list-row" + (!isAnimationEnd ? " animate" : "")} 
+            onAnimationEnd={() => setIsAnimationEnd(true)}
+            style={{ ...(isAnimationEnd ? style : {}), animationDelay }}
+            ref={setRef} {...listeners} {...attributes}>
             <td className="m-5 list-show-poster-container"><img src={ listing.show.image.medium } alt={listing.show.name + "Poster"} className="list-show-poster" /></td>
             <td className="show-name">
                 <h2>{ listing.show.name + " (" + listing.show.premiered.split('-')[0] + ")" }</h2>

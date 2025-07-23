@@ -61,7 +61,6 @@ router.get('/:id', isLoggedIn, (req, res) => {
     const id = Number(req.params.id);
     const user = req.user;
     const foundShow = user.showsList.find(el => el.tvmazeId === id);
-    console.log(foundShow);
     if (foundShow) {
         res.json({ rating: foundShow.rating });
     } else {
