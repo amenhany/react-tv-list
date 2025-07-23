@@ -1,34 +1,21 @@
-import { useDraggable, useDroppable } from "@dnd-kit/core";
+import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
 
-export default function Listing({ listing, list, setList, sortFn, sortKey, animationDelay }) {
+export default function Listing({ listing, list, setList, sortFn, sortKey, animationDelay, draggingId }) {
     const [rating, setRating] = useState(listing.rating);
     const [isAnimationEnd, setIsAnimationEnd] = useState(false);
 
-    const {
-        attributes,
-        listeners,
-        setNodeRef: setDragRef,
-        transform,
-        transition,
-    } = useDraggable({ id: listing.tvmazeId });
-    const { setNodeRef: setDropRef } = useDroppable({ id: listing.tvmazeId });
-    
-    const setRef = useCallback(
-        node => {
-        setDragRef(node);
-        setDropRef(node);
-        },
-        [setDragRef, setDropRef]
-    );
+    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+        id: listing.tvmazeId
+    });
 
     const style = {
-        transform: CSS.Translate.toString(transform),
+        transform: CSS.Transform.toString(transform),
         transition
     };
 
@@ -61,8 +48,12 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
         <tr id={ listing.show.id }
             className={"list-row" + (!isAnimationEnd ? " animate" : "")} 
             onAnimationEnd={() => setIsAnimationEnd(true)}
-            style={{ ...(isAnimationEnd ? style : {}), animationDelay }}
-            ref={setRef} {...listeners} {...attributes}>
+            style={{ 
+                ...style,
+                animationDelay,
+                visibility: draggingId === listing.tvmazeId ? "hidden" : "visible"
+            }}
+            ref={setNodeRef} {...listeners} {...attributes}>
             <td className="m-5 list-show-poster-container"><img src={ listing.show.image.medium } alt={listing.show.name + "Poster"} className="list-show-poster" /></td>
             <td className="show-name">
                 <h2>{ listing.show.name + " (" + listing.show.premiered.split('-')[0] + ")" }</h2>

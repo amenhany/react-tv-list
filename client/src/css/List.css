@@ -1,4 +1,4 @@
-.list {
+.list-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -7,42 +7,42 @@
     border-radius: 20px;
 }
 
-.list .sorting-header {
+.list-container .sorting-header {
     cursor: pointer;
     white-space: nowrap;
 }
 
-.list .form-select {
+.list-container .form-select {
     border: none;
     background: none;
     width: 4rem;
     transition: background 1s ease-in-out;
 }
 
-.list .form-select:hover {
+.list-container .form-select:hover {
     background-image: var(--bs-form-select-bg-img);
     background-repeat: no-repeat;
     background-position: right 0.75rem center;
     background-size: 16px 12px;
 }
 
-.list .rating-column {
+.list-container .rating-column {
     width: 6rem;
     padding-right: 9px;
 }
 
 @media (max-width: 767px) {
-    .list .rating-column {
+    .list-container .rating-column {
         width: fit-content;
         padding-right: 0;
     }
 }
 
-.list h2 {
+.list-container h2 {
     font-size: large;
 }
 
-.list h3 {
+.list-container h3 {
     font-size: small;
 }
 
@@ -76,24 +76,31 @@
     }
 }
 
-.list-row.animate {
+.list .list-row.animate {
     opacity: 0;
     animation: slide-in-down 0.4s ease forwards;
 }
 
-
-.list table {
-    cursor: default;
+.list-container .list {
     animation: fade-in 0.4s ease backwards;
     /* border-collapse: separate;
     border-spacing: 0; */
-    border-bottom: transparent;
 }
 
-.list * {
+.list-container table {
+    cursor: default;
+    border-bottom: transparent;
+
+}
+
+.list-container * {
     transition: background-color 0.2s ease-out, color 0.05s ease-out;
 }
 
+.dragged-listing {
+    opacity: 0.8;
+    transition: opacity 0.2s ease-out;
+}
 
 
 .popup-button-svg {

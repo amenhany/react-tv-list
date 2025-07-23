@@ -6,6 +6,7 @@ import Error from '../components/Error';
 import Listing from '../components/Listing';
 
 import { DndContext, DragOverlay } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -16,7 +17,7 @@ export default function List() {
     const [listTitle, setListTitle] = useState(user?.listTitle || "");
     const [customOrder, setCustomOrder] = useState([]);
     const [list, setList] = useState([]);
-    const [activeListing, setActiveListing] = useState(null);
+    const [activeId, setActiveId] = useState(null);
     
     const [isAscending, setIsAscending] = useState(user?.sorting?.ascending);
     const [sortKey, setSortKey] = useState(user?.sorting?.key);
@@ -129,7 +130,7 @@ export default function List() {
 
     if (list.length && isLoaded) {
         return (
-            <section className="list container mb-4">
+            <section className="list-container container mb-4">
                 <input className="title text-start text-body mb-4 ps-2 mt-2" 
                     placeholder="My Awesome List" 
                     value={listTitle} 
@@ -137,7 +138,11 @@ export default function List() {
                     onBlur={handleUnfocus} />
 
                 <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-                    <table className="table table-hover selectDisable">
+                    <SortableContext
+                        items={list.map(item => item.tvmazeId)}
+                        strategy={verticalListSortingStrategy}
+                    >
+                    <table className="table table-hover list selectDisable">
                         <thead>
                             <tr>
                                 <th scope="col" className="text-center">Poster</th>
@@ -167,16 +172,17 @@ export default function List() {
                                     key={listing.tvmazeId} 
                                     sortKey={sortKey} 
                                     sortFn={resort}
-                                    animationDelay={ i*100 +"ms" } />
+                                    animationDelay={ i*100 +"ms" }
+                                    draggingId={activeId} />
                             )) }
                         </tbody>
                     </table>
                     <DragOverlay>
-                        {activeListing &&
-                            <table className="table table-hover selectDisable">
+                        {activeId &&
+                            <table className="table selectDisable dragged-listing">
                                 <tbody>
                                     <Listing 
-                                        listing={activeListing} 
+                                        listing={list.find(item => item.tvmazeId === activeId)} 
                                         list={list} 
                                         setList={setList} 
                                         sortKey={sortKey} 
@@ -186,6 +192,7 @@ export default function List() {
                             </table>
                         }
                     </DragOverlay>
+                    </SortableContext>
                 </DndContext>
             </section>
         )
@@ -196,11 +203,12 @@ export default function List() {
     }
 
     function handleDragStart(event) {
-        setActiveListing(list.find(item => item.tvmazeId === event.active.id));
+        setActiveId(event.active.id);
     }
 
     function handleDragEnd(event) {
         const { active, over } = event;
+        setActiveId(null);
 
         if (!over || active.id === over.id) return;
 
@@ -210,7 +218,6 @@ export default function List() {
         const swappedList = [...list];
         setList(swappedList.move(originalPos, newPos));
         setSortKey('custom');
-        setActiveListing(null);
         saveOrder(swappedList);
         setCustomOrder(swappedList);
     }
