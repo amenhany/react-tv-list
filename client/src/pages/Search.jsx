@@ -42,6 +42,8 @@ export default function Search() {
             navigate("/");
             return;
         }
+
+        document.title = `${searchTerm} - TV List`;
         
         setIsSwitchPage(true);
 

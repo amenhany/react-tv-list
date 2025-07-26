@@ -15,15 +15,15 @@ export default function AuthenticatedElement() {
     if (!isAuthenticated) {
         return (
             <>
-                <button className="btn btn-outline-success cancel-button ms-3" onClick={openLoginForm}>Log In</button>
-                <button className="btn btn-outline-primary cancel-button ms-3" onClick={openRegisterForm}>Sign Up</button>
+                <button className="btn btn-outline-success ms-3" onClick={openLoginForm}>Log In</button>
+                <button className="btn btn-outline-primary ms-3" onClick={openRegisterForm}>Sign Up</button>
             </>
         )
     }
     else {
         return (
             <>
-                <button className="btn btn-outline-primary cancel-button ms-3" onClick={logOut}>Log Out</button>
+                <button className="btn btn-outline-light ms-3" onClick={logOut}>Log Out</button>
             </>
         )
     }

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { useState, useEffect, useContext, createContext } from "react"
 import Card from '../components/Card';
-import RegisterForm from '../components/RegisterForm';
-import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/forms/RegisterForm';
+import LoginForm from '../components/forms/LoginForm';
 import { DimmerContext } from './DimmerContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 

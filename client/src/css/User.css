@@ -1,0 +1,52 @@
+.page-container {
+    overflow: hidden;
+    height: 90vh;
+}
+
+.profile-picture-wrapper {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.profile-picture {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.edit-picture {
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.edit-picture:hover {
+    filter: brightness(80%);
+}
+
+.edit-icon {
+    opacity: 0;
+    fill: #000000AA;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: calc(50% - 8px);
+    transition: opacity 0.2s ease;
+}
+
+.edit-picture:hover .edit-icon {
+    opacity: 1;
+}
+
+.list-container {
+    max-height: 95%;
+    overflow: auto;
+}
+
+.invalid-tooltip {
+  top: auto !important;     /* unset bottom placement */
+  bottom: 100%;             /* place tooltip above the input */
+  left: 0 !important;       /* align to the left */
+  transform: translateY(-0.25rem); /* some spacing above input */
+}

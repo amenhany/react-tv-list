@@ -1,53 +1,85 @@
 import axios from 'axios'
 import '../css/List.css'
 import { useAuth } from "../contexts/AuthContext"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Error from '../components/Error';
 import Listing from '../components/Listing';
 
 import { DndContext, DragOverlay, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { KeyboardSensor, MouseSensor } from '../components/DndHelper';
+import { SwitchPageContext } from '../contexts/SwitchPageContext';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
 
-export default function List() {
-    const { isAuthenticated, user, requireLogin } = useAuth();
+export default function List({ user = null }) {
+    const { isAuthenticated, user: currentUser, requireLogin } = useAuth();
     const [isLoaded, setIsLoaded] = useState(false);
-    const [listTitle, setListTitle] = useState(user?.listTitle || "");
+    const [isOwner, setIsOwner] = useState(!user || user?.username === currentUser?.username);
+    const [listTitle, setListTitle] = useState(isOwner ? currentUser?.listTitle || "" : user?.listTitle || `${user?.username}'s List`);
     const [customOrder, setCustomOrder] = useState([]);
     const [list, setList] = useState([]);
     const [activeId, setActiveId] = useState(null);
+
+    const { isSwitchPage } = useContext(SwitchPageContext);
     
-    const [isAscending, setIsAscending] = useState(user?.sorting?.ascending);
-    const [sortKey, setSortKey] = useState(user?.sorting?.key);
+    const [isAscending, setIsAscending] = useState(isOwner ? currentUser?.sorting?.ascending : user?.sorting?.ascending);
+    const [sortKey, setSortKey] = useState(isOwner ? currentUser?.sorting?.key : user?.sorting?.key);
 
     const sensors = useSensors(
-                        useSensor(MouseSensor),
-                        useSensor(KeyboardSensor)
-                    )
+        useSensor(MouseSensor),
+        useSensor(KeyboardSensor)
+    );
 
     Array.prototype.move = function(a, b) {
         this.splice(b, 0, this.splice(a, 1)[0]);
         return this;
     }
 
-    useEffect(requireLogin, [isAuthenticated]);
     useEffect(() => {
+        setIsOwner(false);
+        if (!user) {
+            requireLogin();
+            setIsOwner(true);
+        }
+        if (user?.username === currentUser?.username) {
+            setIsOwner(true);
+        }
+    }, [isAuthenticated]);
+
+    useEffect(() => {
+        if (!isOwner) return;
         const debounce = setTimeout(saveTitle, 4000);
         return () => clearTimeout(debounce);
-    }, [listTitle])
+    }, [listTitle]);
+
     useEffect(() => {
-        axios.get(`${API_BASE}/user/shows`, { withCredentials: true })
-        .then(res => {
-            setCustomOrder(res.data?.list);
-            setList(getSortedList(res.data?.list, sortKey, isAscending));
+        if (isOwner) {
+            document.title = `${listTitle || "My List"} - TV List`;
+
+            axios.get(`${API_BASE}/user/shows`, { withCredentials: true })
+            .then(res => {
+                setCustomOrder(res.data?.list);
+                setList(getSortedList(res.data?.list, sortKey, isAscending));
+                setIsLoaded(true);
+            })
+            .catch(err => console.log(err.response?.data?.message));
+        } else if (user) {
+            axios.get(`${API_BASE}/user/${user.username}/shows`)
+            .then(res => {
+                setCustomOrder(res.data?.list);
+                setList(getSortedList(res.data?.list, sortKey, isAscending));
+                setIsLoaded(true);
+            })
+            .catch(err => console.log(err.response?.data?.message));
+        } else {
             setIsLoaded(true);
-        })
-        .catch(err => console.log(err.response?.data?.message));
+        }
     }, []);
+
     useEffect(() => {
+        if (!isOwner) return;
         const debounce = setTimeout(() => 
             axios.patch(`${API_BASE}/user/shows`, {
                 sorting: { key: sortKey, ascending: isAscending }
@@ -59,7 +91,9 @@ export default function List() {
 
 
     function saveTitle() {
+        if (!isOwner) return;
         const title = listTitle.trim();
+        document.title = `${title || "My List"} - TV List`;
         axios.patch(`${API_BASE}/user/shows`, { title }, { withCredentials: true })
             .catch(err => console.error("Error:", err.response?.data?.message));
     }
@@ -74,6 +108,7 @@ export default function List() {
     }
 
     function sortList(key) {
+        if (!isOwner) return;
         let ascending;
         if (sortKey === key) {
             if (!isAscending) {
@@ -127,6 +162,7 @@ export default function List() {
     }
 
     function saveOrder(list) {
+        if (!isOwner) return;
         axios.patch(`${API_BASE}/user/shows`, {
             order: list.map(listing => listing.tvmazeId)
         }, { withCredentials: true })
@@ -137,11 +173,17 @@ export default function List() {
     if (list.length && isLoaded) {
         return (
             <section className="list-container container mb-4">
-                <input className="title text-start text-body mb-4 ps-2 mt-2" 
+                { isOwner ? 
+                    <input className={"title text-start text-body mb-4 ps-2 mt-2" + (isSwitchPage ? " animate" : "")} 
                     placeholder="My Awesome List" 
                     value={listTitle} 
                     onChange={handleTitleChange}
                     onBlur={handleUnfocus} />
+                    :
+                    <h1 className={"title text-start text-body mb-4 ps-2 mt-2" + (isSwitchPage ? " animate" : "")}>
+                        {listTitle}
+                    </h1>
+                }
 
                 <DndContext 
                     sensors={sensors}
@@ -153,21 +195,21 @@ export default function List() {
                         items={list.map(item => item.tvmazeId)}
                         strategy={verticalListSortingStrategy}
                     >
-                    <table className="table table-hover list selectDisable">
+                    <table className={"table table-hover list selectDisable" + (isSwitchPage ? " animate" : "")}>
                         <thead>
                             <tr>
                                 <th scope="col" className="text-center">Poster</th>
-                                <th scope="col" onClick={() => sortList('name')} className="sorting-header">Details 
+                                <th scope="col" onClick={() => sortList('name')} className={"sorting-header" + (!isOwner && " not-clickable")}>Details 
                                     <span style={{ visibility: sortKey === 'name' ? 'visible' : 'hidden' }}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
                                 </th>
-                                <th scope="col" onClick={() => sortList('dateAdded')} className="text-center sorting-header">Added on 
+                                <th scope="col" onClick={() => sortList('dateAdded')} className={"text-center sorting-header ps-4" + (!isOwner && " not-clickable")}>Added on 
                                     <span style={{ visibility: sortKey === 'dateAdded' ? 'visible' : 'hidden' }}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
                                 </th>
-                                <th scope="col" onClick={() => sortList('rating')} className="text-center sorting-header pe-0">Rating 
+                                <th scope="col" onClick={() => sortList('rating')} className={"text-center sorting-header pe-0" + (!isOwner && " not-clickable")}>Rating 
                                     <span style={{ visibility: sortKey === 'rating' ? 'visible' : 'hidden' }}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
@@ -184,7 +226,8 @@ export default function List() {
                                     sortKey={sortKey} 
                                     sortFn={resort}
                                     animationDelay={ i*100 +"ms" }
-                                    draggingId={activeId} />
+                                    draggingId={activeId}
+                                    isOwner={isOwner} />
                             )) }
                         </tbody>
                     </table>
@@ -198,7 +241,8 @@ export default function List() {
                                         setList={setList} 
                                         sortKey={sortKey} 
                                         sortFn={resort}
-                                        animationDelay={ 0 +"ms" } />
+                                        animationDelay={ 0 +"ms" }
+                                        isOwner={isOwner} />
                                 </tbody>
                             </table>
                         }
@@ -208,7 +252,7 @@ export default function List() {
             </section>
         )
     } else if (isLoaded) {
-        return <Error text="Your list is empty" />
+        return <Error text={(isOwner ? "Your" : `${user?.username}'s`) + " list is empty"} />
     } else {
         return <></>
     }

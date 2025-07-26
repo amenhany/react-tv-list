@@ -88,14 +88,13 @@ export default function ShowPreviewForm({ show }) {
                     </select>
                 </div>
                 <div className="col">
-                    { !foundShow &&
-                        <button onClick={addToList} className="btn btn-success py-2 px-3 mt-3 list-button">
-                            Add to List
-                        </button>
-                    }
-                    { foundShow &&
+                    { foundShow ?
                         <button onClick={goToList} className="btn btn-primary py-2 px-3 mt-3 list-button">
                             Go to List
+                        </button>
+                        :
+                        <button onClick={addToList} className="btn btn-success py-2 px-3 mt-3 list-button">
+                            Add to List
                         </button>
                     }
                 </div>

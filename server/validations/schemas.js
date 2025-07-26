@@ -64,6 +64,10 @@ export const userJoiSchema = Joi.object({
   confirmPassword: Joi.string().valid(Joi.ref('password')).required()
     .messages({ 'any.only': 'Passwords do not match' }),
 
+  bio: Joi.string().max(100).escapeHTML(),
+
+  avatar: Joi.any().optional(),
+
   showsList: Joi.array().items(showJoiSchema),
 
   listTitle: Joi.string().trim().max(100).escapeHTML().pattern(/^[a-zA-Z0-9 _\-]+$/)

@@ -7,6 +7,7 @@ import useFavicon from './js/useFavicon';
 import Home from "./pages/Home"
 import Search from "./pages/Search"
 import List from './pages/List';
+import User from './pages/User';
 import Navbar from './components/navbar/Navbar';
 import Error from "./components/Error"
 import Dimmer from './components/Dimmer';
@@ -35,6 +36,8 @@ export default function App() {
           <Route path="/home" element={<Navigate to="/" replace />} />
           <Route path="/search" element={<Search />} />
           <Route path="/list" element={<List />} />
+          <Route path="/user/" element={<User />} />
+          <Route path="/user/:username" element={<User />} />
           <Route path="*" element={<Error text={`"${location.pathname}" not found`} statusCode="404" />} />
       </Routes>
       <Dimmer />

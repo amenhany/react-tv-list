@@ -73,6 +73,9 @@ router.patch('/:id', isLoggedIn, validateSchema(showJoiSchema), catchAsync(async
     const user = req.user;
     const { rating } = req.body;
     const index = user.showsList.findIndex(el => el.tvmazeId === id);
+    if (index === -1) {
+        throw new ExpressError("Show not found in your list", 404);
+    }
     user.showsList[index].rating = rating || null;
     await user.save();
     res.json({ message: "Rating changed" });

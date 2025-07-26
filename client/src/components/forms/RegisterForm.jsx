@@ -1,15 +1,12 @@
 import axios from 'axios'
-import { useContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from "react";
-import { DimmerContext } from '../contexts/DimmerContext';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function RegisterForm({ handleLogIn }) {
-    const { setIsVisible } = useContext(DimmerContext);
     const { checkSession } = useAuth();
 
     const [userFormData, setUserFormData] = useState({
@@ -45,7 +42,7 @@ export default function RegisterForm({ handleLogIn }) {
     
     useEffect(() => {
         const debounce = setTimeout(() => {
-            axios.get(`${API_BASE}/user/register?username=${userFormData.username}`)
+            axios.put(`${API_BASE}/user/check-data`, { ...userFormData })
             .then(res => setErrorMessage(""))
             .catch(err => setErrorMessage(err.response?.data?.message));
         }, 500);

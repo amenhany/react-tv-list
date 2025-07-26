@@ -21,6 +21,14 @@ const userSchema = new mongoose.Schema({
         unique: true,
         required: [true, "Email must not be blank"]
     },
+    bio: {
+      type: String,
+      maxLength: [100, "Bio too long! (Over 100 characters)"]
+    },
+    avatar: {
+      url: String,
+      name: String
+    },
     showsList: [
         showSchema
     ],

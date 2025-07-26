@@ -66,13 +66,23 @@
     }
 }
 
+@keyframes slide-in-up {
+    from {
+        transform: none;
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+}
+
 @keyframes fade-in {
     from {
         opacity: 0;
     }
     to {
         opacity: 1;
-        border-collapse: separate !important;
     }
 }
 
@@ -85,6 +95,11 @@
     animation: fade-in 0.4s ease backwards;
     /* border-collapse: separate;
     border-spacing: 0; */
+}
+
+.list.animate {
+    opacity: 0;
+    animation: slide-in-up 0.4s ease backwards;
 }
 
 .list-container table {
@@ -127,4 +142,8 @@
 
 .popup-card {
     max-width: fit-content;
+}
+
+.not-clickable {
+    cursor: default !important;
 }
