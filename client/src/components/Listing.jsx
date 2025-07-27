@@ -3,7 +3,7 @@ import { CSS } from "@dnd-kit/utilities";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { SwitchPageContext } from "../contexts/SwitchPageContext";
-import { DimmerContext } from "../contexts/DimmerContext";
+import { useDimmerContext } from "../contexts/DimmerContext";
 import { useAuth } from "../contexts/AuthContext";
 import ShowPreview from "./search/ShowPreview";
 
@@ -14,7 +14,7 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
     const [rating, setRating] = useState(listing.rating);
     const [isAnimationEnd, setIsAnimationEnd] = useState(false);
     const { isSwitchPage } = useContext(SwitchPageContext);
-    const { setIsVisible, setContent } = useContext(DimmerContext);
+    const { setIsVisible, setContent } = useDimmerContext();
     const { setDimmerContent } = useAuth();
 
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({

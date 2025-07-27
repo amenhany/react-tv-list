@@ -2,13 +2,13 @@ import CloseButton from "./CloseButton";
 import "../css/Dimmer.css";
 import { createContext, useContext, useEffect, useState } from "react";
 import { SwitchPageContext } from '../contexts/SwitchPageContext';
-import { DimmerContext } from "../contexts/DimmerContext";
+import { useDimmerContext } from "../contexts/DimmerContext";
 
 export const isDimmerVisible = createContext(true);
 
 export default function Dimmer() {
     const { isSwitchPage } = useContext(SwitchPageContext);
-    const { isVisible, setIsVisible, content } = useContext(DimmerContext);
+    const { isVisible, setIsVisible, content } = useDimmerContext();
 
     const [isAnimationActive, setIsAnimationActive] = useState(false);
     const [isActive, setIsActive] = useState(false);
@@ -30,10 +30,17 @@ export default function Dimmer() {
 
     function handleDimmerClick(e) {
         const tag = e.target.tagName;
-        const safeTags = ["IMG", "H1", "H2", "H3", "H4", "P", "BUTTON", "INPUT", "TEXTAREA", "A", "LABEL", "SPAN", "FORM"];
-
-        // If user clicked on actual content, do NOT close
+        const safeTags = ["IMG", "H1", "H2", "H3", "H4", "P", "BUTTON", "INPUT", "TEXTAREA", "A", "LABEL", "SPAN"];
         if (safeTags.includes(tag)) return;
+
+        let cur = e.target;
+
+        while (cur) {
+            if (cur.dataset && cur.dataset.noClose) {
+                return;
+            }
+            cur = cur.parentElement;
+        }
 
         closeDimmer();
     }

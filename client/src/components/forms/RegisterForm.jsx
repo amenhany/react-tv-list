@@ -15,8 +15,13 @@ export default function RegisterForm({ handleLogIn }) {
         password: "",
         confirmPassword: ""
     });
-    const [errorMessage, setErrorMessage] = useState("");
-    const [isFirstInput, setIsFirstInput] = useState(true);
+    const [formErrors, setFormErrors] = useState({});
+    const [isFirstInput, setIsFirstInput] = useState({
+        username: true,
+        email: true,
+        password: true,
+        confirmPassword: true
+    });
     
     function handleChange(evt) {
         const fieldName = evt.target.name;
@@ -26,29 +31,17 @@ export default function RegisterForm({ handleLogIn }) {
             currData[fieldName] = value;
             return {...currData};
         })
-
-        if (isFirstInput && evt.target.name === "confirmPassword") {
-            setIsFirstInput(false);
-        }
     }
-
-    useEffect(() => {
-        if (!isFirstInput && userFormData.confirmPassword !== userFormData.password) {
-            setErrorMessage("Passwords do not match");
-        } else {
-            setErrorMessage("");
-        }
-    }, [userFormData.confirmPassword, userFormData.password])
     
     useEffect(() => {
         const debounce = setTimeout(() => {
-            axios.put(`${API_BASE}/user/check-data`, { ...userFormData })
-            .then(res => setErrorMessage(""))
-            .catch(err => setErrorMessage(err.response?.data?.message));
+            axios.post(`${API_BASE}/user/check-data`, { ...userFormData })
+            .then(res => setFormErrors({}))
+            .catch(err => setFormErrors(err.response?.data?.errors));
         }, 500);
         
         return () => clearTimeout(debounce);
-    }, [userFormData.username])
+    }, [userFormData])
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -59,14 +52,14 @@ export default function RegisterForm({ handleLogIn }) {
         })
         .catch(err => {
             console.error('Error:', err);
-            setErrorMessage(err.response?.data?.message);
+            setFormErrors(err.response?.data?.errors);
         });
     }
 
     return (
         <form className="container flex-column justify-content-center" id="searchForm" action="/search" onSubmit={handleSubmit} >
-            <div className="row mb-4 mt-3">
-                <div className="col-12">
+
+                <div className="form-floating mb-3">
                     <input 
                     type="text"
                     value={userFormData.username} 
@@ -74,11 +67,14 @@ export default function RegisterForm({ handleLogIn }) {
                     name="username" 
                     id="username" 
                     placeholder="Username" 
-                    className="form-control me-1" />
+                    onBlur={() => setIsFirstInput({...isFirstInput, username: false})}
+                    className={"form-control" + (isFirstInput.username ? "" : (formErrors.username ? " is-invalid" : " is-valid"))} />
+                    <label htmlFor="username" className="form-label">Username</label>
+                    <div className="invalid-tooltip">{formErrors.username}</div>
                 </div>
-            </div>
-            <div className="row mb-4">
-                <div className="col-12">
+
+
+                <div className="form-floating mb-3">
                     <input 
                     type="email" 
                     value={userFormData.email} 
@@ -86,11 +82,14 @@ export default function RegisterForm({ handleLogIn }) {
                     name="email" 
                     id="email" 
                     placeholder="Email" 
-                    className="form-control me-1" />
+                    onBlur={() => setIsFirstInput({...isFirstInput, email: false})}
+                    className={"form-control" + (isFirstInput.email ? "" : (formErrors.email ? " is-invalid" : " is-valid"))} />
+                    <label htmlFor="email" className="form-label">Email</label>
+                    <div className="invalid-tooltip">{formErrors.email}</div>
                 </div>
-            </div>
-            <div className="row mb-4">
-                <div className="col-12">
+
+
+                <div className="form-floating mb-3">
                     <input 
                     type="password" 
                     value={userFormData.password} 
@@ -98,11 +97,14 @@ export default function RegisterForm({ handleLogIn }) {
                     name="password" 
                     id="password" 
                     placeholder="Password" 
-                    className="form-control me-1" />
+                    onBlur={() => setIsFirstInput({...isFirstInput, password: false})}
+                    className={"form-control" + (isFirstInput.password ? "" : (formErrors.password ? " is-invalid" : " is-valid"))} />
+                    <label htmlFor="password" className="form-label">Password</label>
+                    <div className="invalid-tooltip">{formErrors.password}</div>
                 </div>
-            </div>
-            <div className="row mb-4">
-                <div className="col-12">
+
+
+                <div className="form-floating mb-3">
                     <input 
                     type="password" 
                     value={userFormData.confirmPassword} 
@@ -110,10 +112,12 @@ export default function RegisterForm({ handleLogIn }) {
                     name="confirmPassword" 
                     id="confirmPassword" 
                     placeholder="Confirm Password" 
-                    className="form-control me-1" />
+                    onBlur={() => setIsFirstInput({...isFirstInput, confirmPassword: false})}
+                    className={"form-control" + ((isFirstInput.confirmPassword || formErrors.password) ? "" : (formErrors.confirmPassword ? " is-invalid" : " is-valid"))} />
+                    <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+                    <div className="invalid-tooltip">{formErrors.confirmPassword}</div>
                 </div>
-            </div>
-            <small className="text-danger">{ errorMessage }</small>
+
             <hr></hr>
             <div className="d-flex mt-3 position-relative align-items-center">
                 <p className="form-text mb-2">Already a User? <a className="text-primary link" onClick={handleLogIn}>Log In</a></p>

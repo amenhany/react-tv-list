@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SwitchPageContext } from "../../contexts/SwitchPageContext";
-import { DimmerContext } from "../../contexts/DimmerContext";
+import { useDimmerContext } from "../../contexts/DimmerContext";
 import { useAuth } from "../../contexts/AuthContext";
 
 const API_BASE = import.meta.env.VITE_API_URL;
@@ -15,7 +15,7 @@ export default function ShowPreviewForm({ show }) {
 
     const { setIsSwitchPage } = useContext(SwitchPageContext);
     const { isAuthenticated, openLoginForm, setDimmerContent } = useAuth();
-    const { content } = useContext(DimmerContext);
+    const { content } = useDimmerContext();
 
     useEffect(() => {
         axios.get(`${API_BASE}/user/shows/${ show.id }`, { withCredentials: true })
@@ -68,7 +68,7 @@ export default function ShowPreviewForm({ show }) {
     }
 
     return (
-        <div className="show-preview-form-wrapper">
+        <div className="show-preview-form-wrapper" data-no-close="true">
             <div className="row show-preview-form">
                 <div className="col-6 col-lg-2">
                     <label htmlFor="rating">Rating: </label>

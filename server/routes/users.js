@@ -1,11 +1,12 @@
 import express from 'express'
 import { catchAsync } from '../errors/errorHandler.js';
-import { isLoggedIn, validateSchema, validateUserUpdate } from '../validations/validate.js'
+import { isLoggedIn, validateSchema, validateUser } from '../validations/validate.js'
 import { userJoiSchema } from '../validations/schemas.js';
 import User from '../models/user.js'
 import ExpressError from '../errors/ExpressError.js';
 import passport from 'passport';
 import cloudinary, { upload } from '../middleware/uploads.js';
+import ValidationError from '../errors/ValidationError.js';
 
 const router = express.Router();
 
@@ -60,48 +61,40 @@ router.get('/logout', (req, res, next) => {
     });
 })
 
-router.put('/check-data', catchAsync(async (req, res) => {
-    const { username } = req.query;
-    const duplicateUser = await User.findOne({ username });
-    if (duplicateUser) {
-        throw new ExpressError("A user with the given username is already registered", 400)
-    }
-    else {
-        res.json({ message: "Username available" })
-    }
-}))
+// Check data during registration 
+router.post('/check-data', catchAsync(async (req, res) => {
+    const errors = await validateUser(req.body, req.user);
 
-router.patch('/check-data', isLoggedIn, catchAsync(async (req, res) => {
-    const errors = await validateUserUpdate(req.user, req.body);
-    delete errors?.password;
-    delete errors?.confirmPassword;
-
-    if (Object.keys(errors).length) return res.status(400).json({ errors });
+    if (Object.keys(errors).length) throw new ValidationError(errors);
     else res.json({ success: true });
 }))
 
+// Check data while typing in update form
+router.patch('/check-data', isLoggedIn, catchAsync(async (req, res) => {
+    const errors = await validateUser(req.body, req.user);
+    delete errors?.password;
+    delete errors?.confirmPassword;
+
+    if (Object.keys(errors).length) throw new ValidationError(errors);
+    else res.json({ success: true });
+}))
+
+// Check data submitted from update form
 router.patch('/', isLoggedIn, upload.single('avatar'), catchAsync(async (req, res) => {
     const user = req.user;
     const data = req.body
-    const errors = await validateUserUpdate(user, data);
+    const errors = await validateUser(data, user);
     delete errors?.confirmPassword;
 
-    if (Object.keys(errors).length) return res.status(400).json({ errors });
+    if (Object.keys(errors).length) throw new ValidationError(errors);
 
     await new Promise((resolve, reject) => {
         user.authenticate(data.password, (err, userObj, passwordError) => {
             if (err) return reject(new ExpressError(err.message, err.status));
-            if (passwordError) {
-                const authError = new ExpressError("Incorrect password", 400);
-                authError.errors = { ...errors, password: "Incorrect Password" };
-                return reject(authError);
-            }
+            if (passwordError) return reject(new ValidationError({ ...errors, password: "Incorrect Password" }))
             resolve();
         });
     });
-
-
-    if (Object.keys(errors).length) return res.status(400).json({ errors: { ...errors, password: "Incorrect Password" }});
 
     if (req.file) {
         const result = await cloudinary.uploader.upload(req.file.path, {
@@ -109,7 +102,7 @@ router.patch('/', isLoggedIn, upload.single('avatar'), catchAsync(async (req, re
             allowed_formats: ['jpg', 'png', 'webp']
         });
 
-        if (user.avatar) {
+        if (user.avatar?.name) {
             await cloudinary.uploader.destroy(user.avatar.name);
         }
 
@@ -132,6 +125,28 @@ router.delete('/', isLoggedIn, catchAsync(async (req, res) => {
     req.logout(() => res.json({ message: "Account deleted" }));
 }));
 
+router.patch('/change-password', isLoggedIn, catchAsync(async (req, res) => {
+    const user = req.user;
+    const data = req.body;
+    const { password, confirmPassword } = await validateUser(data, user);
+    const errors = {
+        ...(password !== undefined && { password }),
+        ...(confirmPassword !== undefined && { confirmPassword })
+    };
+
+    if (Object.keys(errors).length) throw new ValidationError(errors);
+
+    await new Promise((resolve, reject) => {
+        user.changePassword(data.currentPassword, data.password, function(err, user) {
+            if (err) reject(new ValidationError({ ...errors, currentPassword: "Incorrect Password" }));
+            else resolve();
+        });
+    });
+
+    res.json({ success: true });
+}))
+
+// Public user info
 router.get('/:username', catchAsync(async (req, res) => {
     const { username } = req.params;
     const user = await User.findByUsername(username);

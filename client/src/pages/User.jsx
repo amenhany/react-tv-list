@@ -7,20 +7,21 @@ import { useAuth } from "../contexts/AuthContext";
 import Error from "../components/Error";
 import List from './List';
 import Card from "../components/Card";
-import { DimmerContext } from "../contexts/DimmerContext";
-import DeleteConfirmation from "../components/forms/DeleteConfirmation";
+import { useDimmerContext } from "../contexts/DimmerContext";
 import UpdateUserForm from "../components/forms/UpdateUserForm";
+import ConfirmationPopUp from "../components/forms/ConfirmationPopUp";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function User() {
-    const { isAuthenticated, user: currentUser, checkSession, requireLogin, setDimmerContent } = useAuth();
+    const { isAuthenticated, user: currentUser, checkSession, requireLogin, openRegisterForm, setDimmerContent } = useAuth();
     const [isLoaded, setIsLoaded] = useState(false);
     const [error, setError] = useState({});
     const [isOwner, setIsOwner] = useState(false);
     const [user, setUser] = useState(null);
     const [openForm, setOpenForm] = useState(false);
+    const [disableSubmit, setDisableSubmit] = useState(false);
     const [userFormData, setUserFormData] = useState({
         username: currentUser?.username,
         email: currentUser?.email,
@@ -30,7 +31,7 @@ export default function User() {
     });    
     const fileInputRef = useRef();
     const passwordRef = useRef();
-    const { setIsVisible, setContent } = useContext(DimmerContext);
+    const { setIsVisible, setContent } = useDimmerContext();
 
     const params = useParams();
     const navigate = useNavigate();
@@ -57,6 +58,7 @@ export default function User() {
             setIsLoaded(true);
         }
         else {
+            if (openForm) setOpenForm(false);
             setIsOwner(false);
             axios.get(`${API_BASE}/user/${params.username}`)
             .then(res => {
@@ -73,15 +75,27 @@ export default function User() {
     function handleDeleteUser() {
         setDimmerContent(null);
         setContent(
-            <Card title="Confirmation">
-                <DeleteConfirmation />
-            </Card>
+            <ConfirmationPopUp 
+                buttonText="Delete" 
+                buttonColor="danger" 
+                message="Are you sure you want to delete your account?"
+                fn={() => {
+                    axios.delete(`${API_BASE}/user/`, { withCredentials: true })
+                    .then(res => {
+                        checkSession();
+                        navigate('/');
+                        openRegisterForm();
+                    });
+                }} />
         );
         setIsVisible(true);
     }
 
     function handleOpenForm() {
-        if (isOwner) setOpenForm(true);
+        if (isOwner) {
+            setDisableSubmit(false);
+            setOpenForm(true);
+        }
     }
 
     function handleCloseForm() {
@@ -97,6 +111,7 @@ export default function User() {
     }
 
     function handleUpdateUser() {
+        setDisableSubmit(true);
         axios.patch(`${API_BASE}/user/`, { ...userFormData }, { withCredentials: true, 
                 headers: { 'Content-Type': 'multipart/form-data' }
             })
@@ -107,6 +122,7 @@ export default function User() {
                 handleCloseForm();
             })
             .catch(err => {
+                setDisableSubmit(false);
                 if (err.status === 400 && err.response?.data?.errors?.password) {
                     passwordRef.current.classList.add("is-invalid");
                 } else {
@@ -149,7 +165,7 @@ export default function User() {
                         <div className="d-flex mt-2 mb-2 justify-content-between">
                             { openForm ? 
                             <>
-                                <button className="btn btn-primary me-2" onClick={handleUpdateUser}>Update Profile</button>
+                                <button className="btn btn-primary me-2" onClick={handleUpdateUser} disabled={disableSubmit}>Update Profile</button>
                                 <button onClick={handleCloseForm} className="btn btn-outline-secondary ms-2">Cancel</button>
                             </> : 
                             <>

@@ -18,7 +18,7 @@
 
 .edit-picture {
     cursor: pointer;
-    transition: filter 0.2s ease;
+    transition: filter 0.2s ease-out;
 }
 
 .edit-picture:hover {
@@ -32,11 +32,15 @@
     height: 20px;
     position: absolute;
     top: calc(50% - 8px);
-    transition: opacity 0.2s ease;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
 }
 
 .edit-picture:hover .edit-icon {
     opacity: 1;
+}
+
+.edit-picture:active .edit-icon {
+    transform: scale(0.8);
 }
 
 .list-container {

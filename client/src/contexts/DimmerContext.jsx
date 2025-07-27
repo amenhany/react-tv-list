@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 export const DimmerContext = createContext();
 
@@ -11,4 +11,8 @@ export default function DimmerProvider({ children }) {
       {children}
     </DimmerContext.Provider>
   );
+}
+
+export function useDimmerContext() {
+    return useContext(DimmerContext);
 }

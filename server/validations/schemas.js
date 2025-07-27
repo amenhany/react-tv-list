@@ -5,7 +5,7 @@ const escapeHtmlExtension = joi => ({
   type: 'string',
   base: joi.string(),
   messages: {
-    'string.escapeHTHML': 'nice try, bitch'
+    'string.escapeHTML': 'No HTML elements are allowed here.'
   },
   rules: {
     escapeHTML: {
@@ -61,10 +61,14 @@ export const userJoiSchema = Joi.object({
     'string.min': `Password should have at least 8 characters`,
     'any.required': 'Password cannot be blank'
   }),
-  confirmPassword: Joi.string().valid(Joi.ref('password')).required()
-    .messages({ 'any.only': 'Passwords do not match' }),
+  confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
+    'string.empty': 'Passwords do not match',
+    'any.only': 'Passwords do not match'
+  }),
 
-  bio: Joi.string().max(100).escapeHTML(),
+  bio: Joi.string().allow('').optional().max(100).escapeHTML().messages({
+    'string.max': `Bio too long! (Over 100 characters)`,
+  }),
 
   avatar: Joi.any().optional(),
 

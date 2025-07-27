@@ -22,7 +22,7 @@ export function isLoggedIn(req, res, next) {
     }
 }
 
-export async function validateUserUpdate(user, data) {
+export async function validateUser(data, user = null) {
     const { error } = userJoiSchema.validate(data, { abortEarly: false });
     const messages = {};
 
@@ -33,14 +33,14 @@ export async function validateUserUpdate(user, data) {
         });
     }
 
-    if (data.username !== user.username) {
+    if (data.username !== user?.username) {
         const duplicateUser = await User.findOne({ username: data.username });
         if (duplicateUser) {
             messages.username = "Username Taken"
         }
     }
 
-    if (data.email !== user.email) {
+    if (data.email !== user?.email) {
         const duplicateUser = await User.findOne({ email: data.email });
         if (duplicateUser) {
             messages.email = "Email already registered"

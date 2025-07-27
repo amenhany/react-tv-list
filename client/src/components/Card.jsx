@@ -5,13 +5,13 @@ export default function Card({ title, children, header, footer }) {
         <div className="container">
             <div className="row justify-content-center">
                     <div className="d-flex justify-content-center">
-                    <div className="card popup-card">
+                    <div className="card popup-card" data-no-close="true">
                         {header ? 
                         <div className="card-header">
                             { header }
                         </div>
                         : title &&
-                        <div className="card-header pt-3 pb-2 ps-3">
+                        <div className="card-header pt-4 pb-3 ps-4">
                             <h5>{ title }</h5>
                         </div>
                         }

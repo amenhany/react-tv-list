@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import passportLocalMongoose from 'passport-local-mongoose'
+import cloudinary from '../middleware/uploads.js';
 
 
 const showSchema = new mongoose.Schema({
@@ -50,6 +51,12 @@ const userSchema = new mongoose.Schema({
       }
     }
 }, { timestamps: true });
+
+userSchema.post('findOneAndDelete', async function(user) {
+  if (user?.avatar?.name) {
+    await cloudinary.uploader.destroy(user.avatar.name);
+  }
+});
 
 userSchema.plugin(passportLocalMongoose);
 

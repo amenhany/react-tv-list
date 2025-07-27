@@ -40,8 +40,8 @@ export default function LoginForm({ handleSignUp }) {
 
     return (
         <form className="container flex-column justify-content-center" id="searchForm" action="/search" onSubmit={handleSubmit} >
-            <div className="row mb-4 mt-3">
-                <div className="col-12">
+
+                <div className="form-floating mb-3">
                     <input 
                     type="text"
                     value={userFormData.username} 
@@ -49,11 +49,12 @@ export default function LoginForm({ handleSignUp }) {
                     name="username" 
                     id="username" 
                     placeholder="Username" 
-                    className="form-control me-1" />
+                    className="form-control" />
+                    <label htmlFor="username" className="form-label">Username</label>
                 </div>
-            </div>
-            <div className="row mb-4">
-                <div className="col-12">
+
+
+                <div className="form-floating mb-3">
                     <input 
                     type="password" 
                     value={userFormData.password} 
@@ -61,9 +62,10 @@ export default function LoginForm({ handleSignUp }) {
                     name="password" 
                     id="password" 
                     placeholder="Password" 
-                    className="form-control me-1" />
+                    className="form-control" />
+                    <label htmlFor="Password" className="form-label">Password</label>
                 </div>
-            </div>
+
             <small className="text-danger">{ errorMessage }</small>
             <hr></hr>
             <div className="d-flex mt-2 position-relative align-items-center">

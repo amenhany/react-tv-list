@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import { DimmerContext } from "../../contexts/DimmerContext";
+import { useEffect, useState } from "react";
+import { useDimmerContext } from "../../contexts/DimmerContext";
 import PasswordForm from "./PasswordForm";
 import axios from "axios";
 
@@ -10,10 +10,11 @@ export default function UpdateUserForm({ data, setData, passwordRef }) {
     const [formErrors, setFormErrors] = useState({
         username: "",
         email: "",
+        bio: "",
         password: ""
     });
 
-    const { setIsVisible, setContent } = useContext(DimmerContext);
+    const { setIsVisible, setContent } = useDimmerContext();
 
 
     useEffect(() => {
@@ -76,9 +77,10 @@ export default function UpdateUserForm({ data, setData, passwordRef }) {
                 name="bio"
                 id="bio"
                 placeholder="Bio"
-                className="form-control"
+                className={"form-control" + (formErrors.bio ? " is-invalid" : "")}
                 style={{ height: "100px" }} />
                 <label htmlFor="bio" className="form-label">Bio</label>
+                <div className="invalid-tooltip">{formErrors.bio}</div>
             </div>
             
             <div className="form-floating position-relative mb-2">

@@ -3,7 +3,7 @@ import { useState, useEffect, useContext, createContext } from "react"
 import Card from '../components/Card';
 import RegisterForm from '../components/forms/RegisterForm';
 import LoginForm from '../components/forms/LoginForm';
-import { DimmerContext } from './DimmerContext';
+import { useDimmerContext } from './DimmerContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const API_BASE = import.meta.env.VITE_API_URL;
@@ -14,7 +14,7 @@ export const AuthContext = createContext();
 export default function AuthProvider({ children }) {
     const navigate = useNavigate();
     const location = useLocation();
-    const { setIsVisible, setContent } = useContext(DimmerContext);
+    const { setIsVisible, setContent } = useDimmerContext();
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState(null);
