@@ -39,7 +39,11 @@ export default function UpdateUserForm({ data, setData, passwordRef }) {
         setData(currData => {
             currData[fieldName] = value;
             return {...currData};
-        })
+        });
+
+        if (fieldName === 'password') {
+            passwordRef.current.classList.remove('is-invalid');
+        }
     }
 
     return (
@@ -52,9 +56,9 @@ export default function UpdateUserForm({ data, setData, passwordRef }) {
                 name="username" 
                 id="username" 
                 placeholder="Username" 
-                className={"form-control" + (formErrors.username ? " is-invalid" : " is-valid")} />
+                className={"form-control" + (formErrors?.username ? " is-invalid" : " is-valid")} />
                 <label htmlFor="username" className="form-label">Username</label>
-                <div className="invalid-tooltip">{formErrors.username}</div>
+                <div className="invalid-tooltip">{formErrors?.username}</div>
             </div>
             
             <div className="form-floating position-relative mb-3">
@@ -65,9 +69,9 @@ export default function UpdateUserForm({ data, setData, passwordRef }) {
                 name="email" 
                 id="email" 
                 placeholder="Email" 
-                className={"form-control" + (formErrors.email ? " is-invalid" : " is-valid")} />
+                className={"form-control" + (formErrors?.email ? " is-invalid" : " is-valid")} />
                 <label htmlFor="email" className="form-label">Email</label>
-                <div className="invalid-tooltip">{formErrors.email}</div>
+                <div className="invalid-tooltip">{formErrors?.email}</div>
             </div>
 
             <div className="form-floating position-relative mb-3">
@@ -77,10 +81,10 @@ export default function UpdateUserForm({ data, setData, passwordRef }) {
                 name="bio"
                 id="bio"
                 placeholder="Bio"
-                className={"form-control" + (formErrors.bio ? " is-invalid" : "")}
+                className={"form-control" + (formErrors?.bio ? " is-invalid" : "")}
                 style={{ height: "100px" }} />
                 <label htmlFor="bio" className="form-label">Bio</label>
-                <div className="invalid-tooltip">{formErrors.bio}</div>
+                <div className="invalid-tooltip">{formErrors?.bio}</div>
             </div>
             
             <div className="form-floating position-relative mb-2">

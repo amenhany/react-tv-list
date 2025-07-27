@@ -1,6 +1,7 @@
 import ExpressError from "../errors/ExpressError.js";
 import { userJoiSchema } from "./schemas.js";
 import User from '../models/user.js'
+import ValidationError from "../errors/ValidationError.js";
 
 export function validateSchema(schema) {
     return (req, res, next) => {
@@ -22,7 +23,7 @@ export function isLoggedIn(req, res, next) {
     }
 }
 
-export async function validateUser(data, user = null) {
+export async function validateUser(data, user = null, validationError = false, remove = []) {
     const { error } = userJoiSchema.validate(data, { abortEarly: false });
     const messages = {};
 
@@ -45,6 +46,14 @@ export async function validateUser(data, user = null) {
         if (duplicateUser) {
             messages.email = "Email already registered"
         }
+    }
+
+    for (const key of remove) {
+        delete messages[key];
+    }
+
+    if (validationError && Object.keys(messages).length) {
+        throw new ValidationError(messages);
     }
 
     return messages;

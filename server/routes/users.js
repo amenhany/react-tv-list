@@ -2,175 +2,29 @@ import express from 'express'
 import { catchAsync } from '../errors/errorHandler.js';
 import { isLoggedIn, validateSchema, validateUser } from '../validations/validate.js'
 import { userJoiSchema } from '../validations/schemas.js';
-import User from '../models/user.js'
-import ExpressError from '../errors/ExpressError.js';
-import passport from 'passport';
-import cloudinary, { upload } from '../middleware/uploads.js';
-import ValidationError from '../errors/ValidationError.js';
+import { upload } from '../middleware/uploads.js';
+import * as users from '../controllers/users.js';
 
 const router = express.Router();
 
-const publicUser = user => ({
-    username: user.username,
-    bio: user.bio,
-    avatar: user.avatar,
-    listTitle: user.listTitle,
-    sorting: user.sorting,
-    createdAt: user.createdAt
-})
 
+router.post('/register', validateSchema(userJoiSchema), catchAsync(users.register))
+router.post('/login', users.login);
+router.get('/check-session', users.checkSession)
+router.get('/logout', users.logout)
 
-router.post('/register', validateSchema(userJoiSchema), catchAsync(async (req, res) => {
-    const { email, username, password } = req.body;
-    const duplicateEmail = await User.findOne({ email });
-    if (duplicateEmail) {
-        throw new ExpressError("A user with the given email is already registered", 400)
-    }
-    const user = await User.register(new User({ email, username }), password);
-    req.login(user, err => {
-        if (err) return next(err);
-        res.json({ user });
-    });
-}))
+router.route('/check-data')
+    .post(catchAsync(users.validateRegistration))                              // Check data during registration 
+    .patch(isLoggedIn, catchAsync(users.validateUpdate))                       // Check data while typing in update form
 
-router.post('/login', (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
-        if (err) return next(err);
-        if (!user) throw new ExpressError(info?.message || "Invalid credentials", 400);
+router.route('/')
+    .patch(isLoggedIn, upload.single('avatar'), catchAsync(users.update))      // Check data submitted from update form
+    .delete(isLoggedIn, catchAsync(users.deleteUser));
 
-        req.login(user, err => {
-            if (err) return next(err);
-            res.json({ user });
-        });
-    })(req, res, next);
-})
-
-router.get('/check-session', (req, res) => {
-    if (req.isAuthenticated()) {
-        res.json({ user: req.user });
-    }
-    else {
-        res.status(401).json({ user: null });
-    }
-})
-
-router.get('/logout', (req, res, next) => {
-    req.logout(err => {
-        if (err) return next(err);
-        res.json({ message: "Logged out" });
-    });
-})
-
-// Check data during registration 
-router.post('/check-data', catchAsync(async (req, res) => {
-    const errors = await validateUser(req.body, req.user);
-
-    if (Object.keys(errors).length) throw new ValidationError(errors);
-    else res.json({ success: true });
-}))
-
-// Check data while typing in update form
-router.patch('/check-data', isLoggedIn, catchAsync(async (req, res) => {
-    const errors = await validateUser(req.body, req.user);
-    delete errors?.password;
-    delete errors?.confirmPassword;
-
-    if (Object.keys(errors).length) throw new ValidationError(errors);
-    else res.json({ success: true });
-}))
-
-// Check data submitted from update form
-router.patch('/', isLoggedIn, upload.single('avatar'), catchAsync(async (req, res) => {
-    const user = req.user;
-    const data = req.body
-    const errors = await validateUser(data, user);
-    delete errors?.confirmPassword;
-
-    if (Object.keys(errors).length) throw new ValidationError(errors);
-
-    await new Promise((resolve, reject) => {
-        user.authenticate(data.password, (err, userObj, passwordError) => {
-            if (err) return reject(new ExpressError(err.message, err.status));
-            if (passwordError) return reject(new ValidationError({ ...errors, password: "Incorrect Password" }))
-            resolve();
-        });
-    });
-
-    if (req.file) {
-        const result = await cloudinary.uploader.upload(req.file.path, {
-            folder: 'tvlist',
-            allowed_formats: ['jpg', 'png', 'webp']
-        });
-
-        if (user.avatar?.name) {
-            await cloudinary.uploader.destroy(user.avatar.name);
-        }
-
-        user.avatar = { url: result.secure_url, name: result.public_id };
-    }
-
-    user.username = data.username;
-    user.email = data.email;
-    user.bio = data.bio;
-    await user.save();
-    req.login(user, (err) => {
-        if (err) return next(err);
-        res.json({ message: "Username updated and session refreshed" });
-    });
-}));
-
-router.delete('/', isLoggedIn, catchAsync(async (req, res) => {
-    const user = await User.findByIdAndDelete(req.user._id);
-    console.log(user);
-    req.logout(() => res.json({ message: "Account deleted" }));
-}));
-
-router.patch('/change-password', isLoggedIn, catchAsync(async (req, res) => {
-    const user = req.user;
-    const data = req.body;
-    const { password, confirmPassword } = await validateUser(data, user);
-    const errors = {
-        ...(password !== undefined && { password }),
-        ...(confirmPassword !== undefined && { confirmPassword })
-    };
-
-    if (Object.keys(errors).length) throw new ValidationError(errors);
-
-    await new Promise((resolve, reject) => {
-        user.changePassword(data.currentPassword, data.password, function(err, user) {
-            if (err) reject(new ValidationError({ ...errors, currentPassword: "Incorrect Password" }));
-            else resolve();
-        });
-    });
-
-    res.json({ success: true });
-}))
+router.patch('/change-password', isLoggedIn, catchAsync(users.changePassword))
 
 // Public user info
-router.get('/:username', catchAsync(async (req, res) => {
-    const { username } = req.params;
-    const user = await User.findByUsername(username);
-    if (!user) throw new ExpressError(`User "${username}" not found`, 404);
-    else res.json({ user: publicUser(user) });
-}))
-
-router.get('/:username/shows', catchAsync(async (req, res) => {
-    const { username } = req.params;
-    const user = await User.findByUsername(username);
-    if (!user) throw new ExpressError(`User "${username}" not found`, 404);
-    const shows = user.showsList;
-    const list = await Promise.all(
-        shows.map(async show => {
-            const response = await fetch(`https://api.tvmaze.com/shows/${show.tvmazeId}`);
-            if (!response.ok) {
-                throw new ExpressError('There was a problem connecting to the API', response.status || 502);
-            }
-            const result = await response.json();
-            return { show: result, ...show.toObject() };
-        })
-    );
-
-    res.json({ list });
-}))
+router.get('/:username', catchAsync(users.getUser))
+router.get('/:username/shows', catchAsync(users.getUserShows))
 
 export default router;

@@ -13,6 +13,7 @@ const API_BASE = import.meta.env.VITE_API_URL;
 export default function Listing({ listing, list, setList, sortFn, sortKey, animationDelay, draggingId, isOwner }) {
     const [rating, setRating] = useState(listing.rating);
     const [isAnimationEnd, setIsAnimationEnd] = useState(false);
+    const [removeId, setRemoveId] = useState(null);
     const { isSwitchPage } = useContext(SwitchPageContext);
     const { setIsVisible, setContent } = useDimmerContext();
     const { setDimmerContent } = useAuth();
@@ -82,14 +83,17 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
         if (!isOwner) return;
         evt.stopPropagation();
         const tvmazeId = Number(evt.target.closest('tr').id);
-        setList(list.filter(listing => listing.tvmazeId !== tvmazeId));
-        axios.delete(`${API_BASE}/user/shows/${tvmazeId}`, { withCredentials: true })
-            .catch(err => console.error("Error:", err.response?.data?.message));
+        setRemoveId(tvmazeId);
+        setTimeout(() => {
+            setList(list.filter(listing => listing.tvmazeId !== tvmazeId));
+            axios.delete(`${API_BASE}/user/shows/${tvmazeId}`, { withCredentials: true })
+                .catch(err => console.error("Error:", err.response?.data?.message));
+        }, 400);
     }
 
     return (
         <tr id={ listing.show.id }
-            className={"list-row" + (!isAnimationEnd ? " animate" : "")} 
+            className={"list-row" + (!isAnimationEnd ? " animate" : "") + (removeId ? " remove" : "")} 
             onClick={handleShowPreview}
             onAnimationEnd={() => setIsAnimationEnd(true)}
             style={{ 

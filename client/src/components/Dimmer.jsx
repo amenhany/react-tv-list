@@ -1,8 +1,18 @@
 import CloseButton from "./CloseButton";
 import "../css/Dimmer.css";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { SwitchPageContext } from '../contexts/SwitchPageContext';
 import { useDimmerContext } from "../contexts/DimmerContext";
+
+
+function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+        ref.current = value;
+    }, [value]);
+    return ref.current;
+}
+
 
 export const isDimmerVisible = createContext(true);
 
@@ -13,7 +23,9 @@ export default function Dimmer() {
     const [isAnimationActive, setIsAnimationActive] = useState(false);
     const [isActive, setIsActive] = useState(false);
     const [currentContent, setCurrentContent] = useState(content);
-    const [contentFadeClass, setContentFadeClass] = useState('fade-in');
+
+    const contentRef = useRef();
+    const previousVisibility = usePrevious(isVisible);
 
 
     function closeDimmer() {
@@ -66,6 +78,20 @@ export default function Dimmer() {
     }, [isVisible]);
 
     useEffect(() => {
+        if (contentRef.current && content !== currentContent && isVisible === previousVisibility) {
+            contentRef.current.classList.add('animate');
+            const timeout = setTimeout(() => {
+                setCurrentContent(content);
+                contentRef.current.classList.remove('animate');
+            }, 300)
+            return () => clearTimeout(timeout);
+        }
+        else {
+            setCurrentContent(content);
+        }
+    }, [content])
+
+    useEffect(() => {
         if (isSwitchPage && isActive) closeDimmer();
     }, [isSwitchPage])
 
@@ -76,8 +102,10 @@ export default function Dimmer() {
         <div className={"dimmer" + (isAnimationActive ? " animate" : "")}
             onAnimationEnd={onAnimationEnd}
             onClick={handleDimmerClick}>
-            <CloseButton closeDimmer={closeDimmer} />
-            { content }
+            <div className="content-wrapper" ref={contentRef}>
+                <CloseButton closeDimmer={closeDimmer} />
+                { currentContent }
+            </div>
         </div>
     )
 }

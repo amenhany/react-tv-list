@@ -68,9 +68,9 @@ export default function RegisterForm({ handleLogIn }) {
                     id="username" 
                     placeholder="Username" 
                     onBlur={() => setIsFirstInput({...isFirstInput, username: false})}
-                    className={"form-control" + (isFirstInput.username ? "" : (formErrors.username ? " is-invalid" : " is-valid"))} />
+                    className={"form-control" + (isFirstInput.username ? "" : (formErrors?.username ? " is-invalid" : " is-valid"))} />
                     <label htmlFor="username" className="form-label">Username</label>
-                    <div className="invalid-tooltip">{formErrors.username}</div>
+                    <div className="invalid-tooltip">{formErrors?.username}</div>
                 </div>
 
 
@@ -83,9 +83,9 @@ export default function RegisterForm({ handleLogIn }) {
                     id="email" 
                     placeholder="Email" 
                     onBlur={() => setIsFirstInput({...isFirstInput, email: false})}
-                    className={"form-control" + (isFirstInput.email ? "" : (formErrors.email ? " is-invalid" : " is-valid"))} />
+                    className={"form-control" + (isFirstInput.email ? "" : (formErrors?.email ? " is-invalid" : " is-valid"))} />
                     <label htmlFor="email" className="form-label">Email</label>
-                    <div className="invalid-tooltip">{formErrors.email}</div>
+                    <div className="invalid-tooltip">{formErrors?.email}</div>
                 </div>
 
 
@@ -98,9 +98,9 @@ export default function RegisterForm({ handleLogIn }) {
                     id="password" 
                     placeholder="Password" 
                     onBlur={() => setIsFirstInput({...isFirstInput, password: false})}
-                    className={"form-control" + (isFirstInput.password ? "" : (formErrors.password ? " is-invalid" : " is-valid"))} />
+                    className={"form-control" + (isFirstInput.password ? "" : (formErrors?.password ? " is-invalid" : " is-valid"))} />
                     <label htmlFor="password" className="form-label">Password</label>
-                    <div className="invalid-tooltip">{formErrors.password}</div>
+                    <div className="invalid-tooltip">{formErrors?.password}</div>
                 </div>
 
 
@@ -113,9 +113,9 @@ export default function RegisterForm({ handleLogIn }) {
                     id="confirmPassword" 
                     placeholder="Confirm Password" 
                     onBlur={() => setIsFirstInput({...isFirstInput, confirmPassword: false})}
-                    className={"form-control" + ((isFirstInput.confirmPassword || formErrors.password) ? "" : (formErrors.confirmPassword ? " is-invalid" : " is-valid"))} />
+                    className={"form-control" + ((isFirstInput.confirmPassword || formErrors?.password) ? "" : (formErrors?.confirmPassword ? " is-invalid" : " is-valid"))} />
                     <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                    <div className="invalid-tooltip">{formErrors.confirmPassword}</div>
+                    <div className="invalid-tooltip">{formErrors?.confirmPassword}</div>
                 </div>
 
             <hr></hr>

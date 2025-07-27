@@ -66,7 +66,7 @@ export default function User() {
                 setIsLoaded(true);
             })
             .catch(err => {
-                setError({ statusCode: err.status, message: err.response?.data?.message });
+                setError({ statusCode: err.status || 500, message: err.response?.data?.message || "No response" });
                 setIsLoaded(true);
             });
         }

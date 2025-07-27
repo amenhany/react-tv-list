@@ -77,6 +77,18 @@
     }
 }
 
+
+@keyframes slide-in-left {
+    from {
+        transform: none;
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-15px);
+        opacity: 0;
+    }
+}
+
 @keyframes fade-in {
     from {
         opacity: 0;
@@ -89,6 +101,10 @@
 .list .list-row.animate {
     opacity: 0;
     animation: slide-in-down 0.4s ease forwards;
+}
+
+.list-row.remove {
+    animation: slide-in-left 0.3s ease forwards;
 }
 
 .list-container .list {
