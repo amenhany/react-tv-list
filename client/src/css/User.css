@@ -48,6 +48,17 @@
     overflow: auto;
 }
 
+
+@media (max-width: 767px) {
+    .list-container {
+        overflow: hidden;
+    }
+
+    .page-container {
+        overflow: auto;
+    }
+}
+
 .invalid-tooltip {
   top: auto !important;     /* unset bottom placement */
   bottom: 100%;             /* place tooltip above the input */

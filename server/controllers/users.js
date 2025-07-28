@@ -95,7 +95,6 @@ export async function update(req, res) {
 
 export async function deleteUser(req, res) {
     const user = await User.findByIdAndDelete(req.user._id);
-    console.log(user);
     req.logout(() => res.json({ message: "Account deleted" }));
 }
 

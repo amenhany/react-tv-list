@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDimmerContext } from "../../contexts/DimmerContext";
 import PasswordForm from "./PasswordForm";
 import axios from "axios";
+import PasswordInput from "../PasswordInput";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -86,19 +87,16 @@ export default function UpdateUserForm({ data, setData, passwordRef }) {
                 <label htmlFor="bio" className="form-label">Bio</label>
                 <div className="invalid-tooltip">{formErrors?.bio}</div>
             </div>
-            
-            <div className="form-floating position-relative mb-2">
-                <input 
-                type="password" 
-                value={data.password}
-                onChange={handleChange}
-                name="password" 
-                id="password" 
-                placeholder="Password"
-                ref={passwordRef}
-                className="form-control" />
-                <label htmlFor="password" className="form-label">Current Password</label>
-                <div className="invalid-tooltip">Incorrect Password</div>
+
+            <div className="mb-2">
+                <PasswordInput 
+                    name="password" 
+                    display="Current Password"
+                    ref={passwordRef}
+                    value={data.password}
+                    change={handleChange}
+                    validFeedback={false}
+                />
             </div>
 
             <small className="text-primary link" onClick={openPasswordForm}>Change password?</small>

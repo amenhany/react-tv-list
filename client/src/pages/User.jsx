@@ -10,6 +10,7 @@ import Card from "../components/Card";
 import { useDimmerContext } from "../contexts/DimmerContext";
 import UpdateUserForm from "../components/forms/UpdateUserForm";
 import ConfirmationPopUp from "../components/forms/ConfirmationPopUp";
+import { SwitchPageContext } from "../contexts/SwitchPageContext";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -32,6 +33,7 @@ export default function User() {
     const fileInputRef = useRef();
     const passwordRef = useRef();
     const { setIsVisible, setContent } = useDimmerContext();
+    const { isSwitchPage } = useContext(SwitchPageContext);
 
     const params = useParams();
     const navigate = useNavigate();
@@ -147,8 +149,8 @@ export default function User() {
 
     if (user && isLoaded) {
         return (
-            <div className="page-container container-fluid d-flex">
-                <div className="col-3 d-flex mt-5">
+            <div className="page-container container-fluid d-flex flex-md-row flex-column">
+                <div className={"col-12 col-md-4 col-lg-3 d-flex mt-5 mb-4"  + (isSwitchPage ? " animate" : "")}>
                     <Card header={
                         <div className="d-flex justify-content-center selectDisable position-relative">
                             <input ref={fileInputRef} onChange={handleFileChange} type="file" name="upload" className="d-none" accept="image/*" />
@@ -182,7 +184,7 @@ export default function User() {
                     }
                     </Card>
                 </div>
-                <div className="col-9">
+                <div className="col-12 col-md-8 col-lg-9">
                     <List user={user} />
                 </div>
             </div>

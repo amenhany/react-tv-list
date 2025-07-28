@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useEffect } from 'react';
 import { useState } from "react";
 import { useAuth } from '../../contexts/AuthContext';
+import PasswordInput from '../PasswordInput';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -88,34 +89,26 @@ export default function RegisterForm({ handleLogIn }) {
                     <div className="invalid-tooltip">{formErrors?.email}</div>
                 </div>
 
-
-                <div className="form-floating mb-3">
-                    <input 
-                    type="password" 
-                    value={userFormData.password} 
-                    onChange={handleChange}
-                    name="password" 
-                    id="password" 
-                    placeholder="Password" 
-                    onBlur={() => setIsFirstInput({...isFirstInput, password: false})}
-                    className={"form-control" + (isFirstInput.password ? "" : (formErrors?.password ? " is-invalid" : " is-valid"))} />
-                    <label htmlFor="password" className="form-label">Password</label>
-                    <div className="invalid-tooltip">{formErrors?.password}</div>
+                <div className="mb-3">
+                    <PasswordInput 
+                        name="password" 
+                        display="Password"
+                        value={userFormData.password}
+                        change={handleChange}
+                        error={formErrors.password}
+                        validFeedback={true}
+                    />
                 </div>
 
-
-                <div className="form-floating mb-3">
-                    <input 
-                    type="password" 
-                    value={userFormData.confirmPassword} 
-                    onChange={handleChange}
-                    name="confirmPassword" 
-                    id="confirmPassword" 
-                    placeholder="Confirm Password" 
-                    onBlur={() => setIsFirstInput({...isFirstInput, confirmPassword: false})}
-                    className={"form-control" + ((isFirstInput.confirmPassword || formErrors?.password) ? "" : (formErrors?.confirmPassword ? " is-invalid" : " is-valid"))} />
-                    <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                    <div className="invalid-tooltip">{formErrors?.confirmPassword}</div>
+                <div className="mb-3">
+                    <PasswordInput 
+                        name="confirmPassword" 
+                        display="Confirm Password"
+                        value={userFormData.confirmPassword}
+                        change={handleChange}
+                        error={formErrors.confirmPassword}
+                        validFeedback={true}
+                    />
                 </div>
 
             <hr></hr>

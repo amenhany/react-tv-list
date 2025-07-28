@@ -1,3 +1,46 @@
 .link {
     cursor: pointer;
 }
+
+@keyframes expand {
+  0% {
+    max-height: 0;
+    opacity: 0;
+  }
+  100% {
+    max-height: 90vh; /* Adjust based on your content */
+    opacity: 1;
+  }
+}
+
+@keyframes shrink {
+  0% {
+    max-height: 90vh;
+    opacity: 1;
+  }
+  100% {
+    max-height: 0; /* Adjust based on your content */
+    opacity: 0;
+  }
+}
+
+.page-container .card-body {
+    animation: expand 1s ease forwards;
+}
+
+.card {
+    min-width: 330px;
+    animation: fade-in 0.3s ease-out;
+}
+
+.page-container .card {
+    min-width: 100px;
+}
+
+.page-container .animate .card-body {
+    animation: shrink 0.2s ease forwards;
+}
+
+.animate .card {
+    animation: fade-out 0.3s ease-out;
+}

@@ -57,24 +57,26 @@ export default function Dimmer() {
         closeDimmer();
     }
 
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            const keyName = event.key;
-            if (keyName === 'Escape') {
-                closeDimmer();
-            }
+    const handleKeyDown = (event) => {
+        const keyName = event.key;
+        if (keyName === 'Escape') {
+            closeDimmer();
         }
+    }
 
+    useEffect(() => {
         if (isVisible) {
             setIsActive(true);
             setIsAnimationActive(false);
-            document.addEventListener('keydown', handleKeyDown)
+            document.addEventListener('keydown', handleKeyDown);
             document.body.classList.add("stop-scroll");
         }
         else if (!isVisible && isActive) {
-            document.removeEventListener('keydown', handleKeyDown)
+            document.removeEventListener('keydown', handleKeyDown);
             closeDimmer();
         }
+
+        return () => document.removeEventListener('keydown', handleKeyDown);
     }, [isVisible]);
 
     useEffect(() => {
@@ -102,8 +104,8 @@ export default function Dimmer() {
         <div className={"dimmer" + (isAnimationActive ? " animate" : "")}
             onAnimationEnd={onAnimationEnd}
             onClick={handleDimmerClick}>
+            <CloseButton closeDimmer={closeDimmer} />
             <div className="content-wrapper" ref={contentRef}>
-                <CloseButton closeDimmer={closeDimmer} />
                 { currentContent }
             </div>
         </div>

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useState } from "react";
 import { useAuth } from '../../contexts/AuthContext';
+import PasswordInput from '../PasswordInput';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -54,16 +55,14 @@ export default function LoginForm({ handleSignUp }) {
                 </div>
 
 
-                <div className="form-floating mb-3">
-                    <input 
-                    type="password" 
-                    value={userFormData.password} 
-                    onChange={handleChange}
-                    name="password" 
-                    id="password" 
-                    placeholder="Password" 
-                    className="form-control" />
-                    <label htmlFor="Password" className="form-label">Password</label>
+                <div className="mb-3">
+                    <PasswordInput 
+                        name="password" 
+                        display="Password"
+                        value={userFormData.password}
+                        change={handleChange}
+                        validFeedback={false}
+                    />
                 </div>
 
             <small className="text-danger">{ errorMessage }</small>

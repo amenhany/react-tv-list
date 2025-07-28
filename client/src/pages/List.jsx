@@ -204,7 +204,7 @@ export default function List({ user = null }) {
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
                                 </th>
-                                <th scope="col" onClick={() => sortList('dateAdded')} className={"text-center sorting-header ps-4" + (!isOwner && " not-clickable")}>Added on 
+                                <th scope="col" onClick={() => sortList('dateAdded')} className={"text-center d-none d-md-table-cell sorting-header ps-4" + (!isOwner && " not-clickable")}>Added on 
                                     <span style={{ visibility: sortKey === 'dateAdded' ? 'visible' : 'hidden' }}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
