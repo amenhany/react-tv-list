@@ -61,3 +61,26 @@
         transform: translateX(-20px) scale(0.98);
     }
 }
+
+
+@keyframes expand {
+  0% {
+    max-height: 0;
+    opacity: 0;
+  }
+  100% {
+    max-height: 90vh; /* Adjust based on your content */
+    opacity: 1;
+  }
+}
+
+@keyframes shrink {
+  0% {
+    max-height: 90vh;
+    opacity: 1;
+  }
+  100% {
+    max-height: 0; /* Adjust based on your content */
+    opacity: 0;
+  }
+}

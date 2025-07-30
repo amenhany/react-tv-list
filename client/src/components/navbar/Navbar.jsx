@@ -4,7 +4,7 @@ import { SwitchPageContext } from '../../contexts/SwitchPageContext';
 import '../../css/Navbar.css'
 import DarkModeButton from './DarkModeButton';
 import Searchbar from './Searchbar';
-import AuthenticatedElement from './AuthenticatedElement';
+import NavMenu from './NavMenu';
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -31,9 +31,12 @@ export default function Navbar() {
                     <div className="col-xl-4 col-md-6 col-sm-7 col-8 position-absolute top-50 start-50 translate-middle">
                         <Searchbar />
                     </div>
-                    <div className="col-2 d-flex justify-content-end me-1 align-items-center">
+                    <div className="col-2 d-none d-lg-flex justify-content-end me-1 align-items-center position-relative">
                         <DarkModeButton />
-                        <AuthenticatedElement />
+                        <NavMenu />
+                    </div>
+                    <div className="col-2 d-flex d-lg-none justify-content-end me-1 align-items-center position-relative">
+                        <NavMenu />
                     </div>
                 </div>
             </nav>

@@ -85,7 +85,7 @@ export default function Dimmer() {
             const timeout = setTimeout(() => {
                 setCurrentContent(content);
                 contentRef.current.classList.remove('animate');
-            }, 300)
+            }, 280)
             return () => clearTimeout(timeout);
         }
         else {

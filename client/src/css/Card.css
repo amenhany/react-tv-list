@@ -2,28 +2,6 @@
     cursor: pointer;
 }
 
-@keyframes expand {
-  0% {
-    max-height: 0;
-    opacity: 0;
-  }
-  100% {
-    max-height: 90vh; /* Adjust based on your content */
-    opacity: 1;
-  }
-}
-
-@keyframes shrink {
-  0% {
-    max-height: 90vh;
-    opacity: 1;
-  }
-  100% {
-    max-height: 0; /* Adjust based on your content */
-    opacity: 0;
-  }
-}
-
 .page-container .card-body {
     animation: expand 1s ease forwards;
 }
@@ -43,4 +21,19 @@
 
 .animate .card {
     animation: fade-out 0.3s ease-out;
+}
+
+.input-icon, .input-icon svg {
+    fill: var(--bs-border-color);
+    width: 23px;
+    height: 23px;
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    z-index: 3;
+}
+
+.form-floating input, .form-floating .label-icon {
+    padding-left: 2.7rem !important;
 }

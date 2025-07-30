@@ -35,3 +35,135 @@
     font-size: 1.75em;
     cursor: pointer;
 }
+
+.burger-icon {
+    stroke: rgba(255, 255, 255, 0.8);
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    transition: stroke .15s ease-out;
+}
+
+.burger-icon:hover {
+    stroke: rgba(255, 255, 255, 1);
+}
+
+.avatar-icon, .avatar-icon-container {
+    margin: 0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: transform 0.2s ease-out, border-color 0.1s ease-out;
+}
+
+.avatar-icon {
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.avatar-icon:hover {
+    border: 1px solid rgba(255, 255, 255, 1);
+}
+
+.avatar-icon-container:active {
+    transform: scale(0.95);
+}
+
+.nav-menu {
+    background-color: var(--bs-body-bg);
+    border-radius: 5px;
+    list-style: none;
+    position: fixed;
+    top: 58px;
+    right: 1px;
+    min-width: 250px;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    border: 1px solid var(--bs-border-color);
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease;
+    padding: 0rem;
+}
+
+.nav-menu.open {
+    padding: 0rem 0rem;
+    max-height: 500px;
+    opacity: 1;
+}
+
+.nav-menu.animate {
+    padding: 0;
+    max-height: 0px;
+}
+
+.nav-menu-item {
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0rem 1.2rem;
+    transition: background-color 0.2s ease, padding 0.3s ease, min-height 0.3s ease;
+    display: flex;
+    align-items: center;
+    min-height: 0;
+}
+
+.open .nav-menu-item {
+    padding: 0.8rem 1.2rem;
+    min-height: 55px;
+}
+
+.animate .nav-menu-item {
+    padding: 0.4rem 1.2rem;
+    min-height: 0;
+}
+
+.nav-menu-item:hover {
+    background-color: rgba(113, 44, 249, 0.15);
+}
+
+.nav-menu-item:active {
+    background-color: rgba(113, 44, 249, 0.35);
+}
+
+.nav-menu-item label, .nav-menu-item input {
+    cursor: pointer;
+}
+
+.form-check {
+    width: 100%;
+}
+
+.form-check-input {
+  background-color: #212529;
+  border-color: rgba(113, 44, 249, 0.8);
+  cursor: pointer;
+  min-width: 2.5rem;
+  height: 1.5rem;
+}
+
+/* Customize the thumb (the circle) */
+.form-check-input::before {
+  width: 1.2rem;
+  height: 1.2rem;
+  top: 0.15rem;
+  left: 0.15rem;
+}
+
+.form-check-input:checked {
+  background-color: rgba(113, 44, 249, 1);
+  border-color: rgba(113, 44, 249, 1);
+}
+
+.form-check-input:checked::before {
+  transform: translateX(1.5rem); /* tweak this to match the width */
+}
+
+.nav-item-icon {
+    fill: var(--bs-secondary-color);
+    stroke: var(--bs-secondary-color);
+    width: 23px;
+    height: 23px;
+    position: absolute;
+    left: 0.75rem;
+    z-index: 3;
+}
