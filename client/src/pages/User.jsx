@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast, Toaster } from "react-hot-toast";
 
 import '../css/User.css';
 import { useAuth } from "../contexts/AuthContext";
@@ -82,12 +83,20 @@ export default function User() {
                 buttonColor="danger" 
                 message="Are you sure you want to delete your account?"
                 fn={() => {
-                    axios.delete(`${API_BASE}/user/`, { withCredentials: true })
+                    const response = axios.delete(`${API_BASE}/user/`, { withCredentials: true })
                     .then(res => {
                         checkSession();
                         navigate('/');
                         openRegisterForm();
+                        throw new Error();
                     });
+                    toast.promise(response,
+                        {
+                            loading: 'Deleting...',
+                            success: '',
+                            error: 'Deleted your account.'
+                        }
+                    );
                 }} />
         );
         setIsVisible(true);
@@ -114,7 +123,7 @@ export default function User() {
 
     function handleUpdateUser() {
         setDisableSubmit(true);
-        axios.patch(`${API_BASE}/user/`, { ...userFormData }, { withCredentials: true, 
+        const response = axios.patch(`${API_BASE}/user/`, { ...userFormData }, { withCredentials: true, 
                 headers: { 'Content-Type': 'multipart/form-data' }
             })
             .then(res => {
@@ -130,7 +139,15 @@ export default function User() {
                 } else {
                     console.error("Error: ", err);
                 }
+                throw err;
             });
+        toast.promise(response,
+            {
+                loading: 'Saving...',
+                success: 'Profile updated!',
+                error: 'Could not save.'
+            }
+        );
     }
 
     function handleFileChange(evt) {
@@ -148,6 +165,7 @@ export default function User() {
 
     function handleCopyUrl() {
         navigator.clipboard.writeText(window.location.href);
+        toast.success('Copied URL');
     }
 
 

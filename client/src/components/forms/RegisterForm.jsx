@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useState } from "react";
 import { useAuth } from '../../contexts/AuthContext';
 import PasswordInput from '../PasswordInput';
+import toast from 'react-hot-toast';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -50,10 +51,14 @@ export default function RegisterForm({ handleLogIn }) {
         axios.post(`${API_BASE}/user/register`, userFormData, { withCredentials: true })
         .then(res => {
             checkSession();
+            toast.success(`Welcome, ${userFormData.username}!`)
         })
         .catch(err => {
             console.error('Error:', err);
             setFormErrors(err.response?.data?.errors);
+            if (!err.response?.data?.errors) {
+                toast.error('Could not create your profile.')
+            }
         });
     }
 

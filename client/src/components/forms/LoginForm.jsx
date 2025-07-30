@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useState } from "react";
 import { useAuth } from '../../contexts/AuthContext';
 import PasswordInput from '../PasswordInput';
+import toast from 'react-hot-toast';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -29,9 +30,10 @@ export default function LoginForm({ handleSignUp }) {
     function handleSubmit(e) {
         e.preventDefault();
 
-        axios.post(`${API_BASE}/user/login`, userFormData, { withCredentials: true })
+        const response = axios.post(`${API_BASE}/user/login`, userFormData, { withCredentials: true })
         .then(res => {
             checkSession();
+            toast.success(`Welcome back, ${userFormData.username}!`)
         })
         .catch(err => {
             console.error('Error:', err);

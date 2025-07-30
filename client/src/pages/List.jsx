@@ -55,6 +55,7 @@ export default function List({ user = null }) {
     }, [listTitle]);
 
     useEffect(() => {
+        setList([]);
         if (isOwner) {
             document.title = `${listTitle || "My List"} - TV List`;
 
@@ -76,7 +77,7 @@ export default function List({ user = null }) {
         } else {
             setIsLoaded(true);
         }
-    }, []);
+    }, [user]);
 
     useEffect(() => {
         if (!isOwner) return;

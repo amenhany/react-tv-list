@@ -17,6 +17,7 @@ import ThemeProvider from './contexts/ThemeContext';
 import DimmerProvider from './contexts/DimmerContext';
 import SwitchPageProvider from './contexts/SwitchPageContext';
 import SearchTriggerProvider from './contexts/SearchTriggerContext';
+import { Toaster } from 'react-hot-toast';
 
 
 export default function App() {
@@ -41,6 +42,13 @@ export default function App() {
           <Route path="*" element={<Error text={`"${location.pathname}" not found`} statusCode="404" />} />
       </Routes>
       <Dimmer />
+      <Toaster 
+      toastOptions={{
+          style: {
+            background: 'var(--toast-bg)',
+            color: 'var(--toast-color)'
+          }
+        }} />
 
     </SearchTriggerProvider>
     </SwitchPageProvider>

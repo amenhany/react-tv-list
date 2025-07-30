@@ -1,3 +1,19 @@
+:root {
+  --toast-bg: #f8f9fa;
+  --toast-color: #212529;
+  --toast-border: rgba(113, 44, 249, 0.3);
+  --toast-icon-primary: rgba(113, 44, 249, 1);
+  --toast-icon-secondary: #fff;
+}
+
+[data-bs-theme="dark"] {
+  --toast-bg: #2a2f36;
+  --toast-color: #f8f9fa;
+  --toast-border: rgba(113, 44, 249, 0.5);
+  --toast-icon-primary: rgba(113, 44, 249, 1);
+  --toast-icon-secondary: #212529;
+}
+
 body {
     margin: 0;
     padding-top: 3.7rem;

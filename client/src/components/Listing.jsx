@@ -42,7 +42,7 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
 
     useEffect(() => {
         setIsAnimationEnd(false);
-        const timeout = setTimeout(() => setIsAnimationEnd(true), 400);
+        const timeout = setTimeout(() => setIsAnimationEnd(true), 300);
         () => clearTimeout(timeout);
     }, [], [isSwitchPage])
 
