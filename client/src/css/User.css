@@ -65,3 +65,26 @@
   left: 0 !important;       /* align to the left */
   transform: translateY(-0.25rem); /* some spacing above input */
 }
+
+.share-button {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    fill: var(--bs-border-color);
+    width: 18px;
+    height: 18px;
+    opacity: 0;
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out, fill 0.2s ease-out;
+}
+
+.card-body:hover .share-button {
+    opacity: 1;
+}
+
+.share-button:active {
+    transform: scale(0.9);
+}
+
+.share-button:hover {
+    fill: var(--bs-secondary-color);
+}
