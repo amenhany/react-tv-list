@@ -30,6 +30,7 @@ export default function Dimmer() {
 
     function closeDimmer() {
         document.body.classList.remove("stop-scroll");
+        document.querySelector('.list-container')?.removeAttribute('inert');
         setIsActive(false);
         setIsAnimationActive(true);
     }
@@ -70,6 +71,7 @@ export default function Dimmer() {
             setIsAnimationActive(false);
             document.addEventListener('keydown', handleKeyDown);
             document.body.classList.add("stop-scroll");
+            document.querySelector('.list-container')?.setAttribute('inert', '');
         }
         else if (!isVisible && isActive) {
             document.removeEventListener('keydown', handleKeyDown);

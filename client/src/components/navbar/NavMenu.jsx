@@ -6,6 +6,7 @@ import { SwitchPageContext } from "../../contexts/SwitchPageContext";
 import ConfirmationPopUp from "../forms/ConfirmationPopUp";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeContext";
+import toast from "react-hot-toast";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -54,6 +55,7 @@ export default function NavMenu() {
                     axios.get(`${API_BASE}/user/logout`, { withCredentials: true })
                     .then(checkSession);
                     setIsVisible(false);
+                    toast.success('Logged out.')
             }} />
         );
         setIsVisible(true);

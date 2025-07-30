@@ -1,6 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
+import helmet from 'helmet';
 import tvmazeRoutes from './routes/tvmaze.js';
 import userRoutes from './routes/users.js';
 import showRoutes from './routes/shows.js';
@@ -35,6 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session(sessionConfig));
 app.use(sanitizeV5({ replaceWith: '_' }));
+app.use(helmet());
 
 app.use(passport.initialize());
 app.use(passport.session());

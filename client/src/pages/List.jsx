@@ -200,17 +200,17 @@ export default function List({ user = null }) {
                         <thead>
                             <tr>
                                 <th scope="col" className="text-center">Poster</th>
-                                <th scope="col" onClick={() => sortList('name')} className={"sorting-header" + (!isOwner && " not-clickable")}>Details 
+                                <th scope="col" onClick={() => sortList('name')} className={"sorting-header" + (!isOwner ? " not-clickable" : "")}>Details 
                                     <span style={{ visibility: sortKey === 'name' ? 'visible' : 'hidden' }}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
                                 </th>
-                                <th scope="col" onClick={() => sortList('dateAdded')} className={"text-center d-none d-md-table-cell sorting-header ps-4" + (!isOwner && " not-clickable")}>Added on 
+                                <th scope="col" onClick={() => sortList('dateAdded')} className={"text-center d-none d-md-table-cell sorting-header ps-4" + (!isOwner ? " not-clickable" : "")}>Added on 
                                     <span style={{ visibility: sortKey === 'dateAdded' ? 'visible' : 'hidden' }}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
                                 </th>
-                                <th scope="col" onClick={() => sortList('rating')} className={"text-center sorting-header pe-0" + (!isOwner && " not-clickable")}>Rating 
+                                <th scope="col" onClick={() => sortList('rating')} className={"text-center sorting-header pe-0" + (!isOwner ? " not-clickable" : "")}>Rating 
                                     <span style={{ visibility: sortKey === 'rating' ? 'visible' : 'hidden' }}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
