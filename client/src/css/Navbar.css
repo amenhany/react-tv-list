@@ -167,3 +167,29 @@
     left: 0.75rem;
     z-index: 3;
 }
+
+@media (max-width: 767px) {
+    .avatar-icon, .avatar-icon-container {
+        width: clamp(30px, 8vw, 40px);
+        height: clamp(30px, 8vw, 40px);
+    }
+
+    .search-button {
+        width: clamp(36px, 8vw, 48px);
+        height: clamp(28px, 8vw, 38px);
+    }
+
+    .form-control {
+        font-size: clamp(0.7rem, 3vw, 1rem);
+    }
+
+    .purple-nav {
+        padding-top: clamp(4px, 1vw, 8px);
+        padding-bottom: clamp(4px, 1vw, 8px);
+    }
+
+    .purple-nav .container-fluid {
+        padding-left: clamp(4px, 1vw, 12px);
+        padding-right: clamp(4px, 1vw, 12px);
+    }
+}

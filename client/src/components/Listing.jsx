@@ -42,7 +42,7 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
 
     useEffect(() => {
         setIsAnimationEnd(false);
-        const timeout = setTimeout(() => setIsAnimationEnd(true), 300);
+        const timeout = setTimeout(() => setIsAnimationEnd(true), (300+animationDelay));
         () => clearTimeout(timeout);
     }, [], [isSwitchPage])
 
@@ -98,7 +98,7 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
             onAnimationEnd={() => setIsAnimationEnd(true)}
             style={{ 
                 ...style,
-                animationDelay,
+                animationDelay: isAnimationEnd ? "0ms" : animationDelay + "ms",
                 visibility: draggingId === listing.tvmazeId ? "hidden" : "visible"
             }}
             ref={setNodeRef} {...listeners} {...attributes}>
@@ -107,7 +107,7 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
                 <h2>{ listing.show.name + " (" + listing.show.premiered.split('-')[0] + ")" }</h2>
                 <h3 className="text-muted">{ listing.show.genres.join(', ') }</h3>
             </td>
-            <td className="text-center d-none d-md-table-cell align-middle">{ listing.createdAt.split('T')[0].split('-').reverse().join('/') }</td>
+            <td className="text-center d-none d-md-table-cell align-middle date-column">{ listing.createdAt.split('T')[0].split('-').reverse().join('/') }</td>
             { isOwner ? 
             <>
                 <td className="text-end align-middle rating-column">

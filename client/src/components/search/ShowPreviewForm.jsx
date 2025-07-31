@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { SwitchPageContext } from "../../contexts/SwitchPageContext";
 import { useDimmerContext } from "../../contexts/DimmerContext";
 import { useAuth } from "../../contexts/AuthContext";
+import toast from "react-hot-toast";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -12,12 +13,15 @@ export default function ShowPreviewForm({ show }) {
     const navigate = useNavigate();
     const [foundShow, setFoundShow] = useState(false);
     const [rating, setRating] = useState(0);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const { setIsSwitchPage } = useContext(SwitchPageContext);
     const { isAuthenticated, openLoginForm, setDimmerContent } = useAuth();
     const { content } = useDimmerContext();
 
     useEffect(() => {
+        setIsLoaded(false);
+        setFoundShow(false);
         axios.get(`${API_BASE}/user/shows/${ show.id }`, { withCredentials: true })
         .then(res => {
             const rating = res.data?.rating;
@@ -25,9 +29,10 @@ export default function ShowPreviewForm({ show }) {
                 setFoundShow(true);
                 setRating(rating);
             }
+            setIsLoaded(true);
         })
         .catch(err => console.log(err.response?.data?.message));
-    }, [])
+    }, [show])
 
     function handleChangeRating(evt) {
         const rating = evt.target.value;
@@ -47,12 +52,13 @@ export default function ShowPreviewForm({ show }) {
 
         axios.post(`${API_BASE}/user/shows`, { tvmazeId: show.id, rating }, { withCredentials: true })
         .then(res => {
-            console.log(res.data?.message);
+            toast.success('Added to the list!')
             goToList();
         })
         .catch(err => {
             if (err.status === 401) {
-                console.log(err.response?.data?.message);
+                // console.log(err.response?.data?.message);
+                toast.error('You need to be logged in!');
                 openLoginForm();
                 setDimmerContent(content);
             }
@@ -92,7 +98,7 @@ export default function ShowPreviewForm({ show }) {
                         <button onClick={goToList} className="btn btn-primary py-2 px-3 mt-3 list-button">
                             Go to List
                         </button>
-                        :
+                        : isLoaded &&
                         <button onClick={addToList} className="btn btn-success py-2 px-3 mt-3 list-button">
                             Add to List
                         </button>

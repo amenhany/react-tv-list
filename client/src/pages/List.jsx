@@ -226,7 +226,7 @@ export default function List({ user = null }) {
                                     key={listing.tvmazeId} 
                                     sortKey={sortKey} 
                                     sortFn={resort}
-                                    animationDelay={ i*100 +"ms" }
+                                    animationDelay={ i*100 }
                                     draggingId={activeId}
                                     isOwner={isOwner} />
                             )) }
@@ -242,7 +242,7 @@ export default function List({ user = null }) {
                                         setList={setList} 
                                         sortKey={sortKey} 
                                         sortFn={resort}
-                                        animationDelay={ 0 +"ms" }
+                                        animationDelay={ 0 }
                                         isOwner={isOwner} />
                                 </tbody>
                             </table>

@@ -4,6 +4,7 @@
   --toast-border: rgba(113, 44, 249, 0.3);
   --toast-icon-primary: rgba(113, 44, 249, 1);
   --toast-icon-secondary: #fff;
+  --bs-form-select-bg-img: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5L8 12l6.5-6.5z'/%3E%3C/svg%3E");
 }
 
 [data-bs-theme="dark"] {
@@ -12,6 +13,7 @@
   --toast-border: rgba(113, 44, 249, 0.5);
   --toast-icon-primary: rgba(113, 44, 249, 1);
   --toast-icon-secondary: #212529;
+  --bs-form-select-bg-img: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5L8 12l6.5-6.5z'/%3E%3C/svg%3E");
 }
 
 body {

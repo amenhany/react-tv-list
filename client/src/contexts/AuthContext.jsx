@@ -5,6 +5,7 @@ import RegisterForm from '../components/forms/RegisterForm';
 import LoginForm from '../components/forms/LoginForm';
 import { useDimmerContext } from './DimmerContext';
 import { useLocation, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -53,6 +54,8 @@ export default function AuthProvider({ children }) {
         if (!isAuthenticated) {
             navigate('/', { state: { returnTo: location.pathname } });
             openLoginForm();
+            toast.dismiss();
+            toast.error('You need to be logged in!');
         }
     }
 

@@ -37,7 +37,10 @@ export default function Dimmer() {
 
     function onAnimationEnd() {
         setIsAnimationActive(false);
-        if (!isActive) setIsVisible(false);
+        if (!isActive) {
+            setIsVisible(false);
+            setCurrentContent(null);
+        }
     }
 
 

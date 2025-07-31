@@ -6,7 +6,7 @@ export default function Error({ text, statusCode = -1 }) {
     
     useEffect(() => {
         if (statusCode !== -1) console.error(statusCode);
-    })
+    }, [])
 
     return (
         <div className="text-center selectDisable error-container">
