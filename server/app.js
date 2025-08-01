@@ -2,13 +2,16 @@ import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
 import helmet from 'helmet';
+import MongoStore from 'connect-mongo';
+
+import passport from 'passport';
+import LocalStrategy from 'passport-local';
+
 import tvmazeRoutes from './routes/tvmaze.js';
 import userRoutes from './routes/users.js';
 import showRoutes from './routes/shows.js';
 import { errorHandler } from './errors/errorHandler.js';
 import { sanitizeV5 } from './validations/mongoSanitize.js';
-import passport from 'passport';
-import LocalStrategy from 'passport-local';
 import User from './models/user.js';
 
 const app = express();
@@ -17,7 +20,20 @@ const corsOptions = {
     credentials: true
 }
 
+const MONGO_URI = process.env.MONGO_URI;
+const store = MongoStore.create({
+    mongoUrl: MONGO_URI,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'testing'
+    }
+});
+
+store.on('error', e => console.error("Session Store Error: ", e));
+
+
 const sessionConfig = {
+    store,
     name: 'session',
     secret: 'testing',
     resave: false,
