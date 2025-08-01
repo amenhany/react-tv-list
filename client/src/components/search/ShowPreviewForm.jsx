@@ -29,9 +29,9 @@ export default function ShowPreviewForm({ show }) {
                 setFoundShow(true);
                 setRating(rating);
             }
-            setIsLoaded(true);
         })
-        .catch(err => console.log(err.response?.data?.message));
+        .catch(err => console.log(err.response?.data?.message))
+        .finally(() => setIsLoaded(true));
     }, [show])
 
     function handleChangeRating(evt) {
@@ -45,6 +45,7 @@ export default function ShowPreviewForm({ show }) {
 
     function addToList() {
         if (!isAuthenticated) {
+            toast.error('You need to be logged in!');
             openLoginForm();
             setDimmerContent(content);
             return;
