@@ -20,7 +20,7 @@ export default function ShowPreview({ show }) {
 
     useEffect(() => {
         const summary = document.querySelectorAll('.show-preview-description p');
-        if (summary.length && (summary[0].scrollHeight !== summary[0].clientHeight || summary.length > 1)) {
+        if (summary.length && (summary[0].scrollHeight !== summary[0].clientHeight || (summary.length > 1 && summary[1].innerText.trim()))) {
             setShowReadMore(true);
         }
     }, [])

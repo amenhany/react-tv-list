@@ -76,7 +76,7 @@ export default function ShowPreviewForm({ show }) {
 
     return (
         <div className="show-preview-form-wrapper" data-no-close="true">
-            <div className="row show-preview-form">
+            <div className="row show-preview-form selectDisable">
                 <div className="col-6 col-lg-2">
                     <label htmlFor="rating">Rating: </label>
                     <select id="rating" name="show[rating]" className="form-select"
@@ -99,8 +99,8 @@ export default function ShowPreviewForm({ show }) {
                         <button onClick={goToList} className="btn btn-primary py-2 px-3 mt-3 list-button">
                             Go to List
                         </button>
-                        : isLoaded &&
-                        <button onClick={addToList} className="btn btn-success py-2 px-3 mt-3 list-button">
+                        :
+                        <button onClick={addToList} disabled={!isLoaded} className="btn btn-success py-2 px-3 mt-3 list-button">
                             Add to List
                         </button>
                     }

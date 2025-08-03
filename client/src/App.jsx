@@ -9,6 +9,7 @@ import Search from "./pages/Search"
 import List from './pages/List';
 import User from './pages/User';
 import Navbar from './components/navbar/Navbar';
+import Footer from './components/Footer';
 import Error from "./components/Error"
 import Dimmer from './components/Dimmer';
 
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/user/:username" element={<User />} />
           <Route path="*" element={<Error text={`"${location.pathname}" not found`} statusCode="404" />} />
       </Routes>
+      <Footer />
       <Dimmer />
       <Toaster 
       toastOptions={{

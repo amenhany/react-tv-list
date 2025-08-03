@@ -168,3 +168,18 @@
         background-size: clamp(0.2rem, 3vw, 0.8rem) clamp(0.2rem, 3vw, 0.8rem);
     }
 }
+
+.sort-icon {
+    opacity: 0;
+    color: var(--bs-secondary-color);
+    transition: opacity 0.2s ease;
+}
+
+.sorting-header:hover .sort-icon {
+    opacity: 1;
+}
+
+.sort-icon.active {
+    opacity: 1;
+    color: currentColor;
+}

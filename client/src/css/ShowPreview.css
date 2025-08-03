@@ -29,6 +29,10 @@
 }
 
 .read-less p {
+    display: none;
+}
+
+.read-less p:first-child {
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -40,10 +44,6 @@
   .show-preview img {
     padding-right: 2rem;
     object-fit: contain
-  }
-
-  .read-less p {
-    display: none;
   }
 
   .read-less p:first-child {

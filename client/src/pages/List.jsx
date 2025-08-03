@@ -115,6 +115,7 @@ export default function List({ user = null }) {
             if (!isAscending) {
                 setSortKey('custom');
                 setList(customOrder);
+                setIsAscending(true);
                 return;
             } 
             else {
@@ -201,17 +202,17 @@ export default function List({ user = null }) {
                             <tr>
                                 <th scope="col" className="text-center">Poster</th>
                                 <th scope="col" onClick={() => sortList('name')} className={"sorting-header" + (!isOwner ? " not-clickable" : "")}>Details 
-                                    <span style={{ visibility: sortKey === 'name' ? 'visible' : 'hidden' }}>
+                                    <span className={"sort-icon" + (sortKey === 'name' ? " active" : "")}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
                                 </th>
                                 <th scope="col" onClick={() => sortList('dateAdded')} className={"text-center d-none d-md-table-cell sorting-header ps-4" + (!isOwner ? " not-clickable" : "")}>Added on 
-                                    <span style={{ visibility: sortKey === 'dateAdded' ? 'visible' : 'hidden' }}>
+                                    <span className={"sort-icon" + (sortKey === 'dateAdded' ? " active" : "")}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
                                 </th>
                                 <th scope="col" onClick={() => sortList('rating')} className={"text-center sorting-header pe-0" + (!isOwner ? " not-clickable" : "")}>Rating 
-                                    <span style={{ visibility: sortKey === 'rating' ? 'visible' : 'hidden' }}>
+                                    <span className={"sort-icon" + (sortKey === 'rating' ? " active" : "")}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
                                 </th>

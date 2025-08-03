@@ -210,40 +210,94 @@ body.home-bg {
     font-size: clamp(1.5rem, 7vw, 3rem);
 }
 
-.footer {
-    background-color: #000;
-    color: #aaa;
-    padding: 1.5rem 5%;
-    font-size: 0.9rem;
-    border-top: 1px solid #222;
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    right: 50px;
 }
 
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
+.scroll-indicator .arrow-scroll {
+    position: relative;
+    height: 2em;
 }
 
-.footer a {
-    color: #888;
-    text-decoration: none;
-    margin-left: 1.5rem;
-    transition: color 0.2s ease;
+.scroll-indicator .arrow {
+    border: solid rgba(255, 255, 255, 0.4);
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
 }
 
-.footer a:hover {
-    color: #fff;
+.scroll-indicator .arrow:nth-child(1) {
+    animation: arrow1 1.5s ease-in-out infinite;
 }
 
-.footer-left,
-.footer-right {
-    display: flex;
-    align-items: center;
+.scroll-indicator .arrow:nth-child(2) {
+    animation: arrow2 1.5s ease-in-out infinite;
 }
 
-.footer p {
-    margin: 0;
+.scroll-indicator .arrow:nth-child(3) {
+    animation: arrow3 1.5s ease-in-out infinite;
+}
+
+
+.scroll-indicator.animate .arrow:nth-child(1) {
+    animation: arrow1 1.5s ease-in-out forwards;
+}
+
+.scroll-indicator.animate .arrow:nth-child(2) {
+    animation: arrow2 1.5s ease-in-out forwards;
+}
+
+.scroll-indicator.animate .arrow:nth-child(3) {
+    animation: arrow3 1.5s ease-in-out forwards;
+}
+
+@keyframes arrow1 {
+    0% {
+        opacity: 0;
+        top: 0%;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        top: 100%;
+    }
+}
+
+
+@keyframes arrow2 {
+    0% {
+        opacity: 0;
+        top: 0%;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        top: 67%;
+    }
+}
+
+
+@keyframes arrow3 {
+    0% {
+        opacity: 0;
+        top: 0%;
+    }
+    30% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        top: 33%;
+    }
 }

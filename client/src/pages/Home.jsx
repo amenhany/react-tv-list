@@ -5,9 +5,9 @@ import Searchbar from "../components/navbar/Searchbar";
 import { useAuth } from "../contexts/AuthContext";
 import { SwitchPageContext } from "../contexts/SwitchPageContext";
 import NavMenu from "../components/navbar/NavMenu";
-import ShowResult from "../components/search/ShowResult";
 import Carousel from "../components/Carousel";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -17,9 +17,11 @@ export default function Home() {
     const navigate = useNavigate();
     const { isSwitchPage } = useContext(SwitchPageContext);
 
+    const [scrollIndicator, setScrollIndicator] = useState(true);
     const [creatorList, setCreatorList] = useState([]);
     const [animeList, setAnimeList] = useState([]);
     const [egyptianList, setEgyptianList] = useState([]);
+
 
     useEffect(() => {
         document.title = 'TV List';
@@ -36,7 +38,18 @@ export default function Home() {
         .then(res => setCreatorList(res.data.list.slice(0, 5)))
         .catch(err => console.error("Error: ", err));
 
-        return () => document.body.classList.remove('home-bg');
+        
+        const handleScroll = () => {
+            setScrollIndicator(false);
+            window.removeEventListener('scroll', handleScroll);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            document.body.classList.remove('home-bg');
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, []);
 
     useEffect(() => {
@@ -56,21 +69,18 @@ export default function Home() {
                 <div className="search-bar-wrapper col-10 col-md-8" data-bs-theme="dark">
                     <Searchbar decoration={true} delay={500} />
                 </div>
+                <div className={"scroll-indicator" + (scrollIndicator ? "" : " animate")}>
+                    <div className="arrow-scroll">
+                        <div className="arrow"></div>
+                        <div className="arrow"></div>
+                        <div className="arrow"></div>
+                    </div>
+                </div>
             </div>
             <Carousel title={<><a onClick={() => navigate('/user/ahmad')}>Creator</a>'s Choices</>} list={creatorList} />
             <Carousel title="Top Anime" list={animeList} />
             <Carousel title="Egyptian Shows" list={egyptianList} />
-            <footer className="footer">
-                <div className="footer-content">
-                    <div className="footer-left">
-                        <p>&copy; 2025 TV List</p>
-                    </div>
-                    <div className="footer-right">
-                        <a href="https://github.com/amenhany/react-tv-list">GitHub</a>
-                        <a href="https://linkedin.com/in/amen-hany/">Linkedin</a>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div>
     )
 }
