@@ -84,3 +84,39 @@
     opacity: 0;
   }
 }
+
+
+
+@keyframes slide-in-down {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-up {
+    from {
+        transform: none;
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+}
+
+
+@keyframes slide-in-left {
+    from {
+        transform: none;
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-15px);
+        opacity: 0;
+    }
+}

@@ -36,3 +36,7 @@
     height: 100%;
     overflow: hidden;
 }
+
+.clickable {
+    cursor: pointer;
+}

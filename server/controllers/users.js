@@ -4,6 +4,7 @@ import { validateUser } from '../validations/validate.js';
 import ValidationError from '../errors/ValidationError.js';
 import ExpressError from '../errors/ExpressError.js';
 import cloudinary from '../middleware/uploads.js';
+import CachedList from '../models/cache.js';
 
 
 export async function register(req, res, next) {
@@ -138,6 +139,12 @@ export async function getUser(req, res) {
 
 export async function getUserShows(req, res) {
     const { username } = req.params;
+
+    // const cached = await CachedList.findOne({ key: `${username}List` });
+    // if (cached) {
+    //     return res.json(cached.data);
+    // }
+
     const user = await User.findByUsername(username);
     if (!user) throw new ExpressError(`User "${username}" not found`, 404);
     const shows = user.showsList;
@@ -151,6 +158,12 @@ export async function getUserShows(req, res) {
             return { show: result, ...show.toObject() };
         })
     );
+
+    // await CachedList.findOneAndUpdate(
+    //     { key: `${username}List` },
+    //     { data: { list }, expiry: new Date(Date.now() + 1000 * 60 * 60)},
+    //     { upsert: true }
+    // );
 
     res.json({ list });
 }

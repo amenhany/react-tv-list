@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext"
 import { useDimmerContext } from "../../contexts/DimmerContext";
 import { SwitchPageContext } from "../../contexts/SwitchPageContext";
 import ConfirmationPopUp from "../forms/ConfirmationPopUp";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import toast from "react-hot-toast";
 
@@ -17,6 +17,7 @@ export default function NavMenu() {
     const { isSwitchPage, setIsSwitchPage } = useContext(SwitchPageContext);
     const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
 
+    const location = useLocation();
     const navigate = useNavigate();
     const menuRef = useRef();
     const [openMenu, setOpenMenu] = useState(false);
@@ -84,8 +85,8 @@ export default function NavMenu() {
                 <img src={user.avatar?.url || "/imgs/no-pfp.jpg"} className="avatar-icon" />
             </div>
         :<>
-            <button className="d-none d-md-inline btn btn-outline-light ms-3 text-nowrap" onClick={openLoginForm}>Log In</button>
-            <button className="d-none d-lg-inline btn btn-outline-light ms-3 text-nowrap" onClick={openRegisterForm}>Sign Up</button>
+            <button className="d-none d-md-inline btn nav-auth-button ms-3 text-nowrap" onClick={openLoginForm}>Log In</button>
+            <button className="d-none d-lg-inline btn nav-auth-button ms-3 text-nowrap" onClick={openRegisterForm}>Sign Up</button>
             <div className="d-block d-lg-none ms-3 selectDisable" onClick={handleOpenMenu}>
                 <svg className="burger-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M20 7L4 7" strokeWidth="1.5" strokeLinecap="round"></path> <path d="M20 12L4 12" strokeWidth="1.5" strokeLinecap="round"></path> <path d="M20 17L4 17" strokeWidth="1.5" strokeLinecap="round"></path> </g></svg>
             </div>
@@ -102,6 +103,7 @@ export default function NavMenu() {
                     <svg className="nav-item-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
                     <label className="ps-4">My Profile</label>
                 </li>
+                { location.pathname !== '/' &&
                 <li className="nav-menu-item" onClick={() => setIsDarkMode(!isDarkMode)}>
                     <svg className="nav-item-icon" style={{transform: "scale(0.9)", paddingLeft: "1px"}} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"></path> </g></svg>
                     <div className="form-check form-switch form-check-reverse d-flex justify-content-between align-items-center">
@@ -109,6 +111,7 @@ export default function NavMenu() {
                         <input className="form-check-input" checked={isDarkMode} readOnly type="checkbox" />
                     </div>
                 </li>
+                }
                 <li className="nav-menu-item" onClick={logOut}>
                     <svg className="nav-item-icon" style={{fill: "none"}} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Log_Out"> <path id="Vector" d="M12 15L15 12M15 12L12 9M15 12H4M9 7.24859V7.2002C9 6.08009 9 5.51962 9.21799 5.0918C9.40973 4.71547 9.71547 4.40973 10.0918 4.21799C10.5196 4 11.0801 4 12.2002 4H16.8002C17.9203 4 18.4796 4 18.9074 4.21799C19.2837 4.40973 19.5905 4.71547 19.7822 5.0918C20 5.5192 20 6.07899 20 7.19691V16.8036C20 17.9215 20 18.4805 19.7822 18.9079C19.5905 19.2842 19.2837 19.5905 18.9074 19.7822C18.48 20 17.921 20 16.8031 20H12.1969C11.079 20 10.5192 20 10.0918 19.7822C9.71547 19.5905 9.40973 19.2839 9.21799 18.9076C9 18.4798 9 17.9201 9 16.8V16.75" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g> </g></svg>
                     <label className="ps-4">Log Out</label>

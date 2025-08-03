@@ -1,10 +1,12 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import "../../css/ShowPreview.css";
 import ShowPreviewForm from "./ShowPreviewForm";
 import { isDimmerVisible } from '../Dimmer';
 
 
 export default function ShowPreview({ show }) {
+    const [readMore, setReadMore] = useState(false);
+    const [showReadMore, setShowReadMore] = useState(false);
     const isVisible = useContext(isDimmerVisible);
 
     const image = show.image ? show.image.original : "/imgs/no-img-portrait-text.png"
@@ -15,6 +17,13 @@ export default function ShowPreview({ show }) {
         const date = `${dateArr[2]}/${dateArr[1]}/${dateArr[0]}`;
         info += `, Premiered: ${date}`;
     }
+
+    useEffect(() => {
+        const summary = document.querySelectorAll('.show-preview-description p');
+        if (summary.length && (summary[0].scrollHeight !== summary[0].clientHeight || summary.length > 1)) {
+            setShowReadMore(true);
+        }
+    }, [])
 
     return (
         <div className={"container-lg container-fluid show-preview" + (!isVisible ? " animate" : "") }>
@@ -28,9 +37,14 @@ export default function ShowPreview({ show }) {
                     <h3 className="show-preview-info">
                         { info }
                     </h3>
-                    <div className="show-preview-description" dangerouslySetInnerHTML={
-                        { __html: show.summary }
-                    }></div>
+                    <div className="show-preview-description" data-no-close="true">
+                        <div className={readMore ? "read-more" : "read-less"} dangerouslySetInnerHTML={{ __html: show.summary }} />
+                        {showReadMore &&
+                            <b onClick={() => setReadMore(!readMore)} className="clickable selectDisable">
+                                {readMore ? 'Read Less...' : 'Read More...'}
+                            </b>
+                        }
+                    </div>
                     <h3 className="show-preview-runtime">
                         { `Average Runtime: ${show.averageRuntime ? show.averageRuntime
                             + ' minutes' : 'Unknown'}, Status: ${show.status}` }

@@ -109,8 +109,8 @@ export default function Dimmer() {
         <div className={"dimmer" + (isAnimationActive ? " animate" : "")}
             onAnimationEnd={onAnimationEnd}
             onClick={handleDimmerClick}>
-            <CloseButton closeDimmer={closeDimmer} />
             <div className="content-wrapper" ref={contentRef}>
+                <CloseButton closeDimmer={closeDimmer} />
                 { currentContent }
             </div>
         </div>

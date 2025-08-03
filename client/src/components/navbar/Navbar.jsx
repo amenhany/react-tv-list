@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { SwitchPageContext } from '../../contexts/SwitchPageContext';
 import '../../css/Navbar.css'
@@ -8,6 +8,7 @@ import NavMenu from './NavMenu';
 
 export default function Navbar() {
     const navigate = useNavigate();
+    const location = useLocation();
     const { setIsSwitchPage } = useContext(SwitchPageContext);
     
     function handleHomeButton() {
@@ -20,7 +21,7 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className="navbar navbar-expand-md purple-nav navbar-dark fixed-top">
+            <nav className={"navbar navbar-expand-md purple-nav navbar-dark fixed-top" + (location.pathname === "/" ? "" : " active")}>
                 <div className="container-fluid">
                     <div className="col-4">
                         <a className="navbar-brand home-button ms-1 selectDisable" onClick={handleHomeButton}>
@@ -28,9 +29,11 @@ export default function Navbar() {
                             <span className="d-none d-md-inline"> TV Series</span>
                         </a>
                     </div>
+                    { location.pathname !== "/" &&
                     <div className="col-xl-4 col-md-6 col-sm-7 col-8 position-absolute top-50 start-50 translate-middle">
                         <Searchbar />
                     </div>
+                    }
                     <div className="col-2 d-none d-lg-flex justify-content-end me-1 align-items-center position-relative">
                         <DarkModeButton />
                         <NavMenu />
