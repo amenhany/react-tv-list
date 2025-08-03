@@ -33,7 +33,7 @@ export default function User() {
     });    
     const fileInputRef = useRef();
     const passwordRef = useRef();
-    const { isVisible, setIsVisible, setContent } = useDimmerContext();
+    const { setIsVisible, setContent } = useDimmerContext();
     const { isSwitchPage } = useContext(SwitchPageContext);
 
     const params = useParams();
@@ -207,7 +207,7 @@ export default function User() {
                     }
                     </Card>
                 </div>
-                <div className={"col-12 col-md-8 col-lg-9 list-wrapper" + (isVisible ? " no-bg" : "")}>
+                <div className="col-12 col-md-8 col-lg-9 list-wrapper">
                     <List user={user} />
                 </div>
             </div>
