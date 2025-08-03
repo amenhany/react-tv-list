@@ -201,17 +201,17 @@ export default function List({ user = null }) {
                         <thead>
                             <tr>
                                 <th scope="col" className="text-center">Poster</th>
-                                <th scope="col" onClick={() => sortList('name')} className={"sorting-header" + (!isOwner ? " not-clickable" : "")}>Details 
+                                <th scope="col" onClick={() => sortList('name')} className={"sorting-header" + (!isOwner ? " not-clickable" : " clickable")}>Details 
                                     <span className={"sort-icon" + (sortKey === 'name' ? " active" : "")}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
                                 </th>
-                                <th scope="col" onClick={() => sortList('dateAdded')} className={"text-center d-none d-md-table-cell sorting-header ps-4" + (!isOwner ? " not-clickable" : "")}>Added on 
+                                <th scope="col" onClick={() => sortList('dateAdded')} className={"text-center d-none d-md-table-cell sorting-header ps-4" + (!isOwner ? " not-clickable" : " clickable")}>Added on 
                                     <span className={"sort-icon" + (sortKey === 'dateAdded' ? " active" : "")}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
                                 </th>
-                                <th scope="col" onClick={() => sortList('rating')} className={"text-center sorting-header pe-0" + (!isOwner ? " not-clickable" : "")}>Rating 
+                                <th scope="col" onClick={() => sortList('rating')} className={"text-center sorting-header pe-0" + (!isOwner ? " not-clickable" : " clickable")}>Rating 
                                     <span className={"sort-icon" + (sortKey === 'rating' ? " active" : "")}>
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>

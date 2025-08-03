@@ -175,7 +175,7 @@
     transition: opacity 0.2s ease;
 }
 
-.sorting-header:hover .sort-icon {
+.sorting-header.clickable:hover .sort-icon {
     opacity: 1;
 }
 
