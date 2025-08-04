@@ -25,7 +25,7 @@ const store = MongoStore.create({
     mongoUrl: MONGO_URI,
     touchAfter: 24 * 60 * 60,
     crypto: {
-        secret: 'testing'
+        secret: process.env.SECRET
     }
 });
 
@@ -35,7 +35,7 @@ store.on('error', e => console.error("Session Store Error: ", e));
 const sessionConfig = {
     store,
     name: 'session',
-    secret: 'testing',
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {

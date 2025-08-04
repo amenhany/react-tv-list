@@ -9,12 +9,13 @@ import { DndContext, DragOverlay, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { KeyboardSensor, MouseSensor } from '../components/DndHelper';
 import { SwitchPageContext } from '../contexts/SwitchPageContext';
+import { useLocation } from 'react-router-dom';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function List({ user = null }) {
-    const { isAuthenticated, user: currentUser, requireLogin } = useAuth();
+    const { isAuthenticated, user: currentUser, requireLogin, checkSession } = useAuth();
     const [isLoaded, setIsLoaded] = useState(false);
     const [isOwner, setIsOwner] = useState(!user || user?.username === currentUser?.username);
     const [listTitle, setListTitle] = useState(isOwner ? currentUser?.listTitle || "" : user?.listTitle || `${user?.username}'s List`);
@@ -22,6 +23,7 @@ export default function List({ user = null }) {
     const [list, setList] = useState([]);
     const [activeId, setActiveId] = useState(null);
 
+    const location = useLocation();
     const { isSwitchPage } = useContext(SwitchPageContext);
     
     const [isAscending, setIsAscending] = useState(isOwner ? currentUser?.sorting?.ascending : user?.sorting?.ascending);
@@ -55,6 +57,7 @@ export default function List({ user = null }) {
     }, [listTitle]);
 
     useEffect(() => {
+        setIsLoaded(false);
         setList([]);
         if (isOwner) {
             document.title = `${listTitle || "My List"} - TV List`;
@@ -62,7 +65,9 @@ export default function List({ user = null }) {
             axios.get(`${API_BASE}/user/shows`, { withCredentials: true })
             .then(res => {
                 setCustomOrder(res.data?.list);
-                setList(getSortedList(res.data?.list, sortKey, isAscending));
+                setSortKey(currentUser.sorting.key);
+                setIsAscending(currentUser.sorting.ascending);
+                setList(getSortedList(res.data?.list, currentUser.sorting.key, currentUser.sorting.ascending));
                 setIsLoaded(true);
             })
             .catch(err => console.log(err.response?.data?.message));
@@ -70,14 +75,16 @@ export default function List({ user = null }) {
             axios.get(`${API_BASE}/user/${user.username}/shows`)
             .then(res => {
                 setCustomOrder(res.data?.list);
-                setList(getSortedList(res.data?.list, sortKey, isAscending));
+                setSortKey(user.sorting.key);
+                setIsAscending(user.sorting.ascending);
+                setList(getSortedList(res.data?.list, user.sorting.key, user.sorting.ascending));
                 setIsLoaded(true);
             })
             .catch(err => console.log(err.response?.data?.message));
         } else {
             setIsLoaded(true);
         }
-    }, [user]);
+    }, [user, location.pathname]);
 
     useEffect(() => {
         if (!isOwner) return;
@@ -89,6 +96,17 @@ export default function List({ user = null }) {
         , 500);
         return () => clearTimeout(debounce);
     }, [isAscending, sortKey]);
+
+    useEffect(() => {
+        if (!isOwner) return;
+        saveTitle();
+        axios.patch(`${API_BASE}/user/shows`, {
+            sorting: { key: sortKey, ascending: isAscending }
+        }, { withCredentials: true })
+            .catch(err => console.error("Error:", err.response?.data?.message))
+
+        checkSession();
+    }, [isSwitchPage]);
 
 
     function saveTitle() {

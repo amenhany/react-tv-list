@@ -172,7 +172,7 @@ export default function User() {
     if (user && isLoaded) {
         return (
             <div className="page-container container-fluid d-flex flex-md-row flex-column">
-                <div className={"col-12 col-md-4 col-lg-3 d-flex flex-column mt-5 mb-4 align-items-center position-relative"  + (isSwitchPage ? " animate" : "")}>
+                <div className={"col-12 col-md-4 col-lg-3 d-flex flex-column mt-3 mt-sm-5 mb-sm-4 align-items-center position-relative"  + (isSwitchPage ? " animate" : "")}>
                     <Card header={
                         <div className="d-flex justify-content-center selectDisable position-relative">
                             <input ref={fileInputRef} onChange={handleFileChange} type="file" name="upload" className="d-none" accept="image/*" />

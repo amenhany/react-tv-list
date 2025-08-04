@@ -192,7 +192,7 @@
         height: clamp(28px, 8vw, 38px);
     }
 
-    .form-control {
+    .navbar .form-control {
         font-size: clamp(0.7rem, 3vw, 1rem);
     }
 

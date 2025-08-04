@@ -3,9 +3,9 @@
     font-size: 1.3em;
 }
 
-
-.page-container > * {
+.list-wrapper {
     position: relative;
+    flex: 1;
 }
 
 .error-container {

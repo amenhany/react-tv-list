@@ -37,3 +37,10 @@
 .form-floating input, .form-floating .label-icon {
     padding-left: 2.7rem !important;
 }
+
+@media (max-width: 576px) {
+    .card {
+        scale: 0.9;
+        padding-top: 0;
+    }
+}

@@ -78,7 +78,7 @@ export const userJoiSchema = Joi.object({
 });
 
 export const listJoiSchema = Joi.object({
-  title: Joi.string().escapeHTML().trim()
+  title: Joi.string().allow('').escapeHTML().trim()
     .max(100)
     .messages({
       'string.max': 'List title too long! (Over 100 characters)'
