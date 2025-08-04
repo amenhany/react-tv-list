@@ -39,10 +39,10 @@ export default function NavMenu() {
     }, [openMenu, setOpenMenu]);
 
     function closeMenu() {
-        menuRef.current.classList.add('animate');
+        menuRef?.current?.classList?.add('animate');
         const timeout = setTimeout(() => {
             setOpenMenu(false);
-            menuRef.current.classList.remove('animate');
+            menuRef?.current?.classList?.remove('animate');
         }, 280)
     }
 

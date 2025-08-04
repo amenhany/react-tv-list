@@ -49,7 +49,6 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
     function handleShowPreview() {
         setDimmerContent(null);
         const imageURL = listing.show.image?.original;
-        console.log(listing.show);
 
         if (!imageURL) {
             setContent(<ShowPreview show={listing.show} />);

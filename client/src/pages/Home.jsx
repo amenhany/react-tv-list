@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { SwitchPageContext } from "../contexts/SwitchPageContext";
 import NavMenu from "../components/navbar/NavMenu";
 import Carousel from "../components/Carousel";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 
 const API_BASE = import.meta.env.VITE_API_URL;
@@ -77,10 +77,10 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <Carousel title={<><a onClick={() => navigate('/user/ahmad')}>Creator</a>'s Choices</>} list={creatorList} />
-            <Carousel title="Top Anime" list={animeList} />
-            <Carousel title="Egyptian Shows" list={egyptianList} />
-            <Footer />
+            <Carousel title={<><Link to='/user/ahmad'>Creator</Link>'s Choices</>} list={creatorList} type="creator" />
+            <Carousel title="Top Anime" list={animeList} type="anime" />
+            <Carousel title="Egyptian Shows" list={egyptianList} type="egyptian" />
+            <Footer force={true} />
         </div>
     )
 }

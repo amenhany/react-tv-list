@@ -126,6 +126,8 @@ body.home-bg {
 }
 
 .shows-container a {
+    color: currentColor;
+    text-decoration: none;
     transition: color 0.2s ease;
     cursor: pointer;
 }
@@ -136,6 +138,7 @@ body.home-bg {
 
 .carousel-scroll {
     overflow-x: auto;
+    overflow-y: hidden;
     padding-left: 2rem;
 }
 

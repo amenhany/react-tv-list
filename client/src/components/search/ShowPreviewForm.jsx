@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SwitchPageContext } from "../../contexts/SwitchPageContext";
 import { useDimmerContext } from "../../contexts/DimmerContext";
 import { useAuth } from "../../contexts/AuthContext";
@@ -11,13 +11,14 @@ const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function ShowPreviewForm({ show }) {
     const navigate = useNavigate();
+    const location = useLocation();
     const [foundShow, setFoundShow] = useState(false);
     const [rating, setRating] = useState(0);
     const [isLoaded, setIsLoaded] = useState(false);
 
     const { setIsSwitchPage } = useContext(SwitchPageContext);
     const { isAuthenticated, openLoginForm, setDimmerContent } = useAuth();
-    const { content } = useDimmerContext();
+    const { content, setIsVisible } = useDimmerContext();
 
     useEffect(() => {
         setIsLoaded(false);
@@ -25,7 +26,7 @@ export default function ShowPreviewForm({ show }) {
         axios.get(`${API_BASE}/user/shows/${ show.id }`, { withCredentials: true })
         .then(res => {
             const rating = res.data?.rating;
-            if (rating) {
+            if (rating !== null && rating !== undefined) {
                 setFoundShow(true);
                 setRating(rating);
             }
@@ -54,7 +55,8 @@ export default function ShowPreviewForm({ show }) {
         axios.post(`${API_BASE}/user/shows`, { tvmazeId: show.id, rating }, { withCredentials: true })
         .then(res => {
             toast.success('Added to the list!')
-            goToList();
+            if (location.pathname !== '/') goToList();
+            else setIsVisible(false);
         })
         .catch(err => {
             if (err.status === 401) {

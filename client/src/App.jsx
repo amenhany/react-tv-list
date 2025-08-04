@@ -33,15 +33,17 @@ export default function App() {
     <SearchTriggerProvider>
 
       <Navbar />
-      <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Navigate to="/" replace />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/list" element={<List />} />
-          <Route path="/user/" element={<User />} />
-          <Route path="/user/:username" element={<User />} />
-          <Route path="*" element={<Error text={`"${location.pathname}" not found`} statusCode="404" />} />
-      </Routes>
+      <main>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Navigate to="/" replace />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/list" element={<List />} />
+            <Route path="/user/" element={<User />} />
+            <Route path="/user/:username" element={<User />} />
+            <Route path="*" element={<Error text={`"${location.pathname}" not found`} statusCode="404" />} />
+        </Routes>
+      </main>
       <Footer />
       <Dimmer />
       <Toaster 

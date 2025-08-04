@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import ShowResult from "./search/ShowResult";
 
-export default function Carousel({ title, list }) {
+export default function Carousel({ title, list, type }) {
     const scrollRef = useRef(null);
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
-    const [loaded, setLoaded] = useState(false);
 
     const scroll = (direction) => {
         if (!scrollRef.current) return;
@@ -61,7 +60,7 @@ export default function Carousel({ title, list }) {
 
             <div className="carousel-scroll d-flex gap-4 justify-content-between" ref={scrollRef}>
                 {list.map((listing, index) => (
-                    <div className="show-wrapper d-flex flex-column" key={listing.show?.id || listing.id}>
+                    <div className="show-wrapper d-flex flex-column" key={`${type}-${listing.show?.id || listing.id}`}>
                         <ShowResult show={listing.show || listing} index={index} hq={true} />
                         <h2>{index + 1}</h2>
                     </div>

@@ -1,17 +1,9 @@
 import ExpressError from "../errors/ExpressError.js";
+import { populateList } from "./tvmaze.js";
 
 export async function getList(req, res) {
     const shows = req.user.showsList;
-    const list = await Promise.all(
-        shows.map(async show => {
-            const response = await fetch(`https://api.tvmaze.com/shows/${show.tvmazeId}`);
-            if (!response.ok) {
-                throw new ExpressError('There was a problem connecting to the API', response.status || 502);
-            }
-            const result = await response.json();
-            return { show: result, ...show.toObject() };
-        })
-    );
+    const list = await populateList(shows);
 
     res.json({ list });
 }

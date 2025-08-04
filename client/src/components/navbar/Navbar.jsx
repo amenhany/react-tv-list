@@ -12,11 +12,13 @@ export default function Navbar() {
     const { setIsSwitchPage } = useContext(SwitchPageContext);
     
     function handleHomeButton() {
-        setIsSwitchPage(true);
-        setTimeout(() => {
-            setIsSwitchPage(false);
-            navigate("/");
-        }, 300);
+        if (location.pathname !== '/') {
+            setIsSwitchPage(true);
+            setTimeout(() => {
+                setIsSwitchPage(false);
+                navigate("/");
+            }, 300);
+        }
     }
 
     return (

@@ -1,3 +1,7 @@
+main {
+    min-height: 90vh;
+}
+
 .selectDisable {
     -webkit-user-select: none;
     -khtml-user-select: none;
