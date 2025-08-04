@@ -1,0 +1,13 @@
+{
+  "name": "react-tv-list",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
+    "start": "npm run start --prefix server"
+  },
+  "keywords": [],
+  "author": "Amen Hany",
+  "license": "ISC",
+  "description": "TV List website built with MERN that lets users make their lists of ranked shows and share it with others"
+}

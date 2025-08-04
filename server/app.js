@@ -4,6 +4,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import MongoStore from 'connect-mongo';
 
+import path from 'path';
+
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 
@@ -19,6 +21,8 @@ const corsOptions = {
     origin: ["http://localhost:5173"],
     credentials: true
 }
+
+const __dirname = path.resolve();
 
 const MONGO_URI = process.env.MONGO_URI;
 const store = MongoStore.create({
@@ -40,7 +44,7 @@ const sessionConfig = {
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== 'development',
+        // secure: process.env.NODE_ENV !== 'development',
         maxAge: 1000 * 60 * 60 * 24
     }
 }
@@ -52,7 +56,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session(sessionConfig));
 app.use(sanitizeV5({ replaceWith: '_' }));
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -61,11 +65,17 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use('/', tvmazeRoutes);
-app.use('/user/shows', showRoutes);
-app.use('/user', userRoutes);
+app.use('/api', tvmazeRoutes);
+app.use('/api/user/shows', showRoutes);
+app.use('/api/user', userRoutes);
 
 app.use(errorHandler);
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, "../client/dist")));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
+    });
+}
 
 export default app;
