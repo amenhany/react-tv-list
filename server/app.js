@@ -4,7 +4,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import MongoStore from 'connect-mongo';
 
-import path from 'path';
+// import path from 'path';
+// import { fileURLToPath } from 'url';
 
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
@@ -18,11 +19,12 @@ import User from './models/user.js';
 
 const app = express();
 const corsOptions = {
-    origin: ["http://localhost:5173"],
+    origin: [process.env.FRONTEND_URL],
     credentials: true
 }
 
-const __dirname = path.resolve();
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 const MONGO_URI = process.env.MONGO_URI;
 const store = MongoStore.create({
@@ -44,7 +46,7 @@ const sessionConfig = {
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        // secure: process.env.NODE_ENV !== 'development',
+        secure: process.env.NODE_ENV !== 'development',
         maxAge: 1000 * 60 * 60 * 24
     }
 }
@@ -71,11 +73,11 @@ app.use('/api/user', userRoutes);
 
 app.use(errorHandler);
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, "../client/dist")));
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
-    });
-}
+// if (process.env.NODE_ENV === 'production') {
+//     app.use(express.static(path.join(__dirname, "../client/dist")));
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
+//     });
+// }
 
 export default app;

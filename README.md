@@ -50,22 +50,27 @@ git clone https://github.com/amenhany/react-tv-list.git
 cd react-tv-list
 ```
 
----
-
 ### 2. Configure Environment Variables
 
-Create this file:  
+Create two files:  
 - `server/.env`  
+- `client/.env`
 
 #### `server/.env`
 ```env
 MONGO_URI=your_mongo_uri
 PORT=3000
 SECRET=your_session_secret
+FRONTEND_URL=http://localhost:5173
 CLOUDINARY_NAME=your_cloudinary_name
 CLOUDINARY_KEY=your_cloudinary_api_key
 CLOUDINARY_SECRET=your_cloudinary_secret
 NODE_ENV=production
+```
+
+#### `client/.env`
+```env
+VITE_API_URL=/api
 ```
 
 ---
@@ -73,6 +78,8 @@ NODE_ENV=production
 ### 3. Build the Frontend
 
 ```bash
+cd client
+npm install
 npm run build
 ```
 
@@ -80,21 +87,27 @@ This generates a `dist/` folder with the compiled React app.
 
 ---
 
+### 4. Serve the frontend through the backend
+
+Open `/server/app.js` and uncomment the commented lines and imports.
+
+---
+
 ### 4. Start the Server
 
 ```bash
-node run start
+cd ../server
+npm install
+npm run start
 ```
-
-> 🔁 In development, run `npm run dev` in both the client and server folders then connect to `http://localhost:5173` and set `NODE_ENV=development` in the env file.
-> Make sure to also set the appropriate port in `client/src/js/axios.js`
-
 
 ---
 
 ### 5. Open in Browser
 
 Navigate to `http://localhost:<your_port>` (usually 3000 or whatever you set).
+
+> 🔁 In development, set `NODE_ENV=development` instead, then npm run start in both client and server folders and connect to `http://localhost:5173`.
 
 ---
 
