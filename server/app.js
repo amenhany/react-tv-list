@@ -45,6 +45,7 @@ const sessionConfig = {
     resave: false,
     saveUninitialized: false,
     cookie: {
+        domain: process.env.BACKEND_DOMAIN,
         httpOnly: true,
         sameSite: 'none',
         secure: process.env.NODE_ENV === 'production',
