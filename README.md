@@ -1,4 +1,4 @@
-# TV Show List 📺
+# [TV Show List](https://react-tv-list.vercel.app) 📺
 
 A simple, stylish app to track your favorite TV shows. Search from the [TVMaze API](https://www.tvmaze.com/api), rate them, organize your personal list, and share it with others!
 
