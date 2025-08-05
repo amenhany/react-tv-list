@@ -1,12 +1,10 @@
-import axios from "axios";
+import axios from "../../js/axios.js";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SwitchPageContext } from "../../contexts/SwitchPageContext";
 import { useDimmerContext } from "../../contexts/DimmerContext";
 import { useAuth } from "../../contexts/AuthContext";
 import toast from "react-hot-toast";
-
-const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function ShowPreviewForm({ show }) {
@@ -23,7 +21,7 @@ export default function ShowPreviewForm({ show }) {
     useEffect(() => {
         setIsLoaded(false);
         setFoundShow(false);
-        axios.get(`${API_BASE}/user/shows/${ show.id }`, { withCredentials: true })
+        axios.get(`/user/shows/${ show.id }`, { withCredentials: true })
         .then(res => {
             const rating = res.data?.rating;
             if (rating !== null && rating !== undefined) {
@@ -39,7 +37,7 @@ export default function ShowPreviewForm({ show }) {
         const rating = evt.target.value;
         setRating(rating);
         if (foundShow) {
-            axios.patch(`${API_BASE}/user/shows/${show.id}`, { tvmazeId: show.id, rating }, { withCredentials: true })
+            axios.patch(`/user/shows/${show.id}`, { tvmazeId: show.id, rating }, { withCredentials: true })
             .catch(err => console.error("Error:", err.response?.data?.message));
         }
     }
@@ -52,7 +50,7 @@ export default function ShowPreviewForm({ show }) {
             return;
         }
 
-        axios.post(`${API_BASE}/user/shows`, { tvmazeId: show.id, rating }, { withCredentials: true })
+        axios.post(`/user/shows`, { tvmazeId: show.id, rating }, { withCredentials: true })
         .then(res => {
             toast.success('Added to the list!')
             if (location.pathname !== '/') goToList();

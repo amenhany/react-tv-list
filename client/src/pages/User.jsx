@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from "../js/axios.js";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 import '../css/User.css';
 import { useAuth } from "../contexts/AuthContext";
@@ -12,8 +12,6 @@ import { useDimmerContext } from "../contexts/DimmerContext";
 import UpdateUserForm from "../components/forms/UpdateUserForm";
 import ConfirmationPopUp from "../components/forms/ConfirmationPopUp";
 import { SwitchPageContext } from "../contexts/SwitchPageContext";
-
-const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function User() {
@@ -63,7 +61,7 @@ export default function User() {
         else {
             if (openForm) setOpenForm(false);
             setIsOwner(false);
-            axios.get(`${API_BASE}/user/${params.username}`)
+            axios.get(`/user/${params.username}`)
             .then(res => {
                 setUser(res.data?.user);
                 setIsLoaded(true);
@@ -83,7 +81,7 @@ export default function User() {
                 buttonColor="danger" 
                 message="Are you sure you want to delete your account?"
                 fn={() => {
-                    const response = axios.delete(`${API_BASE}/user/`, { withCredentials: true })
+                    const response = axios.delete(`/user/`, { withCredentials: true })
                     .then(res => {
                         checkSession();
                         navigate('/');
@@ -123,7 +121,7 @@ export default function User() {
 
     function handleUpdateUser() {
         setDisableSubmit(true);
-        const response = axios.patch(`${API_BASE}/user/`, { ...userFormData }, { withCredentials: true, 
+        const response = axios.patch(`/user/`, { ...userFormData }, { withCredentials: true, 
                 headers: { 'Content-Type': 'multipart/form-data' }
             })
             .then(res => {

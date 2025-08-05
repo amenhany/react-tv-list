@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDimmerContext } from "../../contexts/DimmerContext";
 import PasswordForm from "./PasswordForm";
-import axios from "axios";
+import axios from "../../js/axios.js";
 import PasswordInput from "../PasswordInput";
-
-const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function UpdateUserForm({ data, setData, passwordRef }) {
@@ -21,7 +19,7 @@ export default function UpdateUserForm({ data, setData, passwordRef }) {
     useEffect(() => {
         const debounce = setTimeout(() => {
             const { avatar, ...dataToCheck } = data;
-            axios.patch(`${API_BASE}/user/check-data`, { ...dataToCheck }, { withCredentials: true })
+            axios.patch(`/user/check-data`, { ...dataToCheck }, { withCredentials: true })
             .then(res => setFormErrors({}))
             .catch(err => setFormErrors(err.response?.data?.errors));
         }, 500);

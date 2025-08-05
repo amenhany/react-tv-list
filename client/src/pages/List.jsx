@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from "../js/axios.js";
 import '../css/List.css'
 import { useAuth } from "../contexts/AuthContext"
 import { useState, useEffect, useContext } from "react";
@@ -10,8 +10,6 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { KeyboardSensor, MouseSensor } from '../components/DndHelper';
 import { SwitchPageContext } from '../contexts/SwitchPageContext';
 import { useLocation } from 'react-router-dom';
-
-const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function List({ user = null }) {
@@ -62,7 +60,7 @@ export default function List({ user = null }) {
         if (isOwner) {
             document.title = `${listTitle || "My List"} - TV List`;
 
-            axios.get(`${API_BASE}/user/shows`, { withCredentials: true })
+            axios.get(`/user/shows`, { withCredentials: true })
             .then(res => {
                 setCustomOrder(res.data?.list);
                 setSortKey(currentUser.sorting.key);
@@ -72,7 +70,7 @@ export default function List({ user = null }) {
             })
             .catch(err => console.log(err.response?.data?.message));
         } else if (user) {
-            axios.get(`${API_BASE}/user/${user.username}/shows`)
+            axios.get(`/user/${user.username}/shows`)
             .then(res => {
                 setCustomOrder(res.data?.list);
                 setSortKey(user.sorting.key);
@@ -89,7 +87,7 @@ export default function List({ user = null }) {
     useEffect(() => {
         if (!isOwner) return;
         const debounce = setTimeout(() => 
-            axios.patch(`${API_BASE}/user/shows`, {
+            axios.patch(`/user/shows`, {
                 sorting: { key: sortKey, ascending: isAscending }
             }, { withCredentials: true })
                 .catch(err => console.error("Error:", err.response?.data?.message))
@@ -100,7 +98,7 @@ export default function List({ user = null }) {
     useEffect(() => {
         if (!isOwner) return;
         saveTitle();
-        axios.patch(`${API_BASE}/user/shows`, {
+        axios.patch(`/user/shows`, {
             sorting: { key: sortKey, ascending: isAscending }
         }, { withCredentials: true })
             .catch(err => console.error("Error:", err.response?.data?.message))
@@ -113,7 +111,7 @@ export default function List({ user = null }) {
         if (!isOwner) return;
         const title = listTitle.trim();
         document.title = `${title || "My List"} - TV List`;
-        axios.patch(`${API_BASE}/user/shows`, { title }, { withCredentials: true })
+        axios.patch(`/user/shows`, { title }, { withCredentials: true })
             .catch(err => console.error("Error:", err.response?.data?.message));
     }
 
@@ -183,7 +181,7 @@ export default function List({ user = null }) {
 
     function saveOrder(list) {
         if (!isOwner) return;
-        axios.patch(`${API_BASE}/user/shows`, {
+        axios.patch(`/user/shows`, {
             order: list.map(listing => listing.tvmazeId)
         }, { withCredentials: true })
             .catch(err => console.error("Error:", err.response?.data?.message));

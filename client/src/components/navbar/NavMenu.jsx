@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../js/axios.js";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext"
 import { useDimmerContext } from "../../contexts/DimmerContext";
@@ -7,8 +7,6 @@ import ConfirmationPopUp from "../forms/ConfirmationPopUp";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import toast from "react-hot-toast";
-
-const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function NavMenu() {
@@ -53,7 +51,7 @@ export default function NavMenu() {
                 buttonColor="primary" 
                 message="Are you sure you want to log out?"
                 fn={() => {
-                    axios.get(`${API_BASE}/user/logout`, { withCredentials: true })
+                    axios.get(`/user/logout`, { withCredentials: true })
                     .then(checkSession);
                     setIsVisible(false);
                     toast.success('Logged out.')

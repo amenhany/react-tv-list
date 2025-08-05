@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from "../js/axios.js";
 import { useState, useEffect, useContext, createContext } from "react"
 import Card from '../components/Card';
 import RegisterForm from '../components/forms/RegisterForm';
@@ -6,8 +6,6 @@ import LoginForm from '../components/forms/LoginForm';
 import { useDimmerContext } from './DimmerContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-
-const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export const AuthContext = createContext();
@@ -23,7 +21,7 @@ export default function AuthProvider({ children }) {
     const [dimmerContent, setDimmerContent] = useState(null);
 
     function checkSession() {
-        axios.get(`${API_BASE}/user/check-session`, { withCredentials: true })
+        axios.get(`/user/check-session`, { withCredentials: true })
         .then(res => {
             setIsAuthenticated(true);
             setUser(res.data.user || null);

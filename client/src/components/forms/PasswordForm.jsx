@@ -1,11 +1,9 @@
-import axios from "axios";
+import axios from "../../js/axios.js";
 import { useEffect, useState } from "react";
 import { useDimmerContext } from "../../contexts/DimmerContext";
 import Card from "../Card";
 import { useAuth } from "../../contexts/AuthContext";
 import PasswordInput from "../PasswordInput";
-
-const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function PasswordForm() {
@@ -21,7 +19,7 @@ export default function PasswordForm() {
 
     useEffect(() => {
         const debounce = setTimeout(() => {
-            axios.post(`${API_BASE}/user/check-data`, { ...passwordFormData })
+            axios.post(`/user/check-data`, { ...passwordFormData })
             .then(res => setFormErrors({}))
             .catch(err => {
                 const { password, confirmPassword } = err.response?.data?.errors;
@@ -45,7 +43,7 @@ export default function PasswordForm() {
     function handleSubmit(e) {
         e.preventDefault();
 
-        axios.patch(`${API_BASE}/user/change-password`, passwordFormData, { withCredentials: true })
+        axios.patch(`/user/change-password`, passwordFormData, { withCredentials: true })
         .then(res => {
             checkSession();
             setIsVisible(false);

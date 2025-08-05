@@ -1,12 +1,10 @@
-import axios from 'axios';
+import axios from "../js/axios.js";
 import { createContext, useContext, useEffect, useState } from 'react';
 import SearchResults from '../components/search/SearchResults'
 import Error from '../components/Error'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SwitchPageContext } from '../contexts/SwitchPageContext';
 import { SearchTriggerContext } from '../contexts/SearchTriggerContext';
-
-const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export const Results = createContext();
@@ -48,7 +46,7 @@ export default function Search() {
         setIsSwitchPage(true);
 
         const config = { params: { q: searchTerm } }
-        axios.get(`${API_BASE}/search`, config)
+        axios.get(`/search`, config)
         .then(res => {
             setSearchResults(res.data);
             setDisplayedSearchTerm(searchTerm);

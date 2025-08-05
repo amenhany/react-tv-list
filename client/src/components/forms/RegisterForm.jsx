@@ -1,11 +1,9 @@
-import axios from 'axios'
+import axios from "../../js/axios.js";
 import { useEffect } from 'react';
 import { useState } from "react";
 import { useAuth } from '../../contexts/AuthContext';
 import PasswordInput from '../PasswordInput';
 import toast from 'react-hot-toast';
-
-const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function RegisterForm({ handleLogIn }) {
@@ -37,7 +35,7 @@ export default function RegisterForm({ handleLogIn }) {
     
     useEffect(() => {
         const debounce = setTimeout(() => {
-            axios.post(`${API_BASE}/user/check-data`, { ...userFormData })
+            axios.post(`/user/check-data`, { ...userFormData })
             .then(res => setFormErrors({}))
             .catch(err => setFormErrors(err.response?.data?.errors));
         }, 500);
@@ -48,7 +46,7 @@ export default function RegisterForm({ handleLogIn }) {
     function handleSubmit(e) {
         e.preventDefault();
 
-        axios.post(`${API_BASE}/user/register`, userFormData, { withCredentials: true })
+        axios.post(`/user/register`, userFormData, { withCredentials: true })
         .then(res => {
             checkSession();
             toast.success(`Welcome, ${userFormData.username}!`)

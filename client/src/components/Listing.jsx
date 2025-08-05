@@ -1,13 +1,11 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import axios from "axios";
+import axios from "../js/axios.js";
 import { useContext, useEffect, useState } from "react";
 import { SwitchPageContext } from "../contexts/SwitchPageContext";
 import { useDimmerContext } from "../contexts/DimmerContext";
 import { useAuth } from "../contexts/AuthContext";
 import ShowPreview from "./search/ShowPreview";
-
-const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function Listing({ listing, list, setList, sortFn, sortKey, animationDelay, draggingId, isOwner }) {
@@ -72,7 +70,7 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
         const index = list.findIndex(el => el.tvmazeId === listing.tvmazeId);
         list[index].rating = rating;
         setRating(rating);
-        axios.patch(`${API_BASE}/user/shows/${tvmazeId}`, { tvmazeId, rating }, { withCredentials: true })
+        axios.patch(`/user/shows/${tvmazeId}`, { tvmazeId, rating }, { withCredentials: true })
             .catch(err => console.error("Error:", err.response?.data?.message));
 
         if (sortKey === 'rating') sortFn('rating');
@@ -85,7 +83,7 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
         setRemoveId(tvmazeId);
         setTimeout(() => {
             setList(list.filter(listing => listing.tvmazeId !== tvmazeId));
-            axios.delete(`${API_BASE}/user/shows/${tvmazeId}`, { withCredentials: true })
+            axios.delete(`/user/shows/${tvmazeId}`, { withCredentials: true })
                 .catch(err => console.error("Error:", err.response?.data?.message));
         }, 400);
     }

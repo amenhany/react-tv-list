@@ -21,6 +21,7 @@ export default function ThemeProvider({ children }) {
   useEffect(() => {
     const theme = isDarkMode ? "dark" : "light";
     localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute("data-bs-theme", theme);
     document.body.setAttribute("data-bs-theme", theme);
   }, [isDarkMode]);
 

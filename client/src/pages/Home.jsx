@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../js/axios.js";
 import { useContext, useEffect, useState } from "react";
 import '../css/Home.css';
 import Searchbar from "../components/navbar/Searchbar";
@@ -8,8 +8,6 @@ import NavMenu from "../components/navbar/NavMenu";
 import Carousel from "../components/Carousel";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
-
-const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export default function Home() {
@@ -27,14 +25,14 @@ export default function Home() {
         document.title = 'TV List';
         document.body.classList.add('home-bg');
 
-        axios.get(`${API_BASE}`, { params: { ids: [919, 1536, 2071, 48450, 5276] } })
+        axios.get(`/`, { params: { ids: [919, 1536, 2071, 48450, 5276] } })
         .then(res => {
             setAnimeList(res.data.animeList);
             setEgyptianList(res.data.egyptianList);
         })
         .catch(err => console.error("Error: ", err));
 
-        axios.get(`${API_BASE}/user/ahmad/shows`)
+        axios.get(`/user/amen/shows`)
         .then(res => setCreatorList(res.data.list.slice(0, 5)))
         .catch(err => console.error("Error: ", err));
 
@@ -77,7 +75,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <Carousel title={<><Link to='/user/ahmad'>Creator</Link>'s Choices</>} list={creatorList} type="creator" />
+            <Carousel title={<><Link to='/user/amen'>Creator</Link>'s Choices</>} list={creatorList} type="creator" />
             <Carousel title="Top Anime" list={animeList} type="anime" />
             <Carousel title="Egyptian Shows" list={egyptianList} type="egyptian" />
             <Footer force={true} />

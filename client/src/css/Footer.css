@@ -8,7 +8,7 @@
 }
 
 .footer-content {
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -17,10 +17,13 @@
 }
 
 .footer a {
+    display: flex;
+    align-items: center;
     color: var(--bs-secondary-color);
     text-decoration: none;
     margin-left: 1.5rem;
     transition: color 0.2s ease;
+    gap: 3px;
 }
 
 .footer a:hover {
@@ -35,4 +38,27 @@
 
 .footer p {
     margin: 0;
+}
+
+.link-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.link-icon.stroke {
+    stroke: var(--bs-secondary-color);
+    transition: stroke 0.2s ease;
+}
+
+.link-icon.fill {
+    fill: var(--bs-secondary-color);
+    transition: fill 0.2s ease;
+}
+
+.footer a:hover .link-icon.stroke {
+    stroke: #fff;
+}
+
+.footer a:hover .link-icon.fill {
+    fill: #fff;
 }
