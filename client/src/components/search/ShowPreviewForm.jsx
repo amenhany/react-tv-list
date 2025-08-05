@@ -50,6 +50,7 @@ export default function ShowPreviewForm({ show }) {
             return;
         }
 
+        setIsLoaded(false);
         axios.post(`/user/shows`, { tvmazeId: show.id, rating }, { withCredentials: true })
         .then(res => {
             toast.success('Added to the list!')
@@ -61,6 +62,7 @@ export default function ShowPreviewForm({ show }) {
                 // console.log(err.response?.data?.message);
                 toast.error('You need to be logged in!');
                 openLoginForm();
+                setIsLoaded(true);
                 setDimmerContent(content);
             }
         });
