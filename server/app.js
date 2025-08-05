@@ -19,7 +19,7 @@ import User from './models/user.js';
 
 const app = express();
 const corsOptions = {
-    origin: [process.env.FRONTEND_URL],
+    origin: ['http://localhost:5173'],
     credentials: true
 }
 
@@ -46,11 +46,13 @@ const sessionConfig = {
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== 'development',
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 1000 * 60 * 60 * 24
     }
 }
 
+app.set('trust proxy', 1);
 app.set('query parser', 'extended');
 
 app.use(cors(corsOptions));

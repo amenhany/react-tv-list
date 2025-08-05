@@ -13,7 +13,6 @@ export default function LoginForm({ handleSignUp }) {
         username: "",
         password: ""
     });
-    const [errorMessage, setErrorMessage] = useState("");
     
     function handleChange(evt) {
         const fieldName = evt.target.name;
@@ -29,14 +28,13 @@ export default function LoginForm({ handleSignUp }) {
         e.preventDefault();
 
         const response = axios.post(`/user/login`, userFormData, { withCredentials: true })
-        .then(res => {
-            checkSession();
-            toast.success(`Welcome back, ${userFormData.username}!`)
+        .then(checkSession);
+
+        toast.promise(response, {
+            loading: 'Logging in...',
+            success: `Welcome back, ${userFormData.username}!`,
+            error: 'Incorrect Username or Password'
         })
-        .catch(err => {
-            console.error('Error:', err);
-            setErrorMessage(err.response?.data?.message);
-        });
     }
 
     return (
@@ -66,7 +64,6 @@ export default function LoginForm({ handleSignUp }) {
                     />
                 </div>
 
-            <small className="text-danger">{ errorMessage }</small>
             <hr></hr>
             <div className="d-flex mt-2 position-relative align-items-center">
                 <p className="form-text mb-2">No Account? <a className="text-primary link" onClick={handleSignUp}>Sign Up</a></p>

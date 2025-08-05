@@ -89,7 +89,7 @@ This generates a `dist/` folder with the compiled React app.
 
 ### 4. Serve the frontend through the backend
 
-Open `/server/app.js` and uncomment the commented lines and imports.
+Open `/server/app.js` and uncomment the commented lines and imports, and comment the `secure` field in the cookie object.
 
 ---
 
@@ -107,7 +107,7 @@ npm run start
 
 Navigate to `http://localhost:<your_port>` (usually 3000 or whatever you set).
 
-> 🔁 In development, set `NODE_ENV=development` instead, then npm run start in both client and server folders and connect to `http://localhost:5173`.
+> 🔁 In development, set `NODE_ENV=development` instead, then `npm run dev` in both client and server folders and connect to `http://localhost:5173`.
 
 ---
 
