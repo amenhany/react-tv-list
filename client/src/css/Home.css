@@ -313,3 +313,12 @@ body.home-bg {
         top: 33%;
     }
 }
+
+
+.home-page .burger-icon {
+    stroke: rgba(255, 255, 255, 0.8) !important;
+}
+
+.home-page .burger-icon:hover {
+    stroke: rgba(255, 255, 255, 1) !important;
+}

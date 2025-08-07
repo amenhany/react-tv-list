@@ -3,6 +3,7 @@ import "../css/Dimmer.css";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { SwitchPageContext } from '../contexts/SwitchPageContext';
 import { useDimmerContext } from "../contexts/DimmerContext";
+import { useLocation } from "react-router-dom";
 
 
 function usePrevious(value) {
@@ -25,6 +26,7 @@ export default function Dimmer() {
     const [currentContent, setCurrentContent] = useState(content);
 
     const contentRef = useRef();
+    const location = useLocation();
     const previousVisibility = usePrevious(isVisible);
 
 
@@ -105,7 +107,7 @@ export default function Dimmer() {
     if (!isVisible && !isAnimationActive && !isActive) return null;
 
     return (
-        <div className={"dimmer" + (isAnimationActive ? " animate" : "")}
+        <div className={"dimmer" + (isAnimationActive ? " animate" : "") + (location.pathname === '/' ? " no-margin" : "")}
             onAnimationEnd={onAnimationEnd}
             onClick={handleDimmerClick}>
             <div className="content-wrapper" ref={contentRef}>
