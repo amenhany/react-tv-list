@@ -1,6 +1,7 @@
 import {
   MouseSensor as LibMouseSensor,
-  KeyboardSensor as LibKeyboardSensor
+  KeyboardSensor as LibKeyboardSensor,
+  TouchSensor as LibTouchSensor
 } from '@dnd-kit/core'
 
 export class MouseSensor extends LibMouseSensor {
@@ -18,6 +19,26 @@ export class KeyboardSensor extends LibKeyboardSensor {
   static activators = [
     {
       eventName: 'onKeyDown',
+      handler: ({ nativeEvent: event }) => {
+        return shouldHandleEvent(event.target);
+      }
+    }
+  ]
+}
+
+export class TouchSensor extends LibTouchSensor {
+  constructor(props) {
+    super({
+      ...props,
+      activationConstraint: {
+        tolerance: 8
+      }
+    })
+  }
+
+  static activators = [
+    {
+      eventName: 'onTouchStart',
       handler: ({ nativeEvent: event }) => {
         return shouldHandleEvent(event.target);
       }

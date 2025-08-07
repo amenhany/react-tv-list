@@ -7,7 +7,7 @@ import Listing from '../components/Listing';
 
 import { DndContext, DragOverlay, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { KeyboardSensor, MouseSensor } from '../components/DndHelper';
+import { KeyboardSensor, MouseSensor, TouchSensor } from '../components/DndHelper';
 import { SwitchPageContext } from '../contexts/SwitchPageContext';
 import { useLocation } from 'react-router-dom';
 
@@ -29,7 +29,8 @@ export default function List({ user = null }) {
 
     const sensors = useSensors(
         useSensor(MouseSensor),
-        useSensor(KeyboardSensor)
+        useSensor(KeyboardSensor),
+        useSensor(TouchSensor)
     );
 
     Array.prototype.move = function(a, b) {
@@ -232,6 +233,7 @@ export default function List({ user = null }) {
                                         {isAscending ? ' ▲' : ' ▼'}
                                     </span>
                                 </th>
+                                {isOwner && <th></th>}
                             </tr>
                         </thead>
                         <tbody className="table-group-divider">
@@ -276,6 +278,9 @@ export default function List({ user = null }) {
     }
 
     function handleDragStart(event) {
+        if ('vibrate' in navigator) {
+            navigator.vibrate(20);
+        }
         setActiveId(event.active.id);
     }
 

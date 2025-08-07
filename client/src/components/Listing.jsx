@@ -12,11 +12,13 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
     const [rating, setRating] = useState(listing.rating);
     const [isAnimationEnd, setIsAnimationEnd] = useState(false);
     const [removeId, setRemoveId] = useState(null);
+    const [isTouch, setIsTouch] = useState(false);
+    const [tapped, setTapped] = useState(false);
     const { isSwitchPage } = useContext(SwitchPageContext);
     const { setIsVisible, setContent } = useDimmerContext();
     const { setDimmerContent } = useAuth();
 
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition } = useSortable({
         id: listing.tvmazeId,
         disabled: !isOwner,
         listeners: {
@@ -44,7 +46,33 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
         () => clearTimeout(timeout);
     }, [], [isSwitchPage])
 
-    function handleShowPreview() {
+    useEffect(() => {
+        setIsTouch("ontouchstart" in window || navigator.maxTouchPoints > 0);
+    }, []);
+
+    function handleClick(evt) {
+        if (!isTouch) {
+            handleShowPreview(evt);
+            return;
+        }
+
+        if (tapped) {
+            setTapped(false);
+            handleShowPreview(evt);
+        } else {
+            setTapped(true);
+        }
+    };
+
+    function handleShowPreview(evt) {
+        let cur = evt.target;
+        while (cur) {
+            if (cur.dataset && cur.dataset.noPreview) {
+                return false;
+            }
+            cur = cur.parentElement;
+        }
+
         setDimmerContent(null);
         const imageURL = listing.show.image?.original;
 
@@ -91,14 +119,14 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
     return (
         <tr id={ listing.show.id }
             className={"list-row" + (!isAnimationEnd ? " animate" : "") + (removeId ? " remove" : "")} 
-            onClick={handleShowPreview}
+            onClick={handleClick}
             onAnimationEnd={() => setIsAnimationEnd(true)}
             style={{ 
                 ...style,
                 animationDelay: isAnimationEnd ? "0ms" : animationDelay + "ms",
                 visibility: draggingId === listing.tvmazeId ? "hidden" : "visible"
             }}
-            ref={setNodeRef} {...listeners} {...attributes}>
+            ref={setNodeRef}>
             <td className="m-5 list-show-poster-container"><img src={ listing.show.image.medium } alt={listing.show.name + "Poster"} className="list-show-poster" /></td>
             <td className="show-name">
                 <h2>{ listing.show.name + " (" + listing.show.premiered.split('-')[0] + ")" }</h2>
@@ -107,8 +135,8 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
             <td className="text-center d-none d-md-table-cell align-middle date-column">{ listing.createdAt.split('T')[0].split('-').reverse().join('/') }</td>
             { isOwner ? 
             <>
-                <td className="text-end align-middle rating-column">
-                    <select id="rating" name="rating" className="form-select d-inline" data-no-dnd="true" 
+                <td className="text-end align-middle rating-column" data-no-preview="true" >
+                    <select id="rating" name="rating" className="form-select d-inline"
                             value={rating} onChange={handleChangeRating}>
                         <option value="0">–</option>
                         <option value="10">10</option>
@@ -123,14 +151,18 @@ export default function Listing({ listing, list, setList, sortFn, sortKey, anima
                         <option value="1">1</option>
                     </select>
                 </td>
-                <td className="popup-button-container p-0">
-                <div className="d-flex justify-content-end text-body" data-no-dnd="true">
-                    <button className="border-0 bg-transparent popup-button p-0 pt-1 text-body" onClick={handleDelete}>
+                <td className="popup-button-container text-center position-relative" data-no-preview="true" >
+                    <button className="border-0 bg-transparent popup-button p-0 pt-1 text-body" onClick={handleDelete} data-no-dnd="true">
                         <svg xmlns="http://www.w3.org/2000/svg" className="bi bi-x popup-button-svg" viewBox="0 0 16 16">
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
                         </svg>
                     </button>
-                </div>
+                    <div className="d-flex align-items-center grab-handle h-100 pb-2"
+                        ref={setActivatorNodeRef}
+                        {...attributes}
+                        {...listeners}>
+                        ⋮
+                    </div>
                 </td>
             </>
             :

@@ -9,7 +9,7 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 import toast from "react-hot-toast";
 
 
-export default function NavMenu() {
+export default function NavMenu({ collapsed = false }) {
     const { isAuthenticated, user, checkSession, openLoginForm, openRegisterForm } = useAuth();
     const { setIsVisible, setContent, content } = useDimmerContext();
     const { isSwitchPage, setIsSwitchPage } = useContext(SwitchPageContext);
@@ -83,9 +83,9 @@ export default function NavMenu() {
                 <img src={user.avatar?.url || "/imgs/no-pfp.jpg"} className="avatar-icon" />
             </div>
         :<>
-            <button className="d-none d-md-inline btn nav-auth-button ms-3 text-nowrap" onClick={openLoginForm}>Log In</button>
-            <button className="d-none d-lg-inline btn nav-auth-button ms-3 text-nowrap" onClick={openRegisterForm}>Sign Up</button>
-            <div className="d-block d-lg-none ms-3 selectDisable" onClick={handleOpenMenu}>
+            <button className={"d-none btn nav-auth-button ms-3 text-nowrap" + (collapsed ? "" : " d-md-inline")} onClick={openLoginForm}>Log In</button>
+            <button className={"d-none btn nav-auth-button ms-3 text-nowrap" + (collapsed ? "" : " d-lg-inline")} onClick={openRegisterForm}>Sign Up</button>
+            <div className={"d-inline ms-3 selectDisable" + (collapsed ? "" : " d-lg-none")} onClick={handleOpenMenu}>
                 <svg className="burger-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M20 7L4 7" strokeWidth="1.5" strokeLinecap="round"></path> <path d="M20 12L4 12" strokeWidth="1.5" strokeLinecap="round"></path> <path d="M20 17L4 17" strokeWidth="1.5" strokeLinecap="round"></path> </g></svg>
             </div>
         </>
@@ -117,6 +117,7 @@ export default function NavMenu() {
             </>
             :
             <>
+                { location.pathname !== '/' &&
                 <li className="nav-menu-item" onClick={() => setIsDarkMode(!isDarkMode)}>
                     <svg className="nav-item-icon" style={{transform: "scale(0.9)", paddingLeft: "1px"}} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"></path> </g></svg>
                     <div className="form-check form-switch form-check-reverse d-flex justify-content-between align-items-center">
@@ -124,6 +125,7 @@ export default function NavMenu() {
                         <input className="form-check-input" checked={isDarkMode} readOnly type="checkbox" />
                     </div>
                 </li>
+                }
                 <li className="nav-menu-item" onClick={openLoginForm}>
                     <label className="ps-4">Log In</label>
                 </li>

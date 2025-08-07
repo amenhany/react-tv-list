@@ -23,7 +23,7 @@ export default function Footer({ force }) {
         <footer className="footer" data-bs-theme={force && 'dark'}>
             <div className="footer-content">
                 <div className="footer-left">
-                    <p>&copy; 2025 TV List</p>
+                    <p>&copy; 2025, TV List</p>
                 </div>
                 <div className="footer-right">
                     <a href="https://github.com/amenhany/react-tv-list">

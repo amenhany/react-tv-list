@@ -9,7 +9,6 @@
     animation: fade-in 0.3s ease-out forwards;
     overflow-y: auto;
     z-index: 100;
-    
 }
 
 /* set background on a background layer instead of the dimmer itself due to
@@ -47,4 +46,10 @@
 .close-button {
     margin-top: 6.7rem;
     margin-right: 3rem;
+}
+
+@media (max-width: 576px) {
+    .dimmer {
+        padding-bottom: 80px;
+    }
 }

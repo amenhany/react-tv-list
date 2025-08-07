@@ -17,6 +17,7 @@ main {
 .list-wrapper {
     position: relative;
     flex: 1;
+    min-height: 397px;
 }
 
 .error-container {

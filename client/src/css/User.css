@@ -91,31 +91,31 @@
     }
 
     .list-wrapper {
-    position: relative;
-    height: 100%; /* limit height for scroll to appear */
-    background-color: var(--bs-body-bg);
-    overflow: hidden;
-    transition: background-color 0.2s ease-out;
+        position: relative;
+        height: 100%; /* limit height for scroll to appear */
+        background-color: var(--bs-body-bg);
+        overflow: hidden;
+        transition: background-color 0.2s ease-out;
     }
 
     /* make it scrollable */
     .list-container {
-    max-height: 100%;
-    overflow-y: auto;
-    background-color: transparent;
+        max-height: 100%;
+        overflow-y: auto;
+        background-color: transparent;
     }
 
     /* bottom fade */
     .list-wrapper::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40px;
-    pointer-events: none;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), var(--bs-body-bg));
-    z-index: 1;
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        pointer-events: none;
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), var(--bs-body-bg));
+        z-index: 1;
     }
 
     .list-wrapper.no-bg::after {

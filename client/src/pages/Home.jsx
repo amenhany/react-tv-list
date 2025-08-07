@@ -6,15 +6,15 @@ import { useAuth } from "../contexts/AuthContext";
 import { SwitchPageContext } from "../contexts/SwitchPageContext";
 import NavMenu from "../components/navbar/NavMenu";
 import Carousel from "../components/Carousel";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 
 
 export default function Home() {
     const { isAuthenticated } = useAuth();
-    const navigate = useNavigate();
     const { isSwitchPage } = useContext(SwitchPageContext);
 
+    const [isLoaded, setIsLoaded] = useState(false);
     const [scrollIndicator, setScrollIndicator] = useState(true);
     const [creatorList, setCreatorList] = useState([]);
     const [animeList, setAnimeList] = useState([]);
@@ -22,6 +22,7 @@ export default function Home() {
 
 
     useEffect(() => {
+        setIsLoaded(false);
         document.title = 'TV List';
         document.body.classList.add('home-bg');
 
@@ -33,7 +34,10 @@ export default function Home() {
         .catch(err => console.error("Error: ", err));
 
         axios.get(`/user/amen/shows`)
-        .then(res => setCreatorList(res.data.list.slice(0, 5)))
+        .then(res => {
+            setCreatorList(res.data.list.slice(0, 5));
+            setIsLoaded(true);
+        })
         .catch(err => console.error("Error: ", err));
 
         
@@ -59,11 +63,9 @@ export default function Home() {
     return (
         <div className={"home-page container-fluid" + (isSwitchPage ? " animate" : "")}>
             <div className="container-fluid d-flex justify-content-center h-100vh">
-                {isAuthenticated &&
-                    <div className="home-nav">
-                        <NavMenu />
-                    </div>
-                }
+                <div className="home-nav" data-bs-theme="dark">
+                    <NavMenu />
+                </div>
                 <div className="search-bar-wrapper col-10 col-md-8" data-bs-theme="dark">
                     <Searchbar decoration={true} delay={500} />
                 </div>
@@ -75,9 +77,13 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <Carousel title={<><Link to='/user/amen'>Creator</Link>'s Choices</>} list={creatorList} type="creator" />
-            <Carousel title="Top Anime" list={animeList} type="anime" />
-            <Carousel title="Egyptian Shows" list={egyptianList} type="egyptian" />
+            {isLoaded && 
+            <>
+                <Carousel title={<><Link to='/user/amen'>Creator</Link>'s Choices</>} list={creatorList} index={0} />
+                <Carousel title="Top Anime" list={animeList} index={1} />
+                <Carousel title="Egyptian Shows" list={egyptianList} index={2} />
+            </>
+            }
             <Footer force={true} />
         </div>
     )

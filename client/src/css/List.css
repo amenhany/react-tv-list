@@ -17,7 +17,6 @@
     border: none;
     background: none;
     width: 4rem;
-    transition: background 1s ease-in-out;
 }
 
 .list-container .form-select:hover {
@@ -105,6 +104,10 @@
 
 .popup-button-container {
     width: 25px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-bottom: 0 !important;
+    height: 100% !important;
 }
 
 .popup-card {
@@ -161,13 +164,20 @@
 @media (max-width: 476px) {
     .list-container .form-select {
         width: clamp(2.3rem, 11vw, 4rem);
-        padding: 0;
+        padding-left: 0rem;
+        padding-right: 0rem;
         margin-left: 10px;
     }
 
     .list-container .form-select:hover {
         background-size: clamp(0.2rem, 3vw, 0.8rem) clamp(0.2rem, 3vw, 0.8rem);
     }
+}
+
+.list-container .form-select:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
 }
 
 .sort-icon {
@@ -183,4 +193,29 @@
 .sort-icon.active {
     opacity: 1;
     color: currentColor;
+}
+
+.grab-handle {
+    cursor: grab;
+    flex-grow: 1;
+}
+
+.cell-inner-wrapper {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+table,
+tbody,
+tr,
+td {
+  height: 100%;
+}
+
+.popup-button {
+    position: absolute;
+    top: 1px;
+    left: 50%;
+    transform: translateX(-50%);
 }

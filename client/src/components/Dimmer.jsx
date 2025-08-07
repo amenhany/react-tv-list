@@ -45,9 +45,8 @@ export default function Dimmer() {
 
 
     function handleDimmerClick(e) {
-        const tag = e.target.tagName;
         const safeTags = ["IMG", "H1", "H2", "H3", "H4", "P", "BUTTON", "INPUT", "TEXTAREA", "A", "LABEL", "SPAN"];
-        if (safeTags.includes(tag)) return;
+        if (safeTags.includes(e.target.tagName) && e.target !== e.currentTarget) return;
 
         let cur = e.target;
 
