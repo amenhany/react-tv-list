@@ -13,11 +13,11 @@
 
 .edit-picture {
     cursor: pointer;
-    transition: filter 0.2s ease-out;
+    transition: filter 0.3s ease;
 }
 
 .edit-picture:hover {
-    filter: brightness(80%);
+    filter: brightness(50%);
 }
 
 .edit-icon {
@@ -27,7 +27,7 @@
     height: 20px;
     position: absolute;
     top: calc(50% - 8px);
-    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    transition: transform 0.2s ease-out, opacity 0.2s ease;
 }
 
 .edit-picture:hover .edit-icon {
@@ -93,32 +93,56 @@
     .list-wrapper {
         position: relative;
         height: 100%; /* limit height for scroll to appear */
-        background-color: var(--bs-body-bg);
+        /* background-color: var(--bs-body-bg); */
         overflow: hidden;
         transition: background-color 0.2s ease-out;
     }
 
     /* make it scrollable */
     .list-container {
+        padding-top: 20px;
         max-height: 100%;
         overflow-y: auto;
         background-color: transparent;
     }
 
     /* bottom fade */
-    .list-wrapper::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 40px;
-        pointer-events: none;
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), var(--bs-body-bg));
-        z-index: 1;
-    }
+    .list-wrapper {
+        -webkit-mask-image: linear-gradient(to bottom,
+            transparent 4%,     /* Top fade start */
+            black 8%,           /* Top fade end */
+            black 96%,          /* Bottom fade start */
+            transparent 100%    /* Bottom fade end */
+        );
+        mask-image: linear-gradient(to bottom,
+            transparent 4%,
+            black 8%,
+            black 96%,
+            transparent 100%
+        );
 
-    .list-wrapper.no-bg::after {
-        background-image: none;
+        -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
     }
+}
+
+.page-container .card-body, .page-container .card-header, .page-container .card-footer {
+    border: none;
+    background: none;
+    padding-top: 2rem;
+}
+
+.page-container .card {
+    background: none;
+}
+
+.page-container .card-footer {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+}
+
+.page-container .card-body {
+    padding-top: 1rem;
 }

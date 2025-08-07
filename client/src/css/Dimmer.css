@@ -16,10 +16,17 @@
 .dimmer::before {
     content: '';
     position: fixed;
+    margin-top: 60px;
     inset: 0;
     background-color: rgba(0,0,0,0.8);
     z-index: -1;
     pointer-events: none;
+}
+
+@media (max-width: 767px) {
+    .dimmer::before {
+        margin-top: 48px;
+    }
 }
 
 .content-wrapper {
@@ -46,6 +53,15 @@
 .close-button {
     margin-top: 6.7rem;
     margin-right: 3rem;
+}
+
+[data-bs-theme="light"] .close-button {
+    fill: rgba(255, 255, 255, 0.65) !important;
+    stroke: none !important;
+}
+
+[data-bs-theme="light"] .close-button:hover {
+    fill: #fff !important;
 }
 
 @media (max-width: 576px) {

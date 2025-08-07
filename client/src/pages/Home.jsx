@@ -2,7 +2,6 @@ import axios from "../js/axios.js";
 import { useContext, useEffect, useState } from "react";
 import '../css/Home.css';
 import Searchbar from "../components/navbar/Searchbar";
-import { useAuth } from "../contexts/AuthContext";
 import { SwitchPageContext } from "../contexts/SwitchPageContext";
 import NavMenu from "../components/navbar/NavMenu";
 import Carousel from "../components/Carousel";
@@ -11,7 +10,6 @@ import Footer from "../components/Footer";
 
 
 export default function Home() {
-    const { isAuthenticated } = useAuth();
     const { isSwitchPage } = useContext(SwitchPageContext);
 
     const [isLoaded, setIsLoaded] = useState(false);
