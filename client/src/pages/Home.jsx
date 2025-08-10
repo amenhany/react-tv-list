@@ -7,10 +7,12 @@ import NavMenu from "../components/navbar/NavMenu";
 import Carousel from "../components/Carousel";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
+import { ThemeContext } from "../contexts/ThemeContext.jsx";
 
 
 export default function Home() {
     const { isSwitchPage } = useContext(SwitchPageContext);
+    const { isDarkMode } = useContext(ThemeContext);
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [scrollIndicator, setScrollIndicator] = useState(true);
@@ -22,6 +24,7 @@ export default function Home() {
     useEffect(() => {
         setIsLoaded(false);
         document.title = 'TV List';
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
         document.body.classList.add('home-bg');
 
         axios.get(`/`, { params: { ids: [919, 1536, 2071, 48450, 5276] } })
@@ -48,6 +51,7 @@ export default function Home() {
 
         return () => {
             document.body.classList.remove('home-bg');
+            document.documentElement.setAttribute('data-bs-theme', isDarkMode ? 'dark' : 'light');
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);

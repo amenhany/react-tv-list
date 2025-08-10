@@ -32,12 +32,14 @@ export default function App() {
     <SwitchPageProvider>
     <SearchTriggerProvider>
 
-      <div className="blob-container">
-        <div className="blob blob1"></div>
-        <div className="blob blob2"></div>
-        <div className="blob blob3"></div>
-        <div className="blob blob4"></div>
-      </div>
+      {location.pathname !== '/' && 
+        <div className="blob-container">
+          <div className="blob blob1"></div>
+          <div className="blob blob2"></div>
+          <div className="blob blob3"></div>
+          <div className="blob blob4"></div>
+        </div>
+      }
       <Navbar />
       <main>
         <Routes>
@@ -55,8 +57,11 @@ export default function App() {
       <Toaster 
       toastOptions={{
           style: {
-            background: 'var(--toast-bg)',
-            color: 'var(--toast-color)'
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(5px)',
+            WebkitBackdropFilter: 'blur(5px)',
+            color: 'var(--toast-color)',
+            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.1)'
           }
         }} />
 

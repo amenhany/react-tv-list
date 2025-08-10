@@ -8,7 +8,7 @@
 }
 
 [data-bs-theme="dark"] {
-  --toast-bg: #2a2f36;
+  --toast-bg: rgba(255, 255, 255, 0.05);
   --toast-color: #f8f9fa;
   --toast-border: rgba(113, 44, 249, 0.5);
   --toast-icon-primary: rgba(113, 44, 249, 1);
