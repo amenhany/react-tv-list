@@ -27,6 +27,11 @@
     .dimmer::before {
         margin-top: 48px;
     }
+
+    .close-button {
+        margin-top: 0 !important;
+        margin-right: 24px !important;
+    }
 }
 
 .no-margin.dimmer::before {
@@ -70,6 +75,6 @@
 
 @media (max-width: 576px) {
     .dimmer {
-        padding-bottom: 80px;
+        padding-bottom: 200px;
     }
 }
